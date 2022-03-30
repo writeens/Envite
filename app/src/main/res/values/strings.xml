@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Envite</string>
+    <string name="signInButtonText">Sign In</string>
+    <string name="signupButtonText">Sign Up</string>
+    <string name="splashScreenHeaderText">Envite</string>
+    <string name="splashScreenBoldText">Find your place today</string>
+
 </resources>
