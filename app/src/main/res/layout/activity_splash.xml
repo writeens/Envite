@@ -67,7 +67,6 @@
 
         <Button
             android:id="@+id/signInButton"
-            style="@style/alternateButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -76,17 +75,18 @@
             android:background="@drawable/round_style"
             android:radius="15dp"
             android:text="@string/signInButtonText"
-            android:textColor="@color/white" />
+            android:textColor="@color/black"
+            app:backgroundTint="@color/light_orange" />
 
         <Button
             android:id="@+id/signUpButton"
-            style="@style/normalButton"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/round_style"
+            android:onClick="onClickSignUp"
             android:text="@string/signupButtonText"
             android:textColor="@color/white" />
     </LinearLayout>
