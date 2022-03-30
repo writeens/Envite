@@ -20,4 +20,9 @@ public class SplashScreenActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
     }
+
+    public void onClickLogIn (View view) {
+        Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
+        startActivity(intent);
+    }
 }

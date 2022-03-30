@@ -73,6 +73,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/round_style"
+            android:onClick="onClickLogIn"
             android:radius="15dp"
             android:text="@string/signInButtonText"
             android:textColor="@color/black"
