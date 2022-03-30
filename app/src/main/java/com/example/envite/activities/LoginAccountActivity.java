@@ -5,26 +5,23 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.envite.R;
 
-public class CreateAccountActivity extends AppCompatActivity {
+public class LoginAccountActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_account);
+        setContentView(R.layout.activity_login_account);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.createAccountToolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
     }
 
     @Override
@@ -41,13 +38,11 @@ public class CreateAccountActivity extends AppCompatActivity {
         }
     }
 
-
-    public void onClickLogIn (View view) {
-        Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
+    public void onClickCreateOne (View view) {
+        Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
     }
 
-    public void onCreateAccount (View view) {
+    public void onLogin (View view) {
     }
-
 }

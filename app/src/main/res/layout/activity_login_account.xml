@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".activities.CreateAccountActivity">
+    tools:context=".activities.LoginAccountActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/createAccountToolbar"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/inter_bold"
-        android:text="@string/createAccountBoldText"
+        android:text="@string/loginAccountBoldText"
         android:textAlignment="viewStart"
         android:textColor="@color/white"
         android:textSize="34sp"
@@ -40,14 +40,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:fontFamily="@font/inter_medium"
-        android:text="@string/createAccountBodyText"
+        android:text="@string/loginAccountBodyText"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createAccountBoldText" />
 
     <LinearLayout
-        android:id="@+id/editNameContainer"
+        android:id="@+id/editEmailContainer"
         android:layout_width="0dp"
         android:layout_height="70dp"
         android:layout_marginStart="16dp"
@@ -62,44 +62,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createAccountBodyText">
-
-        <TextView
-            android:id="@+id/editNameLabel"
-            android:layout_width="358dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/name"
-            android:textColor="@color/white" />
-
-        <EditText
-            android:id="@+id/editNameText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/inter"
-            android:hint="John Micheal"
-            android:inputType="textPersonName"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/editEmailContainer"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/round_style_input"
-        android:orientation="vertical"
-        android:paddingLeft="6dp"
-        android:paddingTop="6dp"
-        android:paddingRight="6dp"
-        android:paddingBottom="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editNameContainer">
 
         <TextView
             android:id="@+id/editEmailLabel"
@@ -164,9 +126,9 @@
         android:id="@+id/haveAnAccountText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="136dp"
+        android:layout_marginStart="100dp"
         android:layout_marginBottom="8dp"
-        android:text="@string/haveAnAccountText"
+        android:text="@string/dontHaveAnAccountText"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -177,8 +139,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="onClickLogIn"
-        android:text="@string/haveAnAccountLogInText"
+        android:onClick="onClickCreateOne"
+        android:text="@string/dontHaveAnAccountLogInText"
         android:textColor="@color/orange"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/haveAnAccountText" />
@@ -201,25 +163,10 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/round_style"
-        android:onClick="onCreateAccount"
-        android:text="@string/createAccountText"
+        android:onClick="onLogin"
+        android:text="@string/loginAccountText"
         app:backgroundTint="@color/orange"
         app:layout_constraintBottom_toTopOf="@+id/divider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/termsAndCondtionText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:fontFamily="@font/inter"
-        android:text="@string/termsAndConditions"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/createAccountButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

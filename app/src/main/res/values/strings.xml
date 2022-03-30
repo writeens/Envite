@@ -5,15 +5,20 @@
     <string name="splashScreenHeaderText">Envite</string>
     <string name="splashScreenBoldText">Find your place today</string>
     <string name="createAccountBoldText">Create Account</string>
+    <string name="loginAccountBoldText">Welcome back</string>
     <string name="createAccountBodyText">Sign up to get started creating Envites</string>
+    <string name="loginAccountBodyText">Login to your Envite account</string>
     <string name="name">Name</string>
     <string name="email">Email Address</string>
     <string name="password">Password</string>
     <string name="title_activity_create_account">CreateAccountActivity</string>
     <string name="termsAndConditions">By continuing, you agree to our Terms of Service and Privacy Policy</string>
     <string name="createAccountText">Create Account</string>
+    <string name="loginAccountText">Login</string>
     <string name="haveAnAccountText">Have an account</string>
+    <string name="dontHaveAnAccountText">Don\'t have an account?</string>
     <string name="haveAnAccountLogInText">Log In</string>
+    <string name="dontHaveAnAccountLogInText">Create one</string>
 
 
 </resources>
