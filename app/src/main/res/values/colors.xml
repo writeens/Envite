@@ -10,5 +10,6 @@
     <color name="orange">#FFFD6621</color>
     <color name="light_orange">#FFFED5C2</color>
     <color name="light_white">#FF303437</color>
-
+    <color name="menu_black">#090A0A</color>
+    <color name="charade">#272932</color>
 </resources>

@@ -1,10 +1,10 @@
-package com.example.envite.activities;
-
-import androidx.appcompat.app.AppCompatActivity;
+package activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.envite.R;
 
