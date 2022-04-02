@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
     protected RecyclerView.LayoutManager mLayoutManager;
     protected LayoutManagerType mCurrentLayoutManagerType;
     protected Envite[] mDataset;
-    private static final int DATASET_COUNT = 5;
+    private static final int DATASET_COUNT = 10;
 
 
     public HomeFragment() {
@@ -41,7 +41,6 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         initDataset();
-        Log.i("YEs", "IT SHOWS");
     }
 
     @Override
@@ -66,7 +65,7 @@ public class HomeFragment extends Fragment {
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new EnviteListAdapter(mDataset);
+        mAdapter = new EnviteListAdapter(mDataset, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -90,9 +89,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void initDataset() {
-
+        mDataset = new Envite[DATASET_COUNT];
         for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = new Envite(i + "bedroom Flat with amenities", "Another beautiful apartment available for your perusal...");
+            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
         }
     }
 
