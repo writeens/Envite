@@ -19,6 +19,11 @@
     <string name="dontHaveAnAccountText">Don\'t have an account?</string>
     <string name="haveAnAccountLogInText">Log In</string>
     <string name="dontHaveAnAccountLogInText">Create one</string>
+    <string name="homeBoldText">Explore</string>
+    <string name="homeCloseToYou">Close to you</string>
+    <string name="homeRecentlyAdded">Recently added</string>
+    <string name="enviteCardTitleText">2 Bedroom Flat with A simple design and</string>
+    <string name="enviteCardBodyText">A very beautiful two bedroom flat with custom amenities and...</string>
 
 
 </resources>
