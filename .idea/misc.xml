@@ -21,7 +21,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2222222222222222" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.45" />
         <entry key="app/src/main/res/layout/envite_card_item.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_create_envite.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_create_envite.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_envite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_envite_mini_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2983606557377049" />

@@ -28,6 +28,10 @@
     <string name="createEnviteBodyText">Please fill out the form below to create an envite.</string>
     <string name="title">Title</string>
     <string name="location">Location</string>
+    <string name="chooseImage">Choose Image</string>
+    <string name="notes">Notes</string>
+    <string name="notesPlaceholder">Hi, I would prefer....</string>
+
 
 
 </resources>
