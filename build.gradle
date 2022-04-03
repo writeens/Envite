@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath "com.android.tools.build:gradle:7.0.0"
-
+        classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -26,6 +26,7 @@ ext {
     navVersion = "2.3.5"
     fragmentVersion = "1.4.1"
     glideVersion = "4.13.0"
+    mapsPlacesVersion = "2.5.0"
     // testing
     junitVersion = '4.13.2'
     espressoVersion = '3.4.0'

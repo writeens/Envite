@@ -8,7 +8,11 @@
         android:id="@+id/homeFragment"
         android:name="fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_createEnviteFragment"
+            app:destination="@id/createEnviteFragment" />
+    </fragment>
     <fragment
         android:id="@+id/enviteFragment"
         android:name="fragments.EnviteFragment"
@@ -19,4 +23,9 @@
         android:name="fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/createEnviteFragment"
+        android:name="fragments.CreateEnviteFragment"
+        android:label="fragment_create_envite"
+        tools:layout="@layout/fragment_create_envite" />
 </navigation>

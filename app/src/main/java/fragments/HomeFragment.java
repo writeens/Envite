@@ -3,6 +3,9 @@ package fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.envite.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import adapters.EnviteListAdapter;
 import entities.Envite;
@@ -40,6 +44,7 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        //INITIALIZE DATASET
         initDataset();
     }
 
@@ -72,6 +77,20 @@ public class HomeFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        //HANDLE FAB CLICKS
+        FloatingActionButton fab = getView().findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+
+                navController.navigate(R.id.action_homeFragment_to_createEnviteFragment);
+            }
+        });
+    }
+
     public void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
@@ -94,6 +113,5 @@ public class HomeFragment extends Fragment {
             mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
         }
     }
-
 
 }
