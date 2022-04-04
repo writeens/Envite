@@ -43,6 +43,9 @@ public class SingleEnviteFragment extends Fragment {
             }
         });
 
+        // TODO - SHOW POSTED BY ACCEPTED STATE
+        // TODO - SHOW POSTED BY NORMAL
+        // TODO - SHOW REQUESTS BY
         return rootView;
     }
 
