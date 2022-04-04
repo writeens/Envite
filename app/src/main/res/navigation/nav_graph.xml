@@ -27,5 +27,19 @@
         android:id="@+id/createEnviteFragment"
         android:name="fragments.CreateEnviteFragment"
         android:label="fragment_create_envite"
-        tools:layout="@layout/fragment_create_envite" />
+        tools:layout="@layout/fragment_create_envite" >
+        <action
+            android:id="@+id/action_createEnviteFragment_to_singleEnviteFragment"
+            app:destination="@id/singleEnviteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleEnviteFragment"
+        android:name="fragments.SingleEnviteFragment"
+        android:label="fragment_single_envite"
+        tools:layout="@layout/fragment_single_envite" >
+        <action
+            android:id="@+id/action_singleEnviteFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@+id/homeFragment"/>
+    </fragment>
 </navigation>

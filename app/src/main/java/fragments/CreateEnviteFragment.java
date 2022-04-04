@@ -11,6 +11,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.util.TypedValue;
@@ -76,16 +78,28 @@ public class CreateEnviteFragment extends Fragment {
             }
         });
 
+        // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
-
         navBar.setVisibility(View.GONE);
 
-        //INITIALIZE TOOLBAR
+        // INITIALIZE TOOLBAR
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.createEnviteToolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+            }
+        });
+
+        // HANDLE ON CLICK CREATE ENVITE
+        Button handleCreateEnvite = (Button) rootView.findViewById(R.id.createEnviteButton);
+
+        handleCreateEnvite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+
+                navController.navigate(R.id.action_createEnviteFragment_to_singleEnviteFragment);
             }
         });
 
@@ -128,14 +142,5 @@ public class CreateEnviteFragment extends Fragment {
             }
         });
 
-    }
-
-
-
-    public void selectImage () {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivity(Intent.createChooser(intent, "Select Picture"));
     }
 }
