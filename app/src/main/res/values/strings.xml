@@ -24,6 +24,16 @@
     <string name="homeRecentlyAdded">Recently added</string>
     <string name="enviteCardTitleText">2 Bedroom Flat with A simple design and</string>
     <string name="enviteCardBodyText">A very beautiful two bedroom flat with custom amenities and...</string>
+    <string name="createEnviteBoldText">Create Envite</string>
+    <string name="createEnviteBodyText">Please fill out the form below to create an envite.</string>
+    <string name="title">Title</string>
+    <string name="location">Location</string>
+    <string name="chooseImage">Choose Image</string>
+    <string name="notes">Notes</string>
+    <string name="price">Price</string>
+    <string name="notesPlaceholder">Hi, I would prefer....</string>
+    <string name="createEnvite">Create Envite</string>
+
 
 
 </resources>
