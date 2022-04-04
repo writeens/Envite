@@ -2,6 +2,7 @@ package fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -42,6 +43,8 @@ public class HomeFragment extends Fragment {
 
         //INITIALIZE DATASET
         initDataset();
+
+
     }
 
     @Override

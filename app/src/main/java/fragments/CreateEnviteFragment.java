@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Arrays;
 
@@ -71,6 +73,19 @@ public class CreateEnviteFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 mGetContent.launch("image/*");
+            }
+        });
+
+        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
+
+        navBar.setVisibility(View.GONE);
+
+        //INITIALIZE TOOLBAR
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.createEnviteToolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
         });
 
