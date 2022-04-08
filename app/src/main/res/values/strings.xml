@@ -39,8 +39,11 @@
     <string name="sampleNotes">2 Bedroom Flat with A simple design and a little corner road beside it, 2 Bedroom Flat with A simple design and a little corner road beside it</string>
     <string name="postedBy">Posted By</string>
     <string name="sampleName">Jilian Jacob</string>
+    <string name="sampleEmail">jillian@mailinator.com</string>
     <string name="sampleAccepted">Accepted</string>
     <string name="sampleTimestamp">Posted on Sun 2/10/2022 at 10:30pm</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
