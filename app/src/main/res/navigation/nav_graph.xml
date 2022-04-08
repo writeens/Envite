@@ -22,7 +22,15 @@
         android:id="@+id/settingsFragment"
         android:name="fragments.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_splashScreenActivity"
+            app:popUpTo="@id/splashScreenActivity"
+            app:destination="@id/splashScreenActivity" />
+        <action
+            android:id="@+id/action_settingsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/createEnviteFragment"
         android:name="fragments.CreateEnviteFragment"
@@ -42,4 +50,13 @@
             app:destination="@id/homeFragment"
             app:popUpTo="@+id/homeFragment"/>
     </fragment>
+    <activity
+        android:id="@+id/splashScreenActivity"
+        android:name="activities.SplashScreenActivity"
+        android:label="SplashScreenActivity" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>
