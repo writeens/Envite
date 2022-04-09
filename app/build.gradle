@@ -71,5 +71,4 @@ dependencies {
 
     // GOOGLE MAPS SDK
     implementation "com.google.android.libraries.places:places:$rootProject.mapsPlacesVersion"
-    
 }

@@ -3,6 +3,7 @@ package activities;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //MAKE FULL SCREEN
+//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -32,9 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
         //CONNECT BOTTOM NAVIGATION TO NAVIGATION CONTROLLER
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-
-
 
         //ADD LISTENER TO BOTTOM NAVIGATION LISTENER
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {

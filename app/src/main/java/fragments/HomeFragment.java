@@ -12,8 +12,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.example.envite.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import adapters.EnviteListAdapter;
@@ -33,18 +35,12 @@ public class HomeFragment extends Fragment {
     protected Envite[] mDataset;
     private static final int DATASET_COUNT = 10;
 
-
-    public HomeFragment() {
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //INITIALIZE DATASET
         initDataset();
-
-
     }
 
     @Override
@@ -53,6 +49,10 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // HANDLE SHOW NAVBAR
+        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
+        navBar.setVisibility(View.VISIBLE);
 
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.closeToYouRecyclerView);
@@ -73,13 +73,13 @@ public class HomeFragment extends Fragment {
 
         mRecyclerView.setAdapter(mAdapter);
 
-
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+
+
         //HANDLE FAB CLICKS
         FloatingActionButton fab = getView().findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
