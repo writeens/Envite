@@ -11,8 +11,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp">
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp">
 
         <LinearLayout
             android:id="@+id/linearLayout3"
@@ -85,6 +85,20 @@
             app:layout_constraintTop_toBottomOf="@+id/viewProfileButton" />
 
         <Button
+            android:id="@+id/myEnvitesButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="-10dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="My Envites"
+            android:textAlignment="viewStart"
+            android:textColor="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+        <Button
             android:id="@+id/logOutButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
@@ -98,7 +112,7 @@
             app:icon="@drawable/exit"
             app:iconTint="#FF0000"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider3" />
+            app:layout_constraintTop_toBottomOf="@+id/myEnvitesButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

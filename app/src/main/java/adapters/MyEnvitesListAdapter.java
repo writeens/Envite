@@ -4,13 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,7 +15,7 @@ import com.example.envite.R;
 
 import entities.Envite;
 
-public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.ViewHolder> {
+public class MyEnvitesListAdapter extends RecyclerView.Adapter<MyEnvitesListAdapter.ViewHolder> {
 
     private Envite[] dataSet;
     private Context context;
@@ -29,7 +26,6 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         private final TextView cardSubheadTextView;
         private final ImageView cardMediaImageView;
         private final TextView cardSupportingTextView;
-        private final Button cardViewButton;
 
 
 
@@ -42,8 +38,6 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
             cardSubheadTextView = (TextView) view.findViewById(R.id.enviteCardSubhead);
             cardMediaImageView = (ImageView) view.findViewById(R.id.enviteCardMedia);
             cardSupportingTextView = (TextView) view.findViewById(R.id.enviteCardSupportingText);
-            cardViewButton = (Button) view.findViewById(R.id.enviteCardButton);
-
         }
 
         public ImageView getCardThumbnailImageView() {
@@ -61,13 +55,9 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         public TextView getCardSupportingTextView() {
             return cardSupportingTextView;
         }
-        public Button getCardViewButton() {
-            return cardViewButton;
-        }
-
     }
 
-    public EnviteListAdapter(Envite[] dataSet, Context ctx) {
+    public MyEnvitesListAdapter(Envite[] dataSet, Context ctx) {
         this.dataSet = dataSet;
         this.context = ctx;
     }
@@ -87,15 +77,8 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         holder.getCardHeaderTextView().setText(dataSet[position].getTitle());
         holder.getCardSupportingTextView().setText(dataSet[position].getNote());
         holder.getCardSubheadTextView().setText(dataSet[position].getFormattedPrice());
-        Glide.with(context).load("https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80").into(holder.getCardThumbnailImageView());
-        Glide.with(context).load("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80").into(holder.getCardMediaImageView());
-        holder.getCardViewButton().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.singleEnviteFragment);
-            }
-        });
+        Glide.with(context).load("https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80").into(holder.getCardThumbnailImageView());
+        Glide.with(context).load("https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80").into(holder.getCardMediaImageView());
     }
 
     @Override

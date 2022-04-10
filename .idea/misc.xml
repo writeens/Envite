@@ -30,10 +30,11 @@
         <entry key="app/src/main/res/layout/fragment_envite.xml" value="0.30051357300073367" />
         <entry key="app/src/main/res/layout/fragment_envite_mini_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2983606557377049" />
+        <entry key="app/src/main/res/layout/fragment_my_envite.xml" value="0.375" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_received_envite.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/fragment_sent_envite.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3271604938271605" />
         <entry key="app/src/main/res/layout/fragment_single_envite.xml" value="0.375" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.13518518518518519" />
       </map>
