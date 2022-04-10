@@ -12,8 +12,7 @@
         tools:layout="@layout/fragment_received_envite" >
         <action
             android:id="@+id/action_receivedEnviteFragment2_to_sentEnviteFragment2"
-            app:destination="@id/sentEnviteFragment2"
-            app:popUpTo="@id/sentEnviteFragment2" />
+            app:destination="@id/sentEnviteFragment2" />
     </fragment>
     <fragment
         android:id="@+id/sentEnviteFragment2"
@@ -22,7 +21,6 @@
         tools:layout="@layout/fragment_sent_envite" >
         <action
             android:id="@+id/action_sentEnviteFragment2_to_receivedEnviteFragment2"
-            app:destination="@id/receivedEnviteFragment2"
-            app:popUpTo="@id/receivedEnviteFragment2" />
+            app:destination="@id/receivedEnviteFragment2" />
     </fragment>
 </navigation>

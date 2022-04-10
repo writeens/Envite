@@ -53,8 +53,6 @@ public class EnviteFragment extends Fragment {
                     case 1:
                         navController.navigate(R.id.action_sentEnviteFragment2_to_receivedEnviteFragment2);
                         break;
-                    default:
-                        navController.navigate(R.id.action_receivedEnviteFragment2_to_sentEnviteFragment2);
                 }
             }
 
