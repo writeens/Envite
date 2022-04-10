@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.envite.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SingleEnviteFragment extends Fragment {
 
@@ -31,6 +32,10 @@ public class SingleEnviteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_single_envite, container, false);
+
+        // HANDLE HIDE NAVBAR
+        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
+        navBar.setVisibility(View.GONE);
 
         //HANDLE TOOLBAR
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.singleEnviteToolbar);

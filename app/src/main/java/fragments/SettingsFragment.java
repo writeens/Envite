@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,9 @@ import android.widget.Button;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import activities.MainActivity;
+import activities.SplashScreenActivity;
+
 public class SettingsFragment extends Fragment {
 
     public SettingsFragment() {
@@ -31,12 +35,26 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+
         // HANDLE SHOW NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.VISIBLE);
 
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        //HANDLE MY ENVITES BUTTON CLICK
+        Button myEnvites = (Button) rootView.findViewById(R.id.myEnvitesButton);
+
+        myEnvites.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+
+                navController.navigate(R.id.action_settingsFragment_to_myEnviteFragment);
+            }
+        });
+
+        return rootView;
     }
 
     @Override
@@ -60,10 +78,14 @@ public class SettingsFragment extends Fragment {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavController navController = Navigation.findNavController(view);
-
-                navController.navigate(R.id.action_settingsFragment_to_splashScreenActivity);
+                navigateToSplashScreen();
             }
         });
+    }
+
+    public void navigateToSplashScreen () {
+        Intent intent = new Intent(getActivity().getApplicationContext(), SplashScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }

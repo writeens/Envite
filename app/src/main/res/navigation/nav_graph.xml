@@ -26,10 +26,14 @@
         <action
             android:id="@+id/action_settingsFragment_to_splashScreenActivity"
             app:popUpTo="@id/splashScreenActivity"
+            app:popUpToInclusive="true"
             app:destination="@id/splashScreenActivity" />
         <action
             android:id="@+id/action_settingsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_myEnviteFragment"
+            app:destination="@id/myEnviteFragment" />
     </fragment>
     <fragment
         android:id="@+id/createEnviteFragment"
@@ -69,4 +73,9 @@
         android:name="fragments.ReceivedEnviteFragment"
         android:label="fragment_received_envite"
         tools:layout="@layout/fragment_received_envite" />
+    <fragment
+        android:id="@+id/myEnviteFragment"
+        android:name="fragments.MyEnviteFragment"
+        android:label="fragment_my_envite"
+        tools:layout="@layout/fragment_my_envite" />
 </navigation>
