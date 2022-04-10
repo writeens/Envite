@@ -46,6 +46,8 @@
     <string name="sampleTimestamp">Posted on Sun 2/10/2022 at 10:30pm</string>
     <string name="sampleQuestion1">Why are you in search of a new apartment?</string>
     <string name="sampleQuestion2">How long in months did you stay at your last apartment?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

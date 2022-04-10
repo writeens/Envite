@@ -15,7 +15,7 @@ import com.example.envite.R;
 
 import entities.Envite;
 
-public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.ViewHolder> {
+public class ReceivedEnviteListAdapter extends RecyclerView.Adapter<ReceivedEnviteListAdapter.ViewHolder> {
 
     private Envite[] dataSet;
     private Context context;
@@ -57,7 +57,7 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         }
     }
 
-    public EnviteListAdapter(Envite[] dataSet, Context ctx) {
+    public ReceivedEnviteListAdapter(Envite[] dataSet, Context ctx) {
         this.dataSet = dataSet;
         this.context = ctx;
     }

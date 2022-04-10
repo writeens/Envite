@@ -15,7 +15,7 @@ import com.example.envite.R;
 
 import entities.Envite;
 
-public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.ViewHolder> {
+public class SentEnviteListAdapter extends RecyclerView.Adapter<SentEnviteListAdapter.ViewHolder> {
 
     private Envite[] dataSet;
     private Context context;
@@ -57,7 +57,7 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         }
     }
 
-    public EnviteListAdapter(Envite[] dataSet, Context ctx) {
+    public SentEnviteListAdapter(Envite[] dataSet, Context ctx) {
         this.dataSet = dataSet;
         this.context = ctx;
     }
@@ -77,8 +77,8 @@ public class EnviteListAdapter extends RecyclerView.Adapter<EnviteListAdapter.Vi
         holder.getCardHeaderTextView().setText(dataSet[position].getTitle());
         holder.getCardSupportingTextView().setText(dataSet[position].getNote());
         holder.getCardSubheadTextView().setText(dataSet[position].getFormattedPrice());
-        Glide.with(context).load("https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80").into(holder.getCardThumbnailImageView());
-        Glide.with(context).load("https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80").into(holder.getCardMediaImageView());
+        Glide.with(context).load("https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80").into(holder.getCardThumbnailImageView());
+        Glide.with(context).load("https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80").into(holder.getCardMediaImageView());
     }
 
     @Override

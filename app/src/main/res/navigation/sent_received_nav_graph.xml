@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sent_received_nav_graph"
+    app:startDestination="@id/sentEnviteFragment2">
+
+    <fragment
+        android:id="@+id/receivedEnviteFragment2"
+        android:name="fragments.ReceivedEnviteFragment"
+        android:label="fragment_received_envite"
+        tools:layout="@layout/fragment_received_envite" >
+        <action
+            android:id="@+id/action_receivedEnviteFragment2_to_sentEnviteFragment2"
+            app:destination="@id/sentEnviteFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/sentEnviteFragment2"
+        android:name="fragments.SentEnviteFragment"
+        android:label="fragment_sent_envite"
+        tools:layout="@layout/fragment_sent_envite" >
+        <action
+            android:id="@+id/action_sentEnviteFragment2_to_receivedEnviteFragment2"
+            app:destination="@id/receivedEnviteFragment2" />
+    </fragment>
+</navigation>
