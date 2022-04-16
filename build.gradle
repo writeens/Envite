@@ -27,6 +27,8 @@ ext {
     fragmentVersion = "1.4.1"
     glideVersion = "4.13.0"
     mapsPlacesVersion = "2.5.0"
+    validatorVersion = "4.3"
+    volleyVersion = "1.2.1"
     // testing
     junitVersion = '4.13.2'
     espressoVersion = '3.4.0'

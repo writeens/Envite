@@ -17,8 +17,7 @@ import android.widget.Button;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import activities.MainActivity;
-import activities.SplashScreenActivity;
+import activities.OnboardingActivity;
 
 public class SettingsFragment extends Fragment {
 
@@ -84,7 +83,7 @@ public class SettingsFragment extends Fragment {
     }
 
     public void navigateToSplashScreen () {
-        Intent intent = new Intent(getActivity().getApplicationContext(), SplashScreenActivity.class);
+        Intent intent = new Intent(getActivity().getApplicationContext(), OnboardingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
