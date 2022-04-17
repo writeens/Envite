@@ -1,5 +1,8 @@
 package activities;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,5 +65,39 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void logOut () {
+        Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        emptySharedPref();
+        startActivity(intent);
+    }
+
+    public void goToSignIn () {
+        Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        emptySharedPref();
+        startActivity(intent);
+    }
+
+    public void emptySharedPref (){
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.enviteUserSharedPreferencesFile),
+                Context.MODE_PRIVATE );
+
+        // UPDATE SHARED PREFERENCES WITH USER DATA
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove(getString(R.string.sharedPrefUid));
+        editor.remove(getString(R.string.sharedPrefEmail));
+        editor.remove(getString(R.string.sharedPrefFirstName));
+        editor.remove(getString(R.string.sharedPrefLastName));
+        editor.remove(getString(R.string.sharedPrefProfileUrl));
+        editor.remove(getString(R.string.sharedPrefCreatedAt));
+        editor.remove(getString(R.string.sharedPrefToken));
+        editor.remove(getString(R.string.sharedPrefQ1));
+        editor.remove(getString(R.string.sharedPrefQ2));
+
+        editor.apply();
     }
 }
