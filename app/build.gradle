@@ -71,4 +71,10 @@ dependencies {
 
     // GOOGLE MAPS SDK
     implementation "com.google.android.libraries.places:places:$rootProject.mapsPlacesVersion"
+
+    // VALIDATOR
+    implementation "com.basgeekball:awesome-validation:$rootProject.validatorVersion"
+
+    // VOLLEY
+    implementation "com.android.volley:volley:$rootProject.volleyVersion"
 }

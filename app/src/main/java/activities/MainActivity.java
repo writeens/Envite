@@ -26,6 +26,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         //MAKE FULL SCREEN
 //        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -57,6 +63,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

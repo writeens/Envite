@@ -56,7 +56,7 @@
     </fragment>
     <activity
         android:id="@+id/splashScreenActivity"
-        android:name="activities.SplashScreenActivity"
+        android:name="activities.OnboardingActivity"
         android:label="SplashScreenActivity" />
     <fragment
         android:id="@+id/profileFragment"
