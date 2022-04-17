@@ -17,13 +17,12 @@ public class SplashActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-//        this.emptySharedPref();
 
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
 
-        String uid = sharedPref.getString(getString(R.string.sharedPrefToken), "");
+        String token = sharedPref.getString(getString(R.string.sharedPrefToken), "");
 
-        if(uid.isEmpty()){
+        if(token.isEmpty()){
             intent = new Intent(getApplicationContext(), OnboardingActivity.class);
         } else {
             intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -32,20 +31,4 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void emptySharedPref (){
-        SharedPreferences sharedPref = getSharedPreferences(
-                getString(R.string.enviteUserSharedPreferencesFile),
-                Context.MODE_PRIVATE );
-
-        // UPDATE SHARED PREFERENCES WITH USER DATA
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.remove(getString(R.string.sharedPrefUid));
-        editor.remove(getString(R.string.sharedPrefEmail));
-        editor.remove(getString(R.string.sharedPrefFirstName));
-        editor.remove(getString(R.string.sharedPrefLastName));
-        editor.remove(getString(R.string.sharedPrefProfileUrl));
-        editor.remove(getString(R.string.sharedPrefCreatedAt));
-        editor.remove(getString(R.string.sharedPrefToken));
-        editor.apply();
-    }
 }

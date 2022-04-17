@@ -77,4 +77,7 @@ dependencies {
 
     // VOLLEY
     implementation "com.android.volley:volley:$rootProject.volleyVersion"
+
+    // ION
+    implementation "com.koushikdutta.ion:ion:$rootProject.ionVersion"
 }

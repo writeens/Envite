@@ -52,6 +52,8 @@
     <string name="emailRequired">Please enter your email address</string>
     <string name="emailInvalid">Please enter a valid email</string>
     <string name="passwordRequired">Your password should contain at least one uppercase letter, one symbol and one number</string>
+    <string name="questionRequired">Please enter an answer to the question</string>
+
 
     <!--SHARED PREFERENCES-->
     <string name="enviteUserSharedPreferencesFile">enviteUserSharedPreferencesFile</string>
@@ -62,5 +64,7 @@
     <string name="sharedPrefToken">token</string>
     <string name="sharedPrefProfileUrl">profileUrl</string>
     <string name="sharedPrefCreatedAt">createdAt</string>
+    <string name="sharedPrefQ1">q1</string>
+    <string name="sharedPrefQ2">q2</string>
 
 </resources>

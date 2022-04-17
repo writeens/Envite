@@ -1,6 +1,8 @@
 package fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,10 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import activities.MainActivity;
 import activities.OnboardingActivity;
 
 public class SettingsFragment extends Fragment {
@@ -53,6 +59,9 @@ public class SettingsFragment extends Fragment {
             }
         });
 
+        // POPULATE FIELDS
+        populateViewFields(rootView);
+
         return rootView;
     }
 
@@ -77,14 +86,27 @@ public class SettingsFragment extends Fragment {
         logOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navigateToSplashScreen();
+                ((MainActivity) getActivity()).logOut();
             }
         });
     }
 
-    public void navigateToSplashScreen () {
-        Intent intent = new Intent(getActivity().getApplicationContext(), OnboardingActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+    public void populateViewFields (View view) {
+        ImageView imageContainer = (ImageView) view.findViewById(R.id.settingsImageView);
+        TextView fullNameContainer = (TextView) view.findViewById(R.id.settingsFullNameTextView);
+        TextView emailContainer = (TextView) view.findViewById(R.id.settingsEmailTextView);
+
+        // GET DATA FROM SHARED CONTEXT
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
+
+        String firstName = sharedPref.getString(getString(R.string.sharedPrefFirstName), "");
+        String lastName = sharedPref.getString(getString(R.string.sharedPrefLastName), "");
+        String email = sharedPref.getString(getString(R.string.sharedPrefEmail), "");
+        String profileUrl = sharedPref.getString(getString(R.string.sharedPrefProfileUrl), "");
+
+        // SET FIELD VALUES
+        Glide.with(getContext()).load(profileUrl).into(imageContainer);
+        fullNameContainer.setText(firstName + " " + lastName);
+        emailContainer.setText(email);
     }
 }

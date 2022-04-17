@@ -145,6 +145,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         editor.putString(getString(R.string.sharedPrefProfileUrl), data.getString("profileUrl"));
                         editor.putString(getString(R.string.sharedPrefCreatedAt), data.getString("createdAt"));
                         editor.putString(getString(R.string.sharedPrefToken), data.getString("token"));
+                        editor.putString(getString(R.string.sharedPrefQ1), data.getString("q1"));
+                        editor.putString(getString(R.string.sharedPrefQ2), data.getString("q2"));
                         editor.apply();
 
                         navigateToHome();
