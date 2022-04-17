@@ -15,11 +15,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -34,8 +31,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateAccountActivity extends AppCompatActivity {
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
@@ -56,7 +51,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
-
+        // INITIALIZE VALIDATION
         String regexPassword = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
         mAwesomeValidation.addValidation(this, R.id.createAccountFirstName, RegexTemplate.NOT_EMPTY, R.string.firstNameRequired);
         mAwesomeValidation.addValidation(this, R.id.createAccountLastName, RegexTemplate.NOT_EMPTY, R.string.lastNameRequired);
@@ -86,7 +81,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public void navigateToHome () {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
 
@@ -124,7 +119,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     public void registerUser (JSONObject postData) {
         RequestQueue queue = Volley.newRequestQueue(this);
-        Button createAccountButton = (Button) findViewById(R.id.createAccountButton);
+        Button createAccountButton = (Button) findViewById(R.id.loginAccountButton);
         String registerURL = BASE_URL + "/register";
         createAccountButton.setText("Please Wait");
         JsonObjectRequest registerUserRequest = new JsonObjectRequest
@@ -147,7 +142,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         editor.putString(getString(R.string.sharedPrefEmail), data.getString("email"));
                         editor.putString(getString(R.string.sharedPrefFirstName), data.getString("firstName"));
                         editor.putString(getString(R.string.sharedPrefLastName), data.getString("lastName"));
-                        editor.putString(getString(R.string.sharedPrefProfileUrl), "");
+                        editor.putString(getString(R.string.sharedPrefProfileUrl), data.getString("profileUrl"));
                         editor.putString(getString(R.string.sharedPrefCreatedAt), data.getString("createdAt"));
                         editor.putString(getString(R.string.sharedPrefToken), data.getString("token"));
                         editor.apply();
