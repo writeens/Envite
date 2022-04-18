@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,7 +41,7 @@ public class MyEnviteFragment extends Fragment {
     protected MyEnvitesListAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected MyEnviteFragment.LayoutManagerType mCurrentLayoutManagerType;
-    private boolean isLoading = false;
+    private MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<Boolean>(true);
 
 
     @Override
@@ -95,24 +97,53 @@ public class MyEnviteFragment extends Fragment {
             mAdapter.submitList(envites);
         });
 
+        TextView infoTextView = (TextView) rootView.findViewById(R.id.myEnvitesInfoTextView);
+        isLoadingLiveData.observe(this, isLoading -> {
+
+            int itemCount = enviteViewModel.getCountOfMyEnvites();
+            if(!isLoading && itemCount <= 0){
+                mRecyclerView.setVisibility(View.GONE);
+                infoTextView.setVisibility(View.VISIBLE);
+                infoTextView.setText("There are no envites here, come back later");
+                return;
+            }
+
+            if(!isLoading){
+                mRecyclerView.setVisibility(View.VISIBLE);
+                infoTextView.setVisibility(View.GONE);
+                return;
+            }
+
+            if(isLoading && itemCount > 0){
+                mRecyclerView.setVisibility(View.VISIBLE);
+                infoTextView.setVisibility(View.GONE);
+                return;
+            }
+
+            if(isLoading){
+                mRecyclerView.setVisibility(View.GONE);
+                infoTextView.setVisibility(View.VISIBLE);
+                infoTextView.setText("Please wait while we fetch your envites");
+                return;
+            }
+        });
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        isLoadingLiveData.setValue(true);
         enviteViewModel.getMyEnvitesFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                Log.i("IN MY ENVITESS", status);
+                isLoadingLiveData.setValue(false);
             }
 
             @Override
             public void onError(String message, String type, String status) {
-                Log.i("IN MY ENVITEM", message);
-                Log.i("IN MY ENVITET", type);
-                Log.i("IN MY ENVITES", status);
+                isLoadingLiveData.setValue(false);
                 if(type.equals("FORBIDDEN")){
                    ((MainActivity)getActivity()).goToSignIn();
                 }
@@ -127,12 +158,10 @@ public class MyEnviteFragment extends Fragment {
                 if (dy > 0) { //check for scroll down
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-                    if(!isLoading){
+                    if(!isLoadingLiveData.getValue()){
                         int itemCount = enviteViewModel.getCountOfMyEnvites();
                         if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
                                 == (itemCount - 1)){
-
-                            // TODO - HANDLE LOAD MORE
                             handleLoadMoreEnvites();
                         }
                     }
@@ -145,20 +174,16 @@ public class MyEnviteFragment extends Fragment {
     }
 
     public void handleLoadMoreEnvites (){
-        isLoading = true;
+        isLoadingLiveData.setValue(true);
         enviteViewModel.loadMoreEnvitesFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                isLoading = false;
-                Log.i("HIN MY ENVITESS", status);
+                isLoadingLiveData.setValue(false);
             }
 
             @Override
             public void onError(String message, String type, String status) {
-                isLoading = false;
-                Log.i("HIN MY ENVITEM", message);
-                Log.i("HIN MY ENVITET", type);
-                Log.i("HIN MY ENVITES", status);
+                isLoadingLiveData.setValue(false);
                 if(type.equals("FORBIDDEN")){
                     ((MainActivity)getActivity()).goToSignIn();
                 }
