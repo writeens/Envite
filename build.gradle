@@ -30,6 +30,7 @@ ext {
     validatorVersion = "4.3"
     volleyVersion = "1.2.1"
     ionVersion = "3.1.0"
+    gsonVersion = "2.9.0"
     // testing
     junitVersion = '4.13.2'
     espressoVersion = '3.4.0'

@@ -53,6 +53,10 @@
             android:id="@+id/action_singleEnviteFragment_to_homeFragment"
             app:destination="@id/homeFragment"
             app:popUpTo="@+id/homeFragment"/>
+        <argument
+            android:name="enviteId"
+            app:argType="string"
+            android:defaultValue='""' />
     </fragment>
     <activity
         android:id="@+id/splashScreenActivity"
@@ -77,5 +81,6 @@
         android:id="@+id/myEnviteFragment"
         android:name="fragments.MyEnviteFragment"
         android:label="fragment_my_envite"
-        tools:layout="@layout/fragment_my_envite" />
+        tools:layout="@layout/fragment_my_envite" >
+    </fragment>
 </navigation>

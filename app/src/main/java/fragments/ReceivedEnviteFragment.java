@@ -35,7 +35,7 @@ public class ReceivedEnviteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //INITIALIZE DATASET
-        initDataset();
+//        initDataset();
 
     }
 
@@ -46,23 +46,23 @@ public class ReceivedEnviteFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_received_envite, container, false);
 
         // BEGIN_INCLUDE(initializeRecyclerView)
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-
-        mCurrentLayoutManagerType = ReceivedEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (ReceivedEnviteFragment.LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
-
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
-        mAdapter = new ReceivedEnviteListAdapter(mDataset, getContext());
-
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
+//
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//
+//        mCurrentLayoutManagerType = ReceivedEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+//
+//        if (savedInstanceState != null) {
+//            // Restore saved layout manager type.
+//            mCurrentLayoutManagerType = (ReceivedEnviteFragment.LayoutManagerType) savedInstanceState
+//                    .getSerializable(KEY_LAYOUT_MANAGER);
+//        }
+//
+//        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+//
+//        mAdapter = new ReceivedEnviteListAdapter(mDataset, getContext());
+//
+//        mRecyclerView.setAdapter(mAdapter);
 
 
         return rootView;
@@ -86,8 +86,8 @@ public class ReceivedEnviteFragment extends Fragment {
 
     private void initDataset() {
         mDataset = new Envite[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
-        }
+//        for (int i = 0; i < DATASET_COUNT; i++) {
+//            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
+//        }
     }
 }

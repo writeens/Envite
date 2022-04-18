@@ -36,7 +36,7 @@ public class SentEnviteFragment extends Fragment {
 
 
         //INITIALIZE DATASET
-        initDataset();
+//        initDataset();
     }
 
     @Override
@@ -46,23 +46,23 @@ public class SentEnviteFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_sent_envite, container, false);
 
         // BEGIN_INCLUDE(initializeRecyclerView)
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sentEnviteRecyclerView);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-
-        mCurrentLayoutManagerType = SentEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (SentEnviteFragment.LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
-
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
-        mAdapter = new SentEnviteListAdapter(mDataset, getContext());
-
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sentEnviteRecyclerView);
+//
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//
+//        mCurrentLayoutManagerType = SentEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+//
+//        if (savedInstanceState != null) {
+//            // Restore saved layout manager type.
+//            mCurrentLayoutManagerType = (SentEnviteFragment.LayoutManagerType) savedInstanceState
+//                    .getSerializable(KEY_LAYOUT_MANAGER);
+//        }
+//
+//        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+//
+//        mAdapter = new SentEnviteListAdapter(mDataset, getContext());
+//
+//        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -85,8 +85,8 @@ public class SentEnviteFragment extends Fragment {
 
     private void initDataset() {
         mDataset = new Envite[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
-        }
+//        for (int i = 0; i < DATASET_COUNT; i++) {
+//            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
+//        }
     }
 }

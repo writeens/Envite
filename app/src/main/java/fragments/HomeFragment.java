@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //INITIALIZE DATASET
-        initDataset();
+//        initDataset();
     }
 
     @Override
@@ -55,23 +55,23 @@ public class HomeFragment extends Fragment {
         navBar.setVisibility(View.VISIBLE);
 
         // BEGIN_INCLUDE(initializeRecyclerView)
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.closeToYouRecyclerView);
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        if (savedInstanceState != null) {
-            // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
-                    .getSerializable(KEY_LAYOUT_MANAGER);
-        }
-
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
-        mAdapter = new EnviteListAdapter(mDataset, getContext());
-
-        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.closeToYouRecyclerView);
+//
+//        mLayoutManager = new LinearLayoutManager(getActivity());
+//
+//        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+//
+//        if (savedInstanceState != null) {
+//            // Restore saved layout manager type.
+//            mCurrentLayoutManagerType = (LayoutManagerType) savedInstanceState
+//                    .getSerializable(KEY_LAYOUT_MANAGER);
+//        }
+//
+//        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+//
+//        mAdapter = new EnviteListAdapter(mDataset, getContext());
+//
+//        mRecyclerView.setAdapter(mAdapter);
 
         return rootView;
     }
@@ -110,9 +110,9 @@ public class HomeFragment extends Fragment {
 
     private void initDataset() {
         mDataset = new Envite[DATASET_COUNT];
-        for (int i = 0; i < DATASET_COUNT; i++) {
-            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
-        }
+//        for (int i = 0; i < DATASET_COUNT; i++) {
+//            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
+//        }
     }
 
 }

@@ -41,6 +41,9 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$rootProject.roomVersion"
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
 
+    // GUAVA
+    implementation "androidx.room:room-guava:$rootProject.roomVersion"
+
     // Lifecycle components
     implementation "androidx.lifecycle:lifecycle-viewmodel:$rootProject.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata:$rootProject.lifecycleVersion"
@@ -80,4 +83,7 @@ dependencies {
 
     // ION
     implementation "com.koushikdutta.ion:ion:$rootProject.ionVersion"
+
+    // GSON
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 }
