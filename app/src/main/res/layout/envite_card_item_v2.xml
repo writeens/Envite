@@ -32,8 +32,8 @@
 
                 <ImageView
                     android:id="@+id/enviteCardThumbnail"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginRight="8dp"
                     android:maxWidth="80dp"
                     android:maxHeight="80dp"
@@ -50,7 +50,6 @@
                         android:id="@+id/enviteCardHeaderText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:fontFamily="@font/inter_bold"
                         android:text="@string/enviteCardTitleText"
                         android:textColor="@color/white"

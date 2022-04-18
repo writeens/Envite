@@ -21,6 +21,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
     public void goToSignIn () {
         Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        Snackbar.make(this.findViewById(android.R.id.content),
+                "Please login again", Snackbar.LENGTH_LONG).show();
         emptySharedPref();
         startActivity(intent);
     }
