@@ -76,10 +76,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void goToSignIn () {
-        Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Snackbar.make(this.findViewById(android.R.id.content),
                 "Please login again", Snackbar.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         emptySharedPref();
         startActivity(intent);
     }

@@ -100,7 +100,7 @@ public class MyEnviteFragment extends Fragment {
         TextView infoTextView = (TextView) rootView.findViewById(R.id.myEnvitesInfoTextView);
         isLoadingLiveData.observe(this, isLoading -> {
 
-            int itemCount = enviteViewModel.getCountOfMyEnvites();
+            int itemCount = enviteViewModel.getCountEnvites("my_envites");
             if(!isLoading && itemCount <= 0){
                 mRecyclerView.setVisibility(View.GONE);
                 infoTextView.setVisibility(View.VISIBLE);
@@ -159,7 +159,7 @@ public class MyEnviteFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                     if(!isLoadingLiveData.getValue()){
-                        int itemCount = enviteViewModel.getCountOfMyEnvites();
+                        int itemCount = enviteViewModel.getCountEnvites("my_envites");
                         if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
                                 == (itemCount - 1)){
                             handleLoadMoreEnvites();
@@ -175,7 +175,7 @@ public class MyEnviteFragment extends Fragment {
 
     public void handleLoadMoreEnvites (){
         isLoadingLiveData.setValue(true);
-        enviteViewModel.loadMoreEnvitesFromAPI(new VolleyCallbackForAdapters() {
+        enviteViewModel.loadMoreEnvitesFromAPI("my_envites", new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
                 isLoadingLiveData.setValue(false);
