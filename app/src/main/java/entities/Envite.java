@@ -108,4 +108,9 @@ public class Envite {
     public String getDisplayTag() {
         return displayTag;
     }
+
+    public void setDisplayTag(String tag) {
+        this.displayTag = tag;
+    }
+
 }

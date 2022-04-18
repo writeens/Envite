@@ -83,4 +83,7 @@ dependencies {
 
     // ION
     implementation "com.koushikdutta.ion:ion:$rootProject.ionVersion"
+
+    // GSON
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
 }

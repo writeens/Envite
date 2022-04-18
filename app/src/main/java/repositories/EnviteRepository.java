@@ -14,6 +14,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.envite.BuildConfig;
 import com.example.envite.R;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,13 +29,17 @@ import java.util.concurrent.ExecutionException;
 import daos.EnviteDao;
 import database.EnviteRoomDatabase;
 import entities.Envite;
+import entities.EnviteRequest;
+import entities.User;
 import interfaces.VolleyCallbackForAdapters;
+import interfaces.VolleyCallbackForEnviteDetails;
 
 public class EnviteRepository {
     private EnviteDao enviteDao;
     private LiveData<List<Envite>> myEnvites;
     private String token;
     private Application application;
+    String BASE_URL = BuildConfig.API_BASE_URL;
 
     public EnviteRepository(Application application) {
         EnviteRoomDatabase db = EnviteRoomDatabase.getDatabase(application);
@@ -99,22 +104,9 @@ public class EnviteRepository {
 
                 for(int i=0; i<items.length(); i++){
                     JSONObject obj=items.getJSONObject(i);
-                            String id = obj.getString("id");
-                            String title = obj.getString("title");
-                            String note = obj.getString("note");
-                            int price = obj.getInt("price");
-                            String placeId = obj.getString("placeId");
-                            String location = obj.getString("location");
-                            String imageUrl = obj.getString("imageUrl");
-                            String createdBy = obj.getString("createdBy");
-                            int createdAt = obj.getInt("createdAt");
-                            int updatedAt = obj.getInt("updatedAt");
-                            String displayTag = "my_envites";
-
-                            Envite envite=new Envite(id, title, note, price,
-                                    placeId, location,imageUrl, createdBy, createdAt,
-                                    updatedAt, displayTag);
-
+                    Gson gson = new Gson();
+                    Envite envite = gson.fromJson(String.valueOf(obj), Envite.class);
+                    envite.setDisplayTag("my_envites");
                             // TODO - STORE DATA IN DB
                             insert(envite);
 
@@ -151,11 +143,7 @@ public class EnviteRepository {
     // GET MORE OF MY ENVITES/UPDATE ROOM
     public void loadMoreEnvitesFromAPI (VolleyCallbackForAdapters callback) {
 
-        //TODO - FETCH THE CREATEDAT FIELD OF THE LAST ITEM
-
         Envite oldestEnvite = getOldestEnvite();
-
-        String BASE_URL = BuildConfig.API_BASE_URL;
         RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
         String fetchMyEnvitesURL = BASE_URL + "/envites/own?startAfter=" + oldestEnvite.getCreatedAt();
         Log.i("FETCH URL", fetchMyEnvitesURL);
@@ -172,22 +160,9 @@ public class EnviteRepository {
 
                 for(int i=0; i<items.length(); i++){
                     JSONObject obj=items.getJSONObject(i);
-                    String id = obj.getString("id");
-                    String title = obj.getString("title");
-                    String note = obj.getString("note");
-                    int price = obj.getInt("price");
-                    String placeId = obj.getString("placeId");
-                    String location = obj.getString("location");
-                    String imageUrl = obj.getString("imageUrl");
-                    String createdBy = obj.getString("createdBy");
-                    int createdAt = obj.getInt("createdAt");
-                    int updatedAt = obj.getInt("updatedAt");
-                    String displayTag = "my_envites";
-
-                    Envite envite=new Envite(id, title, note, price,
-                            placeId, location,imageUrl, createdBy, createdAt,
-                            updatedAt, displayTag);
-
+                    Gson gson = new Gson();
+                    Envite envite = gson.fromJson(String.valueOf(obj), Envite.class);
+                    envite.setDisplayTag("my_envites");
                     // TODO - STORE DATA IN DB
                     insert(envite);
 
@@ -219,5 +194,63 @@ public class EnviteRepository {
         };
         queue.add(fetchMyEnvitesRequest);
 
+    }
+
+    // GET DETAILS FOR ENVITE
+    public void fetchEnviteDetailsFromAPI (String eid, String tag, VolleyCallbackForEnviteDetails callback) {
+        RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
+        String fetchEnviteURL = BASE_URL + "/envite/" + eid;
+        Log.i("FETCH URL", fetchEnviteURL);
+
+        JsonObjectRequest fetchMyEnvitesRequest = new JsonObjectRequest(Request.Method.GET, fetchEnviteURL, null, response -> {
+            try {
+                Gson gson = new Gson();
+                String status =  response.getString("status");
+                JSONObject data =  response.getJSONObject("data");
+                Boolean createdByUserObjIsNull = data.isNull("createdByUser");
+                Boolean requestObjIsNull = data.isNull("request");
+
+                Envite envite = gson.fromJson(String.valueOf(data), Envite.class);
+                envite.setDisplayTag(tag);
+                User createdByUser = null;
+                if(!createdByUserObjIsNull){
+                    JSONObject createdByUserObj =  data.getJSONObject("createdByUser");
+                    createdByUser = gson.fromJson(String.valueOf(createdByUserObj), User.class);
+                }
+                EnviteRequest enviteRequest = null;
+                if(!requestObjIsNull){
+                    JSONObject requestObj = data.getJSONObject("request");
+                    enviteRequest = gson.fromJson(String.valueOf(requestObj), EnviteRequest.class);
+                }
+
+                callback.onSuccess(status, envite, createdByUser, enviteRequest);
+
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+        }, error -> {
+            if(error.networkResponse.data != null) {
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    JSONObject data = new JSONObject(responseBody);
+                    callback.onError(data.getString("message"),
+                            data.getString("type"),
+                            data.getString("status"));
+
+                } catch (UnsupportedEncodingException e){
+                    e.printStackTrace();
+                }catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+        queue.add(fetchMyEnvitesRequest);
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 import entities.Envite;
 import interfaces.VolleyCallbackForAdapters;
+import interfaces.VolleyCallbackForEnviteDetails;
 import repositories.EnviteRepository;
 
 public class EnviteViewModel extends AndroidViewModel {
@@ -53,4 +54,8 @@ public class EnviteViewModel extends AndroidViewModel {
     }
 
     public void insert(Envite envite) { enviteRepository.insert(envite); }
+
+    public void fetchEnviteDetails (String enviteId, String tag, VolleyCallbackForEnviteDetails callback) {
+        enviteRepository.fetchEnviteDetailsFromAPI(enviteId, tag, callback);
+    }
 }

@@ -1,13 +1,18 @@
 package adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,11 +42,32 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
     @Override
     public void onBindViewHolder(@NonNull EnviteViewHolder holder, int position) {
         Envite current = getItem(position);
+
         holder.getCardHeaderTextView().setText(current.getTitle());
         holder.getCardSupportingTextView().setText(current.getNote());
         holder.getCardSubheadTextView().setText(current.getFormattedPrice());
-        Glide.with(context).load("https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80").into(holder.getCardThumbnailImageView());
-        Glide.with(context).load("https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80").into(holder.getCardMediaImageView());
+        holder.getCardThumbnailImageView().setBackgroundColor(getThumbnailColor(current));
+        Glide.with(context).load(current.getImageUrl()).into(holder.getCardMediaImageView());
+        holder.getCardButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavController navController = Navigation.findNavController(view);
+                Bundle bundle = new Bundle();
+                bundle.putString("enviteId", current.getId());
+                bundle.putString("tag", "my_envites");
+                navController.navigate(R.id.singleEnviteFragment, bundle);
+            }
+        });
+    }
+
+    public Integer getThumbnailColor (Envite envite) {
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
+        String uid = sharedPref.getString(context.getString(R.string.sharedPrefUid), "");
+            if(envite.getCreatedBy().equals(uid)){
+                return R.color.quantum_bluegrey50;
+            } else {
+                return R.color.quantum_googgreen500;
+            }
     }
 
     public static class EnviteDiff extends DiffUtil.ItemCallback<Envite> {
@@ -63,6 +89,8 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
         private final TextView cardSubheadTextView;
         private final ImageView cardMediaImageView;
         private final TextView cardSupportingTextView;
+        private final Button cardButton;
+
 
         public EnviteViewHolder(View view) {
             super(view);
@@ -73,6 +101,8 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
             cardSubheadTextView = (TextView) view.findViewById(R.id.enviteCardSubhead);
             cardMediaImageView = (ImageView) view.findViewById(R.id.enviteCardMedia);
             cardSupportingTextView = (TextView) view.findViewById(R.id.enviteCardSupportingText);
+            cardButton = (Button) view.findViewById(R.id.enviteCardButton);
+
         }
 
         public ImageView getCardThumbnailImageView() {
@@ -90,5 +120,6 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
         public TextView getCardSupportingTextView() {
             return cardSupportingTextView;
         }
+        public Button getCardButton() {return  cardButton; }
     }
 }
