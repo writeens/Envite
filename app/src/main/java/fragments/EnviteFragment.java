@@ -48,10 +48,10 @@ public class EnviteFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 switch(tab.getPosition()){
                     case 0:
-                        navController.navigate(R.id.action_receivedEnviteFragment2_to_sentEnviteFragment2);
+                        navController.navigate(R.id.action_receivedEnviteFragment_to_sentEnviteFragment);
                         break;
                     case 1:
-                        navController.navigate(R.id.action_sentEnviteFragment2_to_receivedEnviteFragment2);
+                        navController.navigate(R.id.action_sentEnviteFragment_to_receivedEnviteFragment);
                         break;
                 }
             }

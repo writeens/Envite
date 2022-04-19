@@ -2,41 +2,47 @@ package fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.envite.R;
 
-import adapters.ReceivedEnviteListAdapter;
-import entities.Envite;
+import activities.MainActivity;
+import adapters.MyEnvitesListAdapter;
+import interfaces.VolleyCallbackForAdapters;
+import viewmodels.EnviteViewModel;
 
 
 public class ReceivedEnviteFragment extends Fragment {
 
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
+    private static final String RECEIVED_ENVITES = "received_envites";
+
 
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
     }
 
+    private EnviteViewModel enviteViewModel;
     protected RecyclerView mRecyclerView;
-    protected ReceivedEnviteListAdapter mAdapter;
+    protected MyEnvitesListAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected ReceivedEnviteFragment.LayoutManagerType mCurrentLayoutManagerType;
-    protected Envite[] mDataset;
-    private static final int DATASET_COUNT = 10;
+    private MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<Boolean>(true);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //INITIALIZE DATASET
-//        initDataset();
-
     }
 
     @Override
@@ -46,26 +52,126 @@ public class ReceivedEnviteFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_received_envite, container, false);
 
         // BEGIN_INCLUDE(initializeRecyclerView)
-//        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
-//
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//
-//        mCurrentLayoutManagerType = ReceivedEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-//
-//        if (savedInstanceState != null) {
-//            // Restore saved layout manager type.
-//            mCurrentLayoutManagerType = (ReceivedEnviteFragment.LayoutManagerType) savedInstanceState
-//                    .getSerializable(KEY_LAYOUT_MANAGER);
-//        }
-//
-//        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-//
-//        mAdapter = new ReceivedEnviteListAdapter(mDataset, getContext());
-//
-//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+
+        mCurrentLayoutManagerType = ReceivedEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+
+        if (savedInstanceState != null) {
+            // Restore saved layout manager type.
+            mCurrentLayoutManagerType = (ReceivedEnviteFragment.LayoutManagerType) savedInstanceState
+                    .getSerializable(KEY_LAYOUT_MANAGER);
+        }
+
+        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
+
+        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), RECEIVED_ENVITES);
+
+        mRecyclerView.setAdapter(mAdapter);
+
+        enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
+
+        enviteViewModel.deleteAllEnvites();
+
+        enviteViewModel.getReceivedEnvites().observe(this, envites -> {
+            // Update the cached copy of the words in the adapter.
+            mAdapter.submitList(envites);
+        });
+
+        TextView infoTextView = (TextView) rootView.findViewById(R.id.receivedEnvitesInfoTextView);
+        isLoadingLiveData.observe(this, isLoading -> {
+
+            int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
+            if(!isLoading && itemCount <= 0){
+                mRecyclerView.setVisibility(View.GONE);
+                infoTextView.setVisibility(View.VISIBLE);
+                infoTextView.setText("There are no envites here, come back later");
+                return;
+            }
+
+            if(!isLoading){
+                mRecyclerView.setVisibility(View.VISIBLE);
+                infoTextView.setVisibility(View.GONE);
+                return;
+            }
+
+            if(isLoading && itemCount > 0){
+                mRecyclerView.setVisibility(View.VISIBLE);
+                infoTextView.setVisibility(View.GONE);
+                return;
+            }
+
+            if(isLoading){
+                mRecyclerView.setVisibility(View.GONE);
+                infoTextView.setVisibility(View.VISIBLE);
+                infoTextView.setText("Please wait while we fetch your envites");
+                return;
+            }
+        });
 
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        isLoadingLiveData.setValue(true);
+        enviteViewModel.getReceivedEnvitesFromAPI(new VolleyCallbackForAdapters() {
+            @Override
+            public void onSuccess(String status) {
+                isLoadingLiveData.setValue(false);
+            }
+
+            @Override
+            public void onError(String message, String type, String status) {
+                isLoadingLiveData.setValue(false);
+                if(type.equals("FORBIDDEN")){
+                    ((MainActivity)getActivity()).goToSignIn();
+                }
+
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0) { //check for scroll down
+                    LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                    if(!isLoadingLiveData.getValue()){
+                        int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
+                        if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
+                                == (itemCount - 1)){
+                            handleLoadMoreEnvites();
+                        }
+                    }
+
+
+
+                }
+            }
+        });
+    }
+
+    private void handleLoadMoreEnvites (){
+        isLoadingLiveData.setValue(true);
+        enviteViewModel.loadMoreReceivedEnvitesFromAPI(RECEIVED_ENVITES, new VolleyCallbackForAdapters() {
+            @Override
+            public void onSuccess(String status) {
+                isLoadingLiveData.setValue(false);
+            }
+
+            @Override
+            public void onError(String message, String type, String status) {
+                isLoadingLiveData.setValue(false);
+                if(type.equals("FORBIDDEN")){
+                    ((MainActivity)getActivity()).goToSignIn();
+                }
+            }
+        });
     }
 
     public void setRecyclerViewLayoutManager(ReceivedEnviteFragment.LayoutManagerType layoutManagerType) {
@@ -84,10 +190,4 @@ public class ReceivedEnviteFragment extends Fragment {
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
-    private void initDataset() {
-        mDataset = new Envite[DATASET_COUNT];
-//        for (int i = 0; i < DATASET_COUNT; i++) {
-//            mDataset[i] = new Envite((i+1) + " bedroom Flat with amenities and everything you need", "Another beautiful apartment available for your perusal at " + (i+1), (i * 100));
-//        }
-    }
 }

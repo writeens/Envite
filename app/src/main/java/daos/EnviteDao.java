@@ -27,8 +27,8 @@ public interface EnviteDao {
     @Query("DELETE FROM envite_table")
     public void deleteAllEnvites();
 
-    @Query("SELECT COUNT(id) FROM envite_table")
-    public ListenableFuture<Integer> getRowCount();
+    @Query("SELECT COUNT(id) FROM envite_table WHERE displayTag = :tag")
+    public ListenableFuture<Integer> getRowCount(String tag);
 
     @Query("SELECT * FROM envite_table WHERE displayTag = :tag ORDER BY createdAt asc LIMIT 1")
     public ListenableFuture<Envite> getOldestEnvite(String tag);
