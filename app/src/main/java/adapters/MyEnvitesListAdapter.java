@@ -24,9 +24,11 @@ import entities.Envite;
 
 public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapter.EnviteViewHolder> {
     Context context;
-        public MyEnvitesListAdapter(@NonNull DiffUtil.ItemCallback<Envite> diffCallback, Context ctx) {
+    String tag;
+        public MyEnvitesListAdapter(@NonNull DiffUtil.ItemCallback<Envite> diffCallback, Context ctx, String tag) {
             super(diffCallback);
             this.context = ctx;
+            this.tag = tag;
         }
 
     // Create new views (invoked by the layout manager)
@@ -51,10 +53,14 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
         holder.getCardButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NavController navController = Navigation.findNavController(view);
                 Bundle bundle = new Bundle();
                 bundle.putString("enviteId", current.getId());
-                bundle.putString("tag", "my_envites");
+                bundle.putString("tag", tag);
+                NavController navController = Navigation.findNavController(view);
+                if(tag == "sent_envites" || tag == "received_envites"){
+                    navController.navigate(R.id.singleEnviteFragment2, bundle);
+                    return;
+                }
                 navController.navigate(R.id.singleEnviteFragment, bundle);
             }
         });

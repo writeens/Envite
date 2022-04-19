@@ -27,6 +27,8 @@ import viewmodels.EnviteViewModel;
 public class SentEnviteFragment extends Fragment {
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
 
+    private static final String SENT_ENVITES = "sent_envites";
+
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
     }
@@ -64,7 +66,7 @@ public class SentEnviteFragment extends Fragment {
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext());
+        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), SENT_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -80,7 +82,7 @@ public class SentEnviteFragment extends Fragment {
         TextView infoTextView = (TextView) rootView.findViewById(R.id.sentEnvitesInfoTextView);
         isLoadingLiveData.observe(this, isLoading -> {
 
-            int itemCount = enviteViewModel.getCountEnvites("sent_envites");
+            int itemCount = enviteViewModel.getCountEnvites(SENT_ENVITES);
             if(!isLoading && itemCount <= 0){
                 mRecyclerView.setVisibility(View.GONE);
                 infoTextView.setVisibility(View.VISIBLE);
@@ -140,7 +142,7 @@ public class SentEnviteFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                     if(!isLoadingLiveData.getValue()){
-                        int itemCount = enviteViewModel.getCountEnvites("sent_envites");
+                        int itemCount = enviteViewModel.getCountEnvites(SENT_ENVITES);
                         if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
                                 == (itemCount - 1)){
                             handleLoadMoreEnvites();
@@ -153,7 +155,7 @@ public class SentEnviteFragment extends Fragment {
 
     public void handleLoadMoreEnvites (){
         isLoadingLiveData.setValue(true);
-        enviteViewModel.loadMoreSentEnvitesFromAPI("sent_envites", new VolleyCallbackForAdapters() {
+        enviteViewModel.loadMoreSentEnvitesFromAPI(SENT_ENVITES, new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
                 isLoadingLiveData.setValue(false);

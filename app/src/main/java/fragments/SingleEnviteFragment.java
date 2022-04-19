@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 
 import activities.MainActivity;
 import entities.Envite;
@@ -74,13 +75,8 @@ public class SingleEnviteFragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tag == "my_envites"){
-                    getActivity().onBackPressed();
-                    return;
-                }
-//                NavController navController = Navigation.findNavController(v);
-//
-//                navController.navigate(R.id.action_singleEnviteFragment_to_homeFragment);
+                getActivity().onBackPressed();
+
             }
         });
 
@@ -120,6 +116,9 @@ public class SingleEnviteFragment extends Fragment {
                 singleEnvitePriceTextView.setText(envite.getFormattedPrice());
                 singleEnviteNoteTextView.setText(envite.getNote());
                 singleEnviteLocationTextView.setText(envite.getLocation());
+
+                // UPDATE VIEW
+                updateViews(envite, createdByUser, enviteRequest);
             }
 
             @Override
@@ -136,7 +135,7 @@ public class SingleEnviteFragment extends Fragment {
 
     }
 
-    public void initializeViews (View view) {
+    private void initializeViews (View view) {
         //INITIALIZE VIEWS
         singleEnviteInfoBox = view.findViewById(R.id.singleEnviteInfoTextView);
         singleEnviteScrollView = view.findViewById(R.id.singleEnviteScrollView);
@@ -153,6 +152,36 @@ public class SingleEnviteFragment extends Fragment {
             singleEnvitePostedBy.setVisibility(View.GONE);
             singleEnviteButton.setVisibility(View.GONE);
         }
+
+        if(tag == "sent_envites"){
+            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+            tabLayout.setVisibility(View.GONE);
+            singleEnviteRequestedBy.setVisibility(View.GONE);
+        }
+
+        if(tag == "received_envites"){
+            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+            tabLayout.setVisibility(View.GONE);
+            singleEnvitePostedBy.setVisibility(View.GONE);
+        }
+
     }
+
+    private void updateViews (Envite envite, User createdByUser, EnviteRequest enviteRequest) {
+        if(tag == "my_envites"){
+
+        }
+
+        if(tag == "sent_envites"){
+            singleEnviteButton.setText("Pending");
+        }
+
+        if(tag == "received_envites"){
+            singleEnviteButton.setText("Accept");
+            singleEnviteButton.setBackgroundColor(getResources().getColor(R.color.quantum_googgreen900));
+        }
+
+    }
+
 
 }

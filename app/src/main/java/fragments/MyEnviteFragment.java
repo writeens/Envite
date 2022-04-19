@@ -32,6 +32,8 @@ import viewmodels.EnviteViewModel;
 public class MyEnviteFragment extends Fragment {
 
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
+    private static final String MY_ENVITES = "my_envites";
+
 
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
@@ -84,7 +86,7 @@ public class MyEnviteFragment extends Fragment {
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext());
+        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), MY_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -100,7 +102,7 @@ public class MyEnviteFragment extends Fragment {
         TextView infoTextView = (TextView) rootView.findViewById(R.id.myEnvitesInfoTextView);
         isLoadingLiveData.observe(this, isLoading -> {
 
-            int itemCount = enviteViewModel.getCountEnvites("my_envites");
+            int itemCount = enviteViewModel.getCountEnvites(MY_ENVITES);
             if(!isLoading && itemCount <= 0){
                 mRecyclerView.setVisibility(View.GONE);
                 infoTextView.setVisibility(View.VISIBLE);
@@ -159,7 +161,7 @@ public class MyEnviteFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                     if(!isLoadingLiveData.getValue()){
-                        int itemCount = enviteViewModel.getCountEnvites("my_envites");
+                        int itemCount = enviteViewModel.getCountEnvites(MY_ENVITES);
                         if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
                                 == (itemCount - 1)){
                             handleLoadMoreEnvites();
@@ -173,9 +175,9 @@ public class MyEnviteFragment extends Fragment {
         });
     }
 
-    public void handleLoadMoreEnvites (){
+    private void handleLoadMoreEnvites (){
         isLoadingLiveData.setValue(true);
-        enviteViewModel.loadMoreEnvitesFromAPI("my_envites", new VolleyCallbackForAdapters() {
+        enviteViewModel.loadMoreEnvitesFromAPI(MY_ENVITES, new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
                 isLoadingLiveData.setValue(false);
@@ -191,7 +193,7 @@ public class MyEnviteFragment extends Fragment {
         });
     }
 
-    public void setRecyclerViewLayoutManager(MyEnviteFragment.LayoutManagerType layoutManagerType) {
+    private void setRecyclerViewLayoutManager(MyEnviteFragment.LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
         // If a layout manager has already been set, get current scroll position.
