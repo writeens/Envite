@@ -89,10 +89,9 @@ public class MyEnviteFragment extends Fragment {
         mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), MY_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(null);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
-
-        enviteViewModel.deleteAllEnvites();
 
         enviteViewModel.getMyEnvites().observe(this, envites -> {
             // Update the cached copy of the words in the adapter.
@@ -102,7 +101,7 @@ public class MyEnviteFragment extends Fragment {
         TextView infoTextView = (TextView) rootView.findViewById(R.id.myEnvitesInfoTextView);
         isLoadingLiveData.observe(this, isLoading -> {
 
-            int itemCount = enviteViewModel.getCountEnvites(MY_ENVITES);
+            int itemCount = enviteViewModel.getCountEnvites();
             if(!isLoading && itemCount <= 0){
                 mRecyclerView.setVisibility(View.GONE);
                 infoTextView.setVisibility(View.VISIBLE);
@@ -161,7 +160,7 @@ public class MyEnviteFragment extends Fragment {
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                     if(!isLoadingLiveData.getValue()){
-                        int itemCount = enviteViewModel.getCountEnvites(MY_ENVITES);
+                        int itemCount = enviteViewModel.getCountEnvites();
                         if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
                                 == (itemCount - 1)){
                             handleLoadMoreEnvites();

@@ -15,21 +15,24 @@ import entities.Envite;
 
 @Dao
 public interface EnviteDao {
-    @Query("SELECT * FROM envite_table ORDER BY createdAt desc")
-    public LiveData<List<Envite>> fetchAllEnvites();
-
-    @Query("SELECT * FROM envite_table WHERE displayTag = :tag ORDER BY createdAt desc")
-    public LiveData<List<Envite>> fetchEnviteByDisplayTag(String tag);
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertEnvite(Envite envite);
-
-    @Query("DELETE FROM envite_table")
-    public void deleteAllEnvites();
-
-    @Query("SELECT COUNT(id) FROM envite_table WHERE displayTag = :tag")
-    public ListenableFuture<Integer> getRowCount(String tag);
-
-    @Query("SELECT * FROM envite_table WHERE displayTag = :tag ORDER BY createdAt asc LIMIT 1")
-    public ListenableFuture<Envite> getOldestEnvite(String tag);
+//    @Query("SELECT * FROM envite_table ORDER BY createdAt desc")
+//    public LiveData<List<Envite>> fetchAllEnvites();
+//
+//    @Query("SELECT * FROM envite_table WHERE displayTag = :tag ORDER BY createdAt desc")
+//    public LiveData<List<Envite>> fetchEnviteByDisplayTag(String tag);
+//
+//    @Query("SELECT * FROM envite_table WHERE id = :id")
+//    public ListenableFuture<Envite> fetchEnviteById(String id);
+//
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    public void insertEnvite(Envite envite);
+//
+//    @Query("DELETE FROM envite_table")
+//    public void deleteAllEnvites();
+//
+//    @Query("SELECT COUNT(id) FROM envite_table WHERE displayTag = :tag")
+//    public ListenableFuture<Integer> getRowCount(String tag);
+//
+//    @Query("SELECT * FROM envite_table WHERE displayTag = :tag ORDER BY createdAt asc LIMIT 1")
+//    public ListenableFuture<Envite> getOldestEnvite(String tag);
 }

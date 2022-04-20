@@ -13,11 +13,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import daos.EnviteDao;
+import daos.EnviteRequestDao;
+import daos.MyEnvitesDao;
+import daos.UserDao;
 import entities.Envite;
+import entities.EnviteRequest;
+import entities.MyEnvites;
+import entities.User;
 
-@Database(entities = {Envite.class}, version = 1, exportSchema = false)
+@Database(entities = {MyEnvites.class}, version = 1, exportSchema = false)
 public abstract class EnviteRoomDatabase extends RoomDatabase {
     public abstract EnviteDao enviteDao();
+    public abstract EnviteRequestDao enviteRequestDao();
+    public abstract UserDao userDao();
+
+    public abstract MyEnvitesDao myEnvitesDao();
 
     private static volatile EnviteRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -43,11 +53,7 @@ public abstract class EnviteRoomDatabase extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
 
-            Log.i("INDATABASE", "YES THIS RUNS");
-//            databaseWriteExecutor.execute(() -> {
-//                EnviteDao dao = INSTANCE.enviteDao();
-//                dao.deleteAllEnvites();
-//            });
+            Log.i("THIS", "THIS IS TRIGGERED");
         }
     };
 }

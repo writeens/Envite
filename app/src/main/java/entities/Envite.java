@@ -37,7 +37,6 @@ public class Envite {
     private String createdBy;
 
     @NonNull
-    @ColumnInfo
     private int createdAt;
 
     @NonNull
@@ -63,15 +62,11 @@ public class Envite {
         this.displayTag = displayTag;
     }
 
-    public String getId(){return this.id;}
-
-
     public String getTitle(){return this.title;}
 
     public String getNote(){return this.note;}
 
     public int getPrice(){return this.price;}
-
 
     public String getFormattedPrice(){return "£" + this.price + "/month";}
 
@@ -104,13 +99,17 @@ public class Envite {
         return updatedAt;
     }
 
-    @NonNull
     public String getDisplayTag() {
         return displayTag;
     }
 
     public void setDisplayTag(String tag) {
         this.displayTag = tag;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
     }
 
 }

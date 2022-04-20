@@ -7,8 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
+import java.util.Map;
 
 import entities.Envite;
+import entities.EnviteRequest;
+import entities.MyEnvites;
 import interfaces.VolleyCallbackForAdapters;
 import interfaces.VolleyCallbackForEnviteDetails;
 import repositories.EnviteRepository;
@@ -17,9 +20,9 @@ public class EnviteViewModel extends AndroidViewModel {
 
     private EnviteRepository enviteRepository;
 
-    private LiveData<List<Envite>> myEnvites;
-    private LiveData<List<Envite>> sentEnvites;
-    private LiveData<List<Envite>> receivedEnvites;
+    private LiveData<List<MyEnvites>> myEnvites;
+//    private LiveData<Map<EnviteRequest, List<Envite>>> sentEnvites;
+//    private LiveData<Map<EnviteRequest, List<Envite>>> receivedEnvites;
 
 
     public EnviteViewModel (Application application) {
@@ -27,40 +30,12 @@ public class EnviteViewModel extends AndroidViewModel {
        enviteRepository = new EnviteRepository(application);
     }
 
-    public LiveData<List<Envite>> getMyEnvites() {
+    public LiveData<List<MyEnvites>> getMyEnvites() {
         if(myEnvites == null){
             myEnvites = new MutableLiveData<>();
-            myEnvites = enviteRepository.getMyEnvites();
+            myEnvites = enviteRepository.getMyEnvitesFromRoom();
         }
         return myEnvites;
-    }
-
-    public LiveData<List<Envite>> getSentEnvites() {
-        if(sentEnvites == null){
-            sentEnvites = new MutableLiveData<>();
-            sentEnvites = enviteRepository.getSentEnvites();
-        }
-        return sentEnvites;
-    }
-
-    public LiveData<List<Envite>> getReceivedEnvites() {
-        if(receivedEnvites == null){
-            receivedEnvites = new MutableLiveData<>();
-            receivedEnvites = enviteRepository.getReceivedEnvites();
-        }
-        return receivedEnvites;
-    }
-
-
-
-    public Integer getCountEnvites (String tag) {
-        return enviteRepository.getRowCount(tag);
-    }
-    public void deleteAllEnvites (){
-        enviteRepository.deleteAll();
-    }
-    public void fetchEnviteDetails (String enviteId, String tag, VolleyCallbackForEnviteDetails callback) {
-        enviteRepository.fetchEnviteDetailsFromAPI(enviteId, tag, callback);
     }
 
     // HANDLE MY ENVITES
@@ -71,19 +46,56 @@ public class EnviteViewModel extends AndroidViewModel {
         enviteRepository.loadMoreEnvitesFromAPI(tag, callback);
     }
 
-    // HANDLE SENT ENVITES
-    public void getSentEnvitesFromAPI(VolleyCallbackForAdapters callback) {
-        enviteRepository.getSentEnvitesFromAPI(callback);
-    }
-    public void loadMoreSentEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-        enviteRepository.loadMoreSentEnvitesFromAPI(tag, callback);
+    //COUNT MY ENVITES
+    public Integer getCountEnvites () {
+        return enviteRepository.getRowCountForMyEnvites();
     }
 
-    // HANDLE RECEIVED ENVITES
-    public void getReceivedEnvitesFromAPI(VolleyCallbackForAdapters callback) {
-        enviteRepository.getReceivedEnvitesFromAPI(callback);
-    }
-    public void loadMoreReceivedEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-        enviteRepository.loadMoreReceivedEnvitesFromAPI(tag, callback);
-    }
+    // GET MYENVITE BY ID
+    public MyEnvites getMyEnviteById(String enviteId) {return enviteRepository.getMyEnvitesById(enviteId);}
+
+//    public LiveData<Map<EnviteRequest, List<Envite>>> getSentEnvites() {
+//        if(sentEnvites == null){
+//            sentEnvites = new MutableLiveData<>();
+//            sentEnvites = enviteRepository.getSentEnvites();
+//        }
+//        return sentEnvites;
+//    }
+//
+//    public LiveData<Map<EnviteRequest, List<Envite>>> getReceivedEnvites() {
+//        if(receivedEnvites == null){
+//            receivedEnvites = new MutableLiveData<>();
+//            receivedEnvites = enviteRepository.getReceivedEnvites();
+//        }
+//        return receivedEnvites;
+//    }
+
+//    public Integer getCountEnvites (String tag) {
+//        return enviteRepository.getRowCount(tag);
+//    }
+//    public void deleteAllEnvites (){
+//        enviteRepository.deleteAll();
+//    }
+//    public void fetchEnviteDetails (String enviteId, String tag, VolleyCallbackForEnviteDetails callback) {
+//        enviteRepository.fetchEnviteDetailsFromAPI(enviteId, tag, callback);
+//    }
+
+
+
+
+//    // HANDLE SENT ENVITES
+//    public void getSentEnvitesFromAPI(VolleyCallbackForAdapters callback) {
+//        enviteRepository.getSentEnvitesFromAPI(callback);
+//    }
+//    public void loadMoreSentEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
+//        enviteRepository.loadMoreSentEnvitesFromAPI(tag, callback);
+//    }
+//
+//    // HANDLE RECEIVED ENVITES
+//    public void getReceivedEnvitesFromAPI(VolleyCallbackForAdapters callback) {
+//        enviteRepository.getReceivedEnvitesFromAPI(callback);
+//    }
+//    public void loadMoreReceivedEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
+//        enviteRepository.loadMoreReceivedEnvitesFromAPI(tag, callback);
+//    }
 }

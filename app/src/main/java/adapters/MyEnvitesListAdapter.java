@@ -20,12 +20,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.envite.R;
 
-import entities.Envite;
+import java.util.List;
 
-public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapter.EnviteViewHolder> {
+import entities.Envite;
+import entities.MyEnvites;
+
+public class MyEnvitesListAdapter extends ListAdapter<MyEnvites, MyEnvitesListAdapter.EnviteViewHolder> {
     Context context;
     String tag;
-        public MyEnvitesListAdapter(@NonNull DiffUtil.ItemCallback<Envite> diffCallback, Context ctx, String tag) {
+        public MyEnvitesListAdapter(@NonNull DiffUtil.ItemCallback<MyEnvites> diffCallback, Context ctx, String tag) {
             super(diffCallback);
             this.context = ctx;
             this.tag = tag;
@@ -43,7 +46,7 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
 
     @Override
     public void onBindViewHolder(@NonNull EnviteViewHolder holder, int position) {
-        Envite current = getItem(position);
+        MyEnvites current = getItem(position);
 
         holder.getCardHeaderTextView().setText(current.getTitle());
         holder.getCardSupportingTextView().setText(current.getNote());
@@ -57,34 +60,35 @@ public class MyEnvitesListAdapter extends ListAdapter<Envite, MyEnvitesListAdapt
                 bundle.putString("enviteId", current.getId());
                 bundle.putString("tag", tag);
                 NavController navController = Navigation.findNavController(view);
-                if(tag == "sent_envites" || tag == "received_envites"){
-                    navController.navigate(R.id.singleEnviteFragment2, bundle);
-                    return;
-                }
                 navController.navigate(R.id.singleEnviteFragment, bundle);
             }
         });
     }
 
-    public Integer getThumbnailColor (Envite envite) {
+    @Override
+    public void setHasStableIds(boolean hasStableIds) {
+        super.setHasStableIds(true);
+    }
+
+    public Integer getThumbnailColor (MyEnvites myEnvites) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
         String uid = sharedPref.getString(context.getString(R.string.sharedPrefUid), "");
-            if(envite.getCreatedBy().equals(uid)){
+            if(myEnvites.getCreatedBy().equals(uid)){
                 return R.color.quantum_bluegrey50;
             } else {
                 return R.color.quantum_googgreen500;
             }
     }
 
-    public static class EnviteDiff extends DiffUtil.ItemCallback<Envite> {
+    public static class EnviteDiff extends DiffUtil.ItemCallback<MyEnvites> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Envite oldItem, @NonNull Envite newItem) {
+        public boolean areItemsTheSame(@NonNull MyEnvites oldItem, @NonNull MyEnvites newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Envite oldItem, @NonNull Envite newItem) {
+        public boolean areContentsTheSame(@NonNull MyEnvites oldItem, @NonNull MyEnvites newItem) {
             return oldItem.getId().equals(newItem.getId());
         }
     }

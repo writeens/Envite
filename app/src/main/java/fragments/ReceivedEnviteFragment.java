@@ -10,15 +10,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.envite.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import activities.MainActivity;
 import adapters.MyEnvitesListAdapter;
+import entities.Envite;
+import entities.EnviteRequest;
 import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
@@ -51,6 +62,9 @@ public class ReceivedEnviteFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_received_envite, container, false);
 
+        //INITIALIZE VIEWS
+        initializeViews();
+
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
 
@@ -69,46 +83,48 @@ public class ReceivedEnviteFragment extends Fragment {
         mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), RECEIVED_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(null);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
-        enviteViewModel.deleteAllEnvites();
-
-        enviteViewModel.getReceivedEnvites().observe(this, envites -> {
-            // Update the cached copy of the words in the adapter.
-            mAdapter.submitList(envites);
-        });
+//        enviteViewModel.getReceivedEnvites().observe(this, envites -> {
+//            List<Envite> data = new ArrayList<>();
+//            for (Map.Entry<EnviteRequest, List<Envite>> entry : envites.entrySet()) {
+//                data.add(entry.getValue().get(0));
+//            }
+//            mAdapter.submitList(data);
+//        });
 
         TextView infoTextView = (TextView) rootView.findViewById(R.id.receivedEnvitesInfoTextView);
-        isLoadingLiveData.observe(this, isLoading -> {
-
-            int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
-            if(!isLoading && itemCount <= 0){
-                mRecyclerView.setVisibility(View.GONE);
-                infoTextView.setVisibility(View.VISIBLE);
-                infoTextView.setText("There are no envites here, come back later");
-                return;
-            }
-
-            if(!isLoading){
-                mRecyclerView.setVisibility(View.VISIBLE);
-                infoTextView.setVisibility(View.GONE);
-                return;
-            }
-
-            if(isLoading && itemCount > 0){
-                mRecyclerView.setVisibility(View.VISIBLE);
-                infoTextView.setVisibility(View.GONE);
-                return;
-            }
-
-            if(isLoading){
-                mRecyclerView.setVisibility(View.GONE);
-                infoTextView.setVisibility(View.VISIBLE);
-                infoTextView.setText("Please wait while we fetch your envites");
-                return;
-            }
-        });
+//        isLoadingLiveData.observe(this, isLoading -> {
+//
+//            int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
+//            if(!isLoading && itemCount <= 0){
+//                mRecyclerView.setVisibility(View.GONE);
+//                infoTextView.setVisibility(View.VISIBLE);
+//                infoTextView.setText("There are no envites here, come back later");
+//                return;
+//            }
+//
+//            if(!isLoading){
+//                mRecyclerView.setVisibility(View.VISIBLE);
+//                infoTextView.setVisibility(View.GONE);
+//                return;
+//            }
+//
+//            if(isLoading && itemCount > 0){
+//                mRecyclerView.setVisibility(View.VISIBLE);
+//                infoTextView.setVisibility(View.GONE);
+//                return;
+//            }
+//
+//            if(isLoading){
+//                mRecyclerView.setVisibility(View.GONE);
+//                infoTextView.setVisibility(View.VISIBLE);
+//                infoTextView.setText("Please wait while we fetch your envites");
+//                return;
+//            }
+//        });
 
 
         return rootView;
@@ -118,21 +134,21 @@ public class ReceivedEnviteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         isLoadingLiveData.setValue(true);
-        enviteViewModel.getReceivedEnvitesFromAPI(new VolleyCallbackForAdapters() {
-            @Override
-            public void onSuccess(String status) {
-                isLoadingLiveData.setValue(false);
-            }
-
-            @Override
-            public void onError(String message, String type, String status) {
-                isLoadingLiveData.setValue(false);
-                if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
-                }
-
-            }
-        });
+//        enviteViewModel.getReceivedEnvitesFromAPI(new VolleyCallbackForAdapters() {
+//            @Override
+//            public void onSuccess(String status) {
+//                isLoadingLiveData.setValue(false);
+//            }
+//
+//            @Override
+//            public void onError(String message, String type, String status) {
+//                isLoadingLiveData.setValue(false);
+//                if(type.equals("FORBIDDEN")){
+//                    ((MainActivity)getActivity()).goToSignIn();
+//                }
+//
+//            }
+//        });
 
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -141,13 +157,13 @@ public class ReceivedEnviteFragment extends Fragment {
                 if (dy > 0) { //check for scroll down
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
-                    if(!isLoadingLiveData.getValue()){
-                        int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
-                        if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
-                                == (itemCount - 1)){
-                            handleLoadMoreEnvites();
-                        }
-                    }
+//                    if(!isLoadingLiveData.getValue()){
+//                        int itemCount = enviteViewModel.getCountEnvites(RECEIVED_ENVITES);
+//                        if(linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition()
+//                                == (itemCount - 1)){
+//                            handleLoadMoreEnvites();
+//                        }
+//                    }
 
 
 
@@ -158,20 +174,20 @@ public class ReceivedEnviteFragment extends Fragment {
 
     private void handleLoadMoreEnvites (){
         isLoadingLiveData.setValue(true);
-        enviteViewModel.loadMoreReceivedEnvitesFromAPI(RECEIVED_ENVITES, new VolleyCallbackForAdapters() {
-            @Override
-            public void onSuccess(String status) {
-                isLoadingLiveData.setValue(false);
-            }
-
-            @Override
-            public void onError(String message, String type, String status) {
-                isLoadingLiveData.setValue(false);
-                if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
-                }
-            }
-        });
+//        enviteViewModel.loadMoreReceivedEnvitesFromAPI(RECEIVED_ENVITES, new VolleyCallbackForAdapters() {
+//            @Override
+//            public void onSuccess(String status) {
+//                isLoadingLiveData.setValue(false);
+//            }
+//
+//            @Override
+//            public void onError(String message, String type, String status) {
+//                isLoadingLiveData.setValue(false);
+//                if(type.equals("FORBIDDEN")){
+//                    ((MainActivity)getActivity()).goToSignIn();
+//                }
+//            }
+//        });
     }
 
     public void setRecyclerViewLayoutManager(ReceivedEnviteFragment.LayoutManagerType layoutManagerType) {
@@ -190,4 +206,10 @@ public class ReceivedEnviteFragment extends Fragment {
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
+    public void initializeViews () {
+        TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+        tabLayout.setVisibility(View.VISIBLE);
+        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
+        navBar.setVisibility(View.VISIBLE);
+    }
 }

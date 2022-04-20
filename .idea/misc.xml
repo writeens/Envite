@@ -39,6 +39,7 @@
         <entry key="app/src/main/res/layout/fragment_sent_envite.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3271604938271605" />
         <entry key="app/src/main/res/layout/fragment_single_envite.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_single_profile.xml" value="0.335" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.13518518518518519" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.17916666666666667" />
