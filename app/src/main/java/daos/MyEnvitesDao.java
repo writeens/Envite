@@ -15,19 +15,19 @@ import entities.MyEnvites;
 @Dao
 public interface MyEnvitesDao {
     @Query("SELECT * FROM my_envites_table")
-    public LiveData<List<MyEnvites>> fetchMyEnvites();
+    public LiveData<List<MyEnvites>> fetchAll();
 
     @Query("SELECT * FROM my_envites_table WHERE id = :enviteId")
-    public ListenableFuture<MyEnvites> getMyEnviteById(String enviteId);
+    public ListenableFuture<MyEnvites> getById(String enviteId);
 
     @Query("DELETE FROM my_envites_table")
-    public void deleteAllMyEnvites();
+    public void deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertMyEnvites(MyEnvites myEnvites);
+    public ListenableFuture<List<Long>> insert(List<MyEnvites> myEnvites);
 
     @Query("SELECT * FROM my_envites_table ORDER BY createdAt asc LIMIT 1")
-    public ListenableFuture<MyEnvites> getLastItemInMyEnvites();
+    public ListenableFuture<MyEnvites> getLastItem();
 
     @Query("SELECT COUNT(id) FROM my_envites_table")
     public ListenableFuture<Integer> getRowCount();

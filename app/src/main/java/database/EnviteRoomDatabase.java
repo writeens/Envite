@@ -12,22 +12,16 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import daos.EnviteDao;
-import daos.EnviteRequestDao;
 import daos.MyEnvitesDao;
-import daos.UserDao;
-import entities.Envite;
-import entities.EnviteRequest;
+import daos.ReceivedRequestDao;
 import entities.MyEnvites;
-import entities.User;
+import entities.ReceivedRequest;
 
-@Database(entities = {MyEnvites.class}, version = 1, exportSchema = false)
+@Database(entities = {MyEnvites.class, ReceivedRequest.class}, version = 1, exportSchema = false)
 public abstract class EnviteRoomDatabase extends RoomDatabase {
-    public abstract EnviteDao enviteDao();
-    public abstract EnviteRequestDao enviteRequestDao();
-    public abstract UserDao userDao();
-
     public abstract MyEnvitesDao myEnvitesDao();
+    public abstract ReceivedRequestDao receivedRequestDao();
+
 
     private static volatile EnviteRoomDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

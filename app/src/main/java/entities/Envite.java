@@ -8,10 +8,8 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 
 
-@Entity(tableName = "envite_table")
 public class Envite {
 
-    @PrimaryKey
     @NonNull
     private String id;
 
@@ -42,13 +40,10 @@ public class Envite {
     @NonNull
     private int updatedAt;
 
-    @NonNull
-    private String displayTag;
-
 
     public Envite(@NonNull String id, @NonNull String title, @NonNull String note, @NonNull int price,
     @NonNull String placeId, @NonNull String location, @NonNull String imageUrl,
-    @NonNull String createdBy, @NonNull int createdAt, @NonNull int updatedAt, @NonNull String displayTag) {
+    @NonNull String createdBy, @NonNull int createdAt, @NonNull int updatedAt) {
         this.id = id;
         this.title = title;
         this.note = note;
@@ -59,7 +54,6 @@ public class Envite {
         this.createdBy = createdBy;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.displayTag = displayTag;
     }
 
     public String getTitle(){return this.title;}
@@ -99,15 +93,6 @@ public class Envite {
         return updatedAt;
     }
 
-    public String getDisplayTag() {
-        return displayTag;
-    }
-
-    public void setDisplayTag(String tag) {
-        this.displayTag = tag;
-    }
-
-    @NonNull
     public String getId() {
         return id;
     }

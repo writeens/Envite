@@ -4,10 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "envite_user_table")
 public class User {
 
-    @PrimaryKey
     @NonNull
     private String uid;
 
@@ -63,6 +61,10 @@ public class User {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
     }
 
     public String getProfileUrl() {

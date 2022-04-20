@@ -12,6 +12,7 @@ import java.util.Map;
 import entities.Envite;
 import entities.EnviteRequest;
 import entities.MyEnvites;
+import entities.ReceivedRequest;
 import interfaces.VolleyCallbackForAdapters;
 import interfaces.VolleyCallbackForEnviteDetails;
 import repositories.EnviteRepository;
@@ -21,8 +22,7 @@ public class EnviteViewModel extends AndroidViewModel {
     private EnviteRepository enviteRepository;
 
     private LiveData<List<MyEnvites>> myEnvites;
-//    private LiveData<Map<EnviteRequest, List<Envite>>> sentEnvites;
-//    private LiveData<Map<EnviteRequest, List<Envite>>> receivedEnvites;
+    private LiveData<List<ReceivedRequest>> receivedRequests;
 
 
     public EnviteViewModel (Application application) {
@@ -53,6 +53,31 @@ public class EnviteViewModel extends AndroidViewModel {
 
     // GET MYENVITE BY ID
     public MyEnvites getMyEnviteById(String enviteId) {return enviteRepository.getMyEnvitesById(enviteId);}
+
+
+    public LiveData<List<ReceivedRequest>> getReceivedRequests() {
+        if(receivedRequests == null){
+            receivedRequests = new MutableLiveData<>();
+            receivedRequests = enviteRepository.getReceivedRequestsFromRoom();
+        }
+        return receivedRequests;
+    }
+
+    // HANDLE MY ENVITES
+    public void getReceivedRequestsFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.getReceivedRequestsFromAPI(callback);
+    }
+    public void loadMoreReceivedRequestsFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.loadMoreReceivedRequestsFromAPI(callback);
+    }
+
+    //COUNT MY ENVITES
+    public Integer getCountReceivedRequests () {
+        return enviteRepository.getRowCountForReceivedRequests();
+    }
+
+    // GET MYENVITE BY ID
+    public ReceivedRequest getReceivedRequestById(String id) {return enviteRepository.getReceivedRequestById(id);}
 
 //    public LiveData<Map<EnviteRequest, List<Envite>>> getSentEnvites() {
 //        if(sentEnvites == null){

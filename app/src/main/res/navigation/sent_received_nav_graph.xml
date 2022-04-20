@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/receivedEnviteFragment"
-        android:name="fragments.ReceivedEnviteFragment"
+        android:name="fragments.ReceivedRequestFragment"
         android:label="fragment_received_envite"
         tools:layout="@layout/fragment_received_envite" >
         <action
             android:id="@+id/action_receivedEnviteFragment_to_sentEnviteFragment"
             app:destination="@id/sentEnviteFragment" />
         <action
-            android:id="@+id/action_receivedEnviteFragment_to_singleEnviteFragment2"
-            app:destination="@id/singleEnviteFragment2" />
+            android:id="@+id/action_receivedEnviteFragment_to_singleProfileFragment"
+            app:destination="@id/singleProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/sentEnviteFragment"
@@ -26,12 +26,12 @@
             android:id="@+id/action_sentEnviteFragment_to_receivedEnviteFragment"
             app:destination="@id/receivedEnviteFragment" />
         <action
-            android:id="@+id/action_sentEnviteFragment_to_singleEnviteFragment2"
-            app:destination="@id/singleEnviteFragment2" />
+            android:id="@+id/action_sentEnviteFragment_to_singleProfileFragment"
+            app:destination="@id/singleProfileFragment" />
     </fragment>
     <fragment
-        android:id="@+id/singleEnviteFragment2"
-        android:name="fragments.SingleEnviteFragment"
-        android:label="fragment_single_envite"
-        tools:layout="@layout/fragment_single_envite" />
+        android:id="@+id/singleProfileFragment"
+        android:name="fragments.SingleProfileFragment"
+        android:label="fragment_single_profile"
+        tools:layout="@layout/fragment_single_profile" />
 </navigation>

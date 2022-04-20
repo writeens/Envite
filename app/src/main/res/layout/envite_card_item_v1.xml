@@ -6,15 +6,15 @@
     android:layout_marginBottom="16dp"
     android:background="@drawable/round_style"
     android:backgroundTint="@color/charade"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="10dp">
 
     <ImageView
-        android:id="@+id/cardImageView"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
+        android:id="@+id/enviteCardThumbnailV1"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginRight="10dp"
-        android:layout_weight="1"
         android:background="@drawable/round_style_input"
         android:scaleType="centerCrop"
         android:src="@drawable/invite_image"
@@ -30,47 +30,53 @@
         android:paddingRight="3dp">
 
         <TextView
-            android:id="@+id/cardTitleTextView"
+            android:id="@+id/enviteCardTitleV1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/inter_semibold"
-            android:text="@string/enviteCardTitleText"
+            android:text="@string/sampleName"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/cardBodyTextView"
+            android:id="@+id/enviteCardSubheadV1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/inter"
-            android:text="@string/enviteCardBodyText"
+            android:text="@string/sampleTitle"
             android:textColor="@color/white"
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/cardPriceTextView"
+            android:id="@+id/enviteCardTimestampV1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="£200/month"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:typeface="normal" />
-
-        <TextView
-            android:id="@+id/cardTimestampTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/inter"
             android:text="Mon, 12/02/2022 12:30AM"
             android:textAlignment="viewEnd"
             android:textColor="@color/white"
             android:textSize="10sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/enviteCardButtonV1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Request"
+                android:textColor="@color/orange"
+                android:textSize="12sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
     }
 
     @Override
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logOut () {
+
         Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         emptySharedPref();
