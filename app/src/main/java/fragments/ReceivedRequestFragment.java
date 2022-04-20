@@ -105,11 +105,11 @@ public class ReceivedRequestFragment extends Fragment {
 
             @Override
             public void onError(String message, String type, String status) {
-                isLoadingLiveData.setValue(false);
                 if(type.equals("FORBIDDEN")){
                     ((MainActivity)getActivity()).goToSignIn();
+                    return;
                 }
-
+                isLoadingLiveData.setValue(false);
             }
         });
 
@@ -126,8 +126,6 @@ public class ReceivedRequestFragment extends Fragment {
                             handleLoadMoreRequests();
                         }
                     }
-
-
 
                 }
             }
@@ -147,6 +145,7 @@ public class ReceivedRequestFragment extends Fragment {
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
                     ((MainActivity)getActivity()).goToSignIn();
+                    return;
                 }
                 isLoadingLiveData.setValue(false);
             }

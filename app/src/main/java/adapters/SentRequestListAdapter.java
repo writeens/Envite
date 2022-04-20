@@ -19,13 +19,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.envite.R;
 
+import entities.Envite;
 import entities.MyEnvites;
-import entities.ReceivedRequest;
+import entities.SentRequest;
 
-public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, ReceivedRequestListAdapter.EnviteViewHolder> {
+public class SentRequestListAdapter extends ListAdapter<SentRequest, SentRequestListAdapter.EnviteViewHolder> {
     Context context;
     String tag;
-    public ReceivedRequestListAdapter(@NonNull DiffUtil.ItemCallback<ReceivedRequest> diffCallback, Context ctx, String tag) {
+    public SentRequestListAdapter(@NonNull DiffUtil.ItemCallback<SentRequest> diffCallback, Context ctx, String tag) {
         super(diffCallback);
         this.context = ctx;
         this.tag = tag;
@@ -43,11 +44,11 @@ public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, Rec
 
     @Override
     public void onBindViewHolder(@NonNull EnviteViewHolder holder, int position) {
-        ReceivedRequest current = getItem(position);
+        SentRequest current = getItem(position);
 
-        holder.getCardTitleTextView().setText(current.getRequestedBy().getFullName());
+        holder.getCardTitleTextView().setText(current.getRequestedTo().getFullName());
         holder.getCardSubheadTextView().setText(current.getEnvite().getTitle());
-        Glide.with(context).load(current.getRequestedBy().getProfileUrl()).into(holder.getCardThumbnailImageView());
+        Glide.with(context).load(current.getRequestedTo().getProfileUrl()).into(holder.getCardThumbnailImageView());
         holder.getCardButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +56,7 @@ public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, Rec
                 bundle.putString("requestId", current.getId());
                 bundle.putString("tag", tag);
                 NavController navController = Navigation.findNavController(view);
-                navController.navigate(R.id.action_receivedRequestFragment_to_singleProfileFragment, bundle);
+                navController.navigate(R.id.action_sentRequestFragment_to_singleProfileFragment, bundle);
             }
         });
     }
@@ -65,15 +66,15 @@ public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, Rec
         super.setHasStableIds(true);
     }
 
-    public static class EnviteDiff extends DiffUtil.ItemCallback<ReceivedRequest> {
+    public static class EnviteDiff extends DiffUtil.ItemCallback<SentRequest> {
 
         @Override
-        public boolean areItemsTheSame(@NonNull ReceivedRequest oldItem, @NonNull ReceivedRequest newItem) {
+        public boolean areItemsTheSame(@NonNull SentRequest oldItem, @NonNull SentRequest newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull ReceivedRequest oldItem, @NonNull ReceivedRequest newItem) {
+        public boolean areContentsTheSame(@NonNull SentRequest oldItem, @NonNull SentRequest newItem) {
             return oldItem.getId().equals(newItem.getId());
         }
     }
@@ -111,4 +112,3 @@ public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, Rec
         public TextView getCardButton() {return  cardButton; }
     }
 }
-

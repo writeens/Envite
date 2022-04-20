@@ -13,6 +13,7 @@ import entities.Envite;
 import entities.EnviteRequest;
 import entities.MyEnvites;
 import entities.ReceivedRequest;
+import entities.SentRequest;
 import interfaces.VolleyCallbackForAdapters;
 import interfaces.VolleyCallbackForEnviteDetails;
 import repositories.EnviteRepository;
@@ -23,6 +24,8 @@ public class EnviteViewModel extends AndroidViewModel {
 
     private LiveData<List<MyEnvites>> myEnvites;
     private LiveData<List<ReceivedRequest>> receivedRequests;
+    private LiveData<List<SentRequest>> sentRequests;
+
 
 
     public EnviteViewModel (Application application) {
@@ -46,12 +49,12 @@ public class EnviteViewModel extends AndroidViewModel {
         enviteRepository.loadMoreEnvitesFromAPI(tag, callback);
     }
 
-    //COUNT MY ENVITES
+    // COUNT MY ENVITES
     public Integer getCountEnvites () {
         return enviteRepository.getRowCountForMyEnvites();
     }
 
-    // GET MYENVITE BY ID
+    // GET MY ENVITE BY ID
     public MyEnvites getMyEnviteById(String enviteId) {return enviteRepository.getMyEnvitesById(enviteId);}
 
 
@@ -71,56 +74,37 @@ public class EnviteViewModel extends AndroidViewModel {
         enviteRepository.loadMoreReceivedRequestsFromAPI(callback);
     }
 
-    //COUNT MY ENVITES
+    // COUNT MY ENVITES
     public Integer getCountReceivedRequests () {
         return enviteRepository.getRowCountForReceivedRequests();
     }
 
-    // GET MYENVITE BY ID
+    // GET RECEIVED REQUEST BY ID
     public ReceivedRequest getReceivedRequestById(String id) {return enviteRepository.getReceivedRequestById(id);}
 
-//    public LiveData<Map<EnviteRequest, List<Envite>>> getSentEnvites() {
-//        if(sentEnvites == null){
-//            sentEnvites = new MutableLiveData<>();
-//            sentEnvites = enviteRepository.getSentEnvites();
-//        }
-//        return sentEnvites;
-//    }
-//
-//    public LiveData<Map<EnviteRequest, List<Envite>>> getReceivedEnvites() {
-//        if(receivedEnvites == null){
-//            receivedEnvites = new MutableLiveData<>();
-//            receivedEnvites = enviteRepository.getReceivedEnvites();
-//        }
-//        return receivedEnvites;
-//    }
 
-//    public Integer getCountEnvites (String tag) {
-//        return enviteRepository.getRowCount(tag);
-//    }
-//    public void deleteAllEnvites (){
-//        enviteRepository.deleteAll();
-//    }
-//    public void fetchEnviteDetails (String enviteId, String tag, VolleyCallbackForEnviteDetails callback) {
-//        enviteRepository.fetchEnviteDetailsFromAPI(enviteId, tag, callback);
-//    }
+    public LiveData<List<SentRequest>> getSentRequests() {
+        if(sentRequests == null){
+            sentRequests = new MutableLiveData<>();
+            sentRequests = enviteRepository.getSentRequestsFromRoom();
+        }
+        return sentRequests;
+    }
 
+    // HANDLE SENT REQUESTS
+    public void getSentRequestsFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.getSentRequestsFromAPI(callback);
+    }
 
+    public void loadMoreSentRequestsFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.loadMoreSentRequestsFromAPI(callback);
+    }
 
+    // COUNT MY ENVITES
+    public Integer getCountSentRequests () {
+        return enviteRepository.getRowCountForSentRequests();
+    }
 
-//    // HANDLE SENT ENVITES
-//    public void getSentEnvitesFromAPI(VolleyCallbackForAdapters callback) {
-//        enviteRepository.getSentEnvitesFromAPI(callback);
-//    }
-//    public void loadMoreSentEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-//        enviteRepository.loadMoreSentEnvitesFromAPI(tag, callback);
-//    }
-//
-//    // HANDLE RECEIVED ENVITES
-//    public void getReceivedEnvitesFromAPI(VolleyCallbackForAdapters callback) {
-//        enviteRepository.getReceivedEnvitesFromAPI(callback);
-//    }
-//    public void loadMoreReceivedEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-//        enviteRepository.loadMoreReceivedEnvitesFromAPI(tag, callback);
-//    }
+    // GET RECEIVED REQUEST BY ID
+    public SentRequest getSentRequestById(String id) {return enviteRepository.getSentRequestById(id);}
 }

@@ -14,19 +14,19 @@
             android:id="@+id/action_receivedEnviteFragment_to_sentEnviteFragment"
             app:destination="@id/sentEnviteFragment" />
         <action
-            android:id="@+id/action_receivedEnviteFragment_to_singleProfileFragment"
+            android:id="@+id/action_receivedRequestFragment_to_singleProfileFragment"
             app:destination="@id/singleProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/sentEnviteFragment"
-        android:name="fragments.SentEnviteFragment"
+        android:name="fragments.SentRequestFragment"
         android:label="fragment_sent_envite"
         tools:layout="@layout/fragment_sent_envite" >
         <action
             android:id="@+id/action_sentEnviteFragment_to_receivedEnviteFragment"
             app:destination="@id/receivedEnviteFragment" />
         <action
-            android:id="@+id/action_sentEnviteFragment_to_singleProfileFragment"
+            android:id="@+id/action_sentRequestFragment_to_singleProfileFragment"
             app:destination="@id/singleProfileFragment" />
     </fragment>
     <fragment

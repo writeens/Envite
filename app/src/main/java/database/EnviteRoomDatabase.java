@@ -14,13 +14,16 @@ import java.util.concurrent.Executors;
 
 import daos.MyEnvitesDao;
 import daos.ReceivedRequestDao;
+import daos.SentRequestDao;
 import entities.MyEnvites;
 import entities.ReceivedRequest;
+import entities.SentRequest;
 
-@Database(entities = {MyEnvites.class, ReceivedRequest.class}, version = 1, exportSchema = false)
+@Database(entities = {MyEnvites.class, ReceivedRequest.class, SentRequest.class}, version = 1, exportSchema = false)
 public abstract class EnviteRoomDatabase extends RoomDatabase {
     public abstract MyEnvitesDao myEnvitesDao();
     public abstract ReceivedRequestDao receivedRequestDao();
+    public abstract SentRequestDao sentRequestDao();
 
 
     private static volatile EnviteRoomDatabase INSTANCE;

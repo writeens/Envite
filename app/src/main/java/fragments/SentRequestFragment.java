@@ -1,12 +1,9 @@
 package fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,87 +18,73 @@ import android.widget.TextView;
 
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.List;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
 
 import activities.MainActivity;
-import adapters.EnviteListAdapter;
 import adapters.MyEnvitesListAdapter;
-import entities.Envite;
-import entities.MyEnvites;
-import entities.ReceivedRequest;
+import adapters.SentRequestListAdapter;
 import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
-public class MyEnviteFragment extends Fragment {
-
+public class SentRequestFragment extends Fragment {
     private static final String KEY_LAYOUT_MANAGER = "layoutManager";
-    private static final String MY_ENVITES = "my_envites";
 
+    private static final String SENT_ENVITES = "sent_envites";
 
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
     }
+
     private EnviteViewModel enviteViewModel;
     protected RecyclerView mRecyclerView;
-    protected MyEnvitesListAdapter mAdapter;
+    protected SentRequestListAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
-    protected MyEnviteFragment.LayoutManagerType mCurrentLayoutManagerType;
+    protected SentRequestFragment.LayoutManagerType mCurrentLayoutManagerType;
     private MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<Boolean>(true);
     private Integer itemCount = 0;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_my_envite, container, false);
 
+        View rootView = inflater.inflate(R.layout.fragment_sent_envite, container, false);
+
+        // INITIALIZE VIEWS
+        initializeViews();
+
+        // HANDLE LOADING STATE
         handleLoadingState(rootView);
 
-        // HANDLE HIDE NAVBAR
-        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
-        navBar.setVisibility(View.GONE);
-
-        // INITIALIZE TOOLBAR
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.myEnvitesToolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
         // BEGIN_INCLUDE(initializeRecyclerView)
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myEnviteRecyclerView);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.sentEnviteRecyclerView);
 
         mLayoutManager = new LinearLayoutManager(getActivity());
 
-        mCurrentLayoutManagerType = MyEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        mCurrentLayoutManagerType = SentRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
         if (savedInstanceState != null) {
             // Restore saved layout manager type.
-            mCurrentLayoutManagerType = (MyEnviteFragment.LayoutManagerType) savedInstanceState
+            mCurrentLayoutManagerType = (SentRequestFragment.LayoutManagerType) savedInstanceState
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
 
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), MY_ENVITES);
+        mAdapter = new SentRequestListAdapter(new SentRequestListAdapter.EnviteDiff(), getContext(), SENT_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(null);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
-        enviteViewModel.getMyEnvites().observe(this, envites -> {
-            mAdapter.submitList(envites);
+        enviteViewModel.getSentRequests().observe(this, requests -> {
+            mAdapter.submitList(requests);
         });
 
         return rootView;
@@ -111,21 +94,20 @@ public class MyEnviteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         isLoadingLiveData.setValue(true);
-        enviteViewModel.getMyEnvitesFromAPI(new VolleyCallbackForAdapters() {
+        enviteViewModel.getSentRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountEnvites();
+                itemCount = enviteViewModel.getCountSentRequests();
                 isLoadingLiveData.setValue(false);
             }
 
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                   ((MainActivity)getActivity()).goToSignIn();
-                   return;
+                    ((MainActivity)getActivity()).goToSignIn();
+                    return;
                 }
                 isLoadingLiveData.setValue(false);
-
             }
         });
 
@@ -142,35 +124,37 @@ public class MyEnviteFragment extends Fragment {
                             handleLoadMoreEnvites();
                         }
                     }
-
-
-
                 }
             }
         });
     }
 
-    private void handleLoadMoreEnvites (){
+    public void handleLoadMoreEnvites (){
         isLoadingLiveData.setValue(true);
-        enviteViewModel.loadMoreEnvitesFromAPI(MY_ENVITES, new VolleyCallbackForAdapters() {
+        enviteViewModel.loadMoreSentRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountEnvites();
+                itemCount = enviteViewModel.getCountSentRequests();
                 isLoadingLiveData.setValue(false);
             }
 
             @Override
             public void onError(String message, String type, String status) {
+
                 if(type.equals("FORBIDDEN")){
+                    Snackbar.make(getActivity().findViewById(android.R.id.content),
+                            message, Snackbar.LENGTH_LONG).show();
                     ((MainActivity)getActivity()).goToSignIn();
                     return;
                 }
                 isLoadingLiveData.setValue(false);
+                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        message, Snackbar.LENGTH_LONG).show();
             }
         });
     }
 
-    private void setRecyclerViewLayoutManager(MyEnviteFragment.LayoutManagerType layoutManagerType) {
+    public void setRecyclerViewLayoutManager(SentRequestFragment.LayoutManagerType layoutManagerType) {
         int scrollPosition = 0;
 
         // If a layout manager has already been set, get current scroll position.
@@ -180,14 +164,21 @@ public class MyEnviteFragment extends Fragment {
         }
 
         mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = MyEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+        mCurrentLayoutManagerType = SentRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.scrollToPosition(scrollPosition);
     }
 
+    private void initializeViews () {
+        TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+        tabLayout.setVisibility(View.VISIBLE);
+        BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
+        navBar.setVisibility(View.VISIBLE);
+    }
+
     private void handleLoadingState (View rootView) {
-        TextView infoTextView = (TextView) rootView.findViewById(R.id.myEnvitesInfoTextView);
+        TextView infoTextView = (TextView) rootView.findViewById(R.id.sentEnvitesInfoTextView);
         isLoadingLiveData.observe(this, isLoading -> {
 
             if(isLoading && itemCount <= 0){
@@ -217,5 +208,6 @@ public class MyEnviteFragment extends Fragment {
             }
         });
     }
+
 
 }
