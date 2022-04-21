@@ -115,6 +115,11 @@ public class EnviteViewModel extends AndroidViewModel {
         enviteRepository.declineRequest(requestId, callback);
     }
 
+    // REQUEST AN ENVITE
+    public void requestEnvite (String enviteId, VolleyCallbackForAdapters callback){
+        enviteRepository.requestEnvite(enviteId, callback);
+    }
+
     public LiveData<List<HomeEnvite>> getHomeEnvites() {
         if(homeEnvites == null){
             homeEnvites = new MutableLiveData<>();

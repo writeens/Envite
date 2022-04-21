@@ -36,6 +36,9 @@
     <string name="notesPlaceholder">Hi, I would prefer....</string>
     <string name="createEnvite">Create Envite</string>
     <string name="sampleTitle">2 Bedroom Flat with A simple design and a little corner road beside it</string>
+    <string name="underlinedSampleTitle"><u>2 Bedroom Flat with A simple design and a little corner road beside it</u></string>
+    <string name="underlinedSampleName"><u>Jillian Jacob</u></string>
+
     <string name="sampleLocation">7 Laura Street, Middlesbrough Thailand Avenue</string>
     <string name="samplePrice">£400</string>
     <string name="sampleNotes">2 Bedroom Flat with A simple design and a little corner road beside it, 2 Bedroom Flat with A simple design and a little corner road beside it</string>

@@ -12,4 +12,5 @@
     <color name="light_white">#FF303437</color>
     <color name="menu_black">#090A0A</color>
     <color name="charade">#272932</color>
+    <color name="transparent">#0000ffff</color>
 </resources>

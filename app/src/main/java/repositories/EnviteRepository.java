@@ -797,4 +797,52 @@ public class EnviteRepository {
         };
         queue.add(declineRequestRequest);
     }
+
+    // REQUEST AN ENVITE
+    public void requestEnvite(String enviteId, VolleyCallbackForAdapters callback) {
+        HomeEnvite homeEnvite = getHomeEnviteById(enviteId);
+        RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
+        String requestEnviteURL = BASE_URL + "/envite/" + enviteId + "/request";
+
+        JsonObjectRequest requestEnviteRequest = new JsonObjectRequest(Request.Method.POST, requestEnviteURL, null, response -> {
+            try {
+
+                String status = response.getString("status");
+                JSONObject data = response.getJSONObject("data");
+                String requestStatus = data.getString("requestStatus");
+
+                homeEnvite.setStatus(requestStatus);
+                List<HomeEnvite> allHomeEnvites = new ArrayList<>();
+                allHomeEnvites.add(homeEnvite);
+
+                insertHomeEnvites(allHomeEnvites);
+                callback.onSuccess(status);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    JSONObject data = new JSONObject(responseBody);
+                    callback.onError(data.getString("message"), data.getString("type"), data.getString("status"));
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+        queue.add(requestEnviteRequest);
+    }
 }
