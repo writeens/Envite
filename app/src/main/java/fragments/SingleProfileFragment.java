@@ -6,20 +6,45 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+
+import activities.MainActivity;
+import entities.ReceivedRequest;
+import interfaces.VolleyCallbackForAdapters;
+import viewmodels.EnviteViewModel;
 
 public class SingleProfileFragment extends Fragment {
     private String requestId;
     private String tag;
+    private LinearLayout singleProfileActionContainer;
+    private Button singleProfileStatusButton;
+    private Button singleProfileAcceptButton;
+    private Button singleProfileDeclineButton;
+    private TextView singleProfileFirstNameTextView;
+    private TextView singleProfileLastNameTextView;
+    private TextView singleProfileEmailTextView;
+    private LinearLayout singleProfileEmailContainer;
+    private TextView singleProfileQ1TextView;
+    private TextView singleProfileQ2TextView;
+    private MutableLiveData<Boolean> isAcceptingLiveData = new MutableLiveData<Boolean>(false);
+    private MutableLiveData<Boolean> isDecliningLiveData = new MutableLiveData<Boolean>(false);
+    private EnviteViewModel enviteViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,42 +66,46 @@ public class SingleProfileFragment extends Fragment {
         // HANDLE TOOLBAR
         handleToolbar(rootView);
 
+        // HANDLE ACCEPT BUTTON LOADING STATES
+        handleAcceptButtonLoadingState();
+
+        // HANDLE Decline BUTTON LOADING STATES
+        handleDeclineButtonLoadingState();
+
+        enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
+
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        if(tag == "received_envites"){
+            handleUpdateViewForReceivedRequests();
+        }
+        if(tag == "sent_envites"){
+            handleUpdateViewForSentRequests();
+        }
     }
 
     private void initializeViews (View view) {
         //INITIALIZE VIEWS
-//        singleEnviteInfoBox = view.findViewById(R.id.singleEnviteInfoTextView);
-//        singleEnviteScrollView = view.findViewById(R.id.singleEnviteScrollView);
-//        singleEnvitePostedBy = view.findViewById(R.id.singleEnvitePostedByContainer);
-//        singleEnviteRequestedBy = view.findViewById(R.id.singleEnviteRequestedByContainer);
-//        singleEnviteButton = view.findViewById(R.id.singleEnviteButton);
-//        singleEnviteTitleTextView = view.findViewById(R.id.singleEnviteTitleTextView);
-//        singleEnvitePriceTextView = view.findViewById(R.id.singleEnvitePriceTextView);
-//        singleEnviteLocationTextView = view.findViewById(R.id.singleEnviteLocationTextView);
-//        singleEnviteNoteTextView = view.findViewById(R.id.singleEnviteNoteTextView);
-//
-//        if(tag == "my_envites"){
-//            singleEnviteRequestedBy.setVisibility(View.GONE);
-//            singleEnvitePostedBy.setVisibility(View.GONE);
-//            singleEnviteButton.setVisibility(View.GONE);
-//        }
-//
-        if(tag == "sent_envites"){
-            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
-            tabLayout.setVisibility(View.GONE);
-        }
-        if(tag == "received_envites"){
-            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
-            tabLayout.setVisibility(View.GONE);
-        }
+        singleProfileActionContainer = view.findViewById(R.id.singleProfileActionContainer);
+        singleProfileAcceptButton = view.findViewById(R.id.singleProfileAcceptButton);
+        singleProfileDeclineButton = view.findViewById(R.id.singleProfileDeclineButton);
+        singleProfileFirstNameTextView = view.findViewById(R.id.singleProfileFirstNameTextView);
+        singleProfileLastNameTextView = view.findViewById(R.id.singleProfileLastNameTextView);
+        singleProfileEmailTextView = view.findViewById(R.id.singleProfileEmailTextView);
+        singleProfileQ1TextView = view.findViewById(R.id.singleProfileQ1TextView);
+        singleProfileQ2TextView = view.findViewById(R.id.singleProfileQ2TextView);
+        singleProfileStatusButton = view.findViewById(R.id.singleProfileStatusButton);
+        singleProfileEmailContainer = view.findViewById(R.id.singleProfileEmailContainer);
 
+        if(tag == "sent_envites"){
+            singleProfileActionContainer.setVisibility(View.GONE);
+            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+            tabLayout.setVisibility(View.GONE);
+        }
         // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.GONE);
@@ -102,5 +131,164 @@ public class SingleProfileFragment extends Fragment {
 
             }
         });
+    }
+
+    private void handleUpdateViewForReceivedRequests() {
+        ReceivedRequest receivedRequest = enviteViewModel.getReceivedRequestById(requestId);
+        if(receivedRequest == null){
+            Snackbar.make(this.getActivity().findViewById(android.R.id.content),
+                    "Request no longer available", Snackbar.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+            return;
+        }
+
+        TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+        tabLayout.setVisibility(View.GONE);
+        singleProfileFirstNameTextView.setText(receivedRequest.getRequestedBy().getFirstName());
+        singleProfileLastNameTextView.setText(receivedRequest.getRequestedBy().getLastName());
+        singleProfileEmailTextView.setText(receivedRequest.getRequestedBy().getEmail());
+        singleProfileQ1TextView.setText(receivedRequest.getRequestedBy().getQ1());
+        singleProfileQ2TextView.setText(receivedRequest.getRequestedBy().getQ2());
+        if(receivedRequest.getStatus().equals("PENDING")){
+            singleProfileActionContainer.setVisibility(View.VISIBLE);
+            singleProfileStatusButton.setVisibility(View.GONE);
+            //HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(receivedRequest.getStatus().equals("DECLINED")){
+            singleProfileActionContainer.setVisibility(View.GONE);
+            singleProfileStatusButton.setText(receivedRequest.getStatus());
+            singleProfileStatusButton.setVisibility(View.VISIBLE);
+            singleProfileStatusButton.setEnabled(false);
+            //HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(receivedRequest.getStatus().equals("ACCEPTED")){
+            singleProfileActionContainer.setVisibility(View.GONE);
+            singleProfileStatusButton.setText(receivedRequest.getStatus());
+            singleProfileStatusButton.setVisibility(View.VISIBLE);
+            singleProfileStatusButton.setEnabled(false);
+            //SHOW FIELDS
+            singleProfileEmailContainer.setVisibility(View.VISIBLE);
+        }
+        handleAcceptButtonClick();
+        handleDeclineButtonClick();
+    }
+
+    private void handleUpdateViewForSentRequests() {
+        ReceivedRequest receivedRequest = enviteViewModel.getReceivedRequestById(requestId);
+        if(receivedRequest == null){
+            Snackbar.make(this.getActivity().findViewById(android.R.id.content),
+                    "Request no longer available", Snackbar.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+            return;
+        }
+
+        TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
+        tabLayout.setVisibility(View.GONE);
+        singleProfileFirstNameTextView.setText(receivedRequest.getRequestedBy().getFirstName());
+        singleProfileLastNameTextView.setText(receivedRequest.getRequestedBy().getLastName());
+        singleProfileQ1TextView.setText(receivedRequest.getRequestedBy().getQ1());
+        singleProfileQ2TextView.setText(receivedRequest.getRequestedBy().getQ2());
+        singleProfileActionContainer.setVisibility(View.GONE);
+        singleProfileStatusButton.setText(receivedRequest.getStatus());
+        singleProfileStatusButton.setVisibility(View.VISIBLE);
+        singleProfileStatusButton.setEnabled(false);
+    }
+
+    private void handleAcceptButtonClick () {
+        singleProfileAcceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isAcceptingLiveData.setValue(true);
+                enviteViewModel.acceptRequest(requestId, new VolleyCallbackForAdapters() {
+                    @Override
+                    public void onSuccess(String status) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                "Request Successfully Accepted", Snackbar.LENGTH_LONG).show();
+                        singleProfileActionContainer.setVisibility(View.GONE);
+                        singleProfileActionContainer.setVisibility(View.GONE);
+                        singleProfileStatusButton.setText("ACCEPTED");
+                        singleProfileStatusButton.setVisibility(View.VISIBLE);
+                        isAcceptingLiveData.setValue(false);
+                        //SHOW FIELDS
+                        singleProfileEmailContainer.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onError(String message, String type, String status) {
+                        if(type.equals("FORBIDDEN")){
+                            ((MainActivity)getActivity()).goToSignIn();
+                            return;
+                        }
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                message, Snackbar.LENGTH_LONG).show();
+                        isAcceptingLiveData.setValue(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private void handleDeclineButtonClick () {
+        singleProfileDeclineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isDecliningLiveData.setValue(true);
+                enviteViewModel.declineRequest(requestId, new VolleyCallbackForAdapters() {
+                    @Override
+                    public void onSuccess(String status) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                "Request Successfully Declined", Snackbar.LENGTH_LONG).show();
+                        singleProfileActionContainer.setVisibility(View.GONE);
+                        singleProfileActionContainer.setVisibility(View.GONE);
+                        singleProfileStatusButton.setText("DECLINED");
+                        singleProfileStatusButton.setVisibility(View.VISIBLE);
+                        isAcceptingLiveData.setValue(false);
+                    }
+
+                    @Override
+                    public void onError(String message, String type, String status) {
+                        if(type.equals("FORBIDDEN")){
+                            ((MainActivity)getActivity()).goToSignIn();
+                            return;
+                        }
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                message, Snackbar.LENGTH_LONG).show();
+                        isAcceptingLiveData.setValue(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private void handleAcceptButtonLoadingState () {
+        isAcceptingLiveData.observe(this, isAccepting -> {
+            if(isAccepting){
+                singleProfileAcceptButton.setText("Please wait...");
+                singleProfileAcceptButton.setEnabled(false);
+                singleProfileDeclineButton.setEnabled(false);
+                return;
+            }
+            singleProfileAcceptButton.setText("Accept");
+            singleProfileAcceptButton.setEnabled(true);
+            singleProfileDeclineButton.setEnabled(true);
+        });
+
+    }
+
+    private void handleDeclineButtonLoadingState () {
+        isDecliningLiveData.observe(this, isDeclining -> {
+            if(isDeclining){
+                singleProfileDeclineButton.setText("Please wait...");
+                singleProfileAcceptButton.setEnabled(false);
+                singleProfileDeclineButton.setEnabled(false);
+                return;
+            }
+            singleProfileDeclineButton.setText("Decline");
+            singleProfileAcceptButton.setEnabled(true);
+            singleProfileDeclineButton.setEnabled(true);
+        });
+
     }
 }

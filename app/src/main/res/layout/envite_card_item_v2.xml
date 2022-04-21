@@ -25,10 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
+                android:paddingLeft="16dp"
                 android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="12dp">
+                android:paddingRight="16dp"
+                android:paddingBottom="10dp">
 
                 <ImageView
                     android:id="@+id/enviteCardThumbnail"
@@ -52,7 +52,7 @@
                         android:fontFamily="@font/inter_bold"
                         android:text="@string/enviteCardTitleText"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -62,7 +62,7 @@
                         android:fontFamily="@font/inter_medium"
                         android:text="$300"
                         android:textColor="@color/white"
-                        android:textSize="14sp" />
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -70,7 +70,7 @@
             <ImageView
                 android:id="@+id/enviteCardMedia"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/invite_image" />
@@ -79,18 +79,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="10dp"
+                android:paddingLeft="16dp"
                 android:paddingTop="10dp"
-                android:paddingRight="10dp">
+                android:paddingRight="16dp"
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:id="@+id/enviteCardSupportingText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
                     android:fontFamily="@font/inter"
                     android:text="@string/enviteCardBodyText"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -98,13 +100,13 @@
                     android:gravity="end"
                     android:orientation="horizontal">
 
-                    <Button
+                    <TextView
                         android:id="@+id/enviteCardButton"
-                        style="?attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="View"
-                        android:textAlignment="viewEnd" />
+                        android:text="View Envite"
+                        android:textColor="@color/orange"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
             </LinearLayout>

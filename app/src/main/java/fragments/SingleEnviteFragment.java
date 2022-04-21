@@ -8,10 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +21,7 @@ import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-import activities.MainActivity;
-import entities.Envite;
-import entities.EnviteRequest;
-import entities.MyEnvites;
-import entities.User;
-import interfaces.VolleyCallbackForEnviteDetails;
+import entities.MyEnvite;
 import viewmodels.EnviteViewModel;
 
 public class SingleEnviteFragment extends Fragment {
@@ -165,17 +157,6 @@ public class SingleEnviteFragment extends Fragment {
 
     }
 
-    private void updateViews (Envite envite, User createdByUser, EnviteRequest enviteRequest) {
-        if(tag == "sent_envites"){
-            singleEnviteButton.setText("Pending");
-        }
-
-        if(tag == "received_envites"){
-            singleEnviteButton.setText("Accept");
-            singleEnviteButton.setBackgroundColor(getResources().getColor(R.color.quantum_googgreen900));
-        }
-
-    }
 
     private void handleLoadingState () {
         isLoadingLiveData.observe(this, isLoading -> {
@@ -196,17 +177,17 @@ public class SingleEnviteFragment extends Fragment {
 
     private void handleMyEnviteView () {
         isLoadingLiveData.setValue(true);
-        MyEnvites myEnvites = enviteViewModel.getMyEnviteById(enviteId);
+        MyEnvite myEnvite = enviteViewModel.getMyEnviteById(enviteId);
 
-        if(myEnvites == null){
+        if(myEnvite == null){
           getActivity().onBackPressed();
           return;
         }
         isLoadingLiveData.setValue(false);
-        singleEnviteTitleTextView.setText(myEnvites.getTitle());
-        singleEnvitePriceTextView.setText(myEnvites.getFormattedPrice());
-        singleEnviteNoteTextView.setText(myEnvites.getNote());
-        singleEnviteLocationTextView.setText(myEnvites.getLocation());
+        singleEnviteTitleTextView.setText(myEnvite.getTitle());
+        singleEnvitePriceTextView.setText(myEnvite.getFormattedPrice());
+        singleEnviteNoteTextView.setText(myEnvite.getNote());
+        singleEnviteLocationTextView.setText(myEnvite.getLocation());
     }
 
 }

@@ -10,24 +10,24 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
-import entities.MyEnvites;
+import entities.MyEnvite;
 
 @Dao
-public interface MyEnvitesDao {
+public interface MyEnviteDao {
     @Query("SELECT * FROM my_envites_table")
-    public LiveData<List<MyEnvites>> fetchAll();
+    public LiveData<List<MyEnvite>> fetchAll();
 
     @Query("SELECT * FROM my_envites_table WHERE id = :enviteId")
-    public ListenableFuture<MyEnvites> getById(String enviteId);
+    public ListenableFuture<MyEnvite> getById(String enviteId);
 
     @Query("DELETE FROM my_envites_table")
     public void deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public ListenableFuture<List<Long>> insert(List<MyEnvites> myEnvites);
+    public ListenableFuture<List<Long>> insert(List<MyEnvite> myEnvites);
 
     @Query("SELECT * FROM my_envites_table ORDER BY createdAt asc LIMIT 1")
-    public ListenableFuture<MyEnvites> getLastItem();
+    public ListenableFuture<MyEnvite> getLastItem();
 
     @Query("SELECT COUNT(id) FROM my_envites_table")
     public ListenableFuture<Integer> getRowCount();

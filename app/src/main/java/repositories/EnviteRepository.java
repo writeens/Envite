@@ -3,7 +3,6 @@ package repositories;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,7 +13,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.envite.BuildConfig;
 import com.example.envite.R;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -28,19 +26,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
-import daos.MyEnvitesDao;
+import daos.MyEnviteDao;
 import daos.ReceivedRequestDao;
 import daos.SentRequestDao;
 import database.EnviteRoomDatabase;
 import entities.Envite;
-import entities.MyEnvites;
+import entities.MyEnvite;
 import entities.ReceivedRequest;
 import entities.SentRequest;
 import entities.User;
 import interfaces.VolleyCallbackForAdapters;
 
 public class EnviteRepository {
-    private MyEnvitesDao myEnvitesDao;
+    private MyEnviteDao myEnviteDao;
     private ReceivedRequestDao receivedRequestDao;
     private SentRequestDao sentRequestDao;
 
@@ -52,7 +50,7 @@ public class EnviteRepository {
 
     public EnviteRepository(Application application) {
         EnviteRoomDatabase db = EnviteRoomDatabase.getDatabase(application);
-        myEnvitesDao = db.myEnvitesDao();
+        myEnviteDao = db.myEnviteDao();
         receivedRequestDao = db.receivedRequestDao();
         sentRequestDao = db.sentRequestDao();
         SharedPreferences sharedPref = application.getSharedPreferences(application.getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
@@ -62,50 +60,50 @@ public class EnviteRepository {
     }
 
     //GET MY ENVITES
-    public LiveData<List<MyEnvites>> getMyEnvitesFromRoom() {
-        return myEnvitesDao.fetchAll();
+    public LiveData<List<MyEnvite>> getMyEnvitesFromRoom() {
+        return myEnviteDao.fetchAll();
     }
 
     //INSERT MY ENVITE
-    public List<Long> insertMyEnvite(List<MyEnvites> myEnvites) {
+    public List<Long> insertMyEnvite(List<MyEnvite> myEnvites) {
         List<Long> id = null;
         try {
-            id = myEnvitesDao.insert(myEnvites).get();
+            id = myEnviteDao.insert(myEnvites).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return id;
     }
 
-    private MyEnvites getLastMyEnvites() {
-        MyEnvites lastMyEnvites = null;
+    private MyEnvite getLastMyEnvites() {
+        MyEnvite lastMyEnvite = null;
         try {
-            lastMyEnvites = myEnvitesDao.getLastItem().get();
+            lastMyEnvite = myEnviteDao.getLastItem().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return lastMyEnvites;
+        return lastMyEnvite;
     }
 
     // COUNT THE NUMBER OF ENVITES
     public Integer getRowCountForMyEnvites() {
         int count = 0;
         try {
-            count = myEnvitesDao.getRowCount().get();
+            count = myEnviteDao.getRowCount().get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return count;
     }
 
-    public MyEnvites getMyEnvitesById(String enviteId) {
-        MyEnvites myEnvites = null;
+    public MyEnvite getMyEnvitesById(String enviteId) {
+        MyEnvite myEnvite = null;
         try {
-            myEnvites = myEnvitesDao.getById(enviteId).get();
+            myEnvite = myEnviteDao.getById(enviteId).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
-        return myEnvites;
+        return myEnvite;
     }
 
     // GET MY ENVITES FROM API/UPDATE ROOM
@@ -118,13 +116,13 @@ public class EnviteRepository {
 
                 String status = response.getString("status");
                 JSONArray data = response.getJSONArray("data");
-                List<MyEnvites> allReceivedEnvites = new ArrayList<>();
+                List<MyEnvite> allReceivedEnvites = new ArrayList<>();
 
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject obj = data.getJSONObject(i);
                     Gson gson = new Gson();
-                    MyEnvites myEnvites = gson.fromJson(String.valueOf(obj), MyEnvites.class);
-                    allReceivedEnvites.add(myEnvites);
+                    MyEnvite myEnvite = gson.fromJson(String.valueOf(obj), MyEnvite.class);
+                    allReceivedEnvites.add(myEnvite);
 
                 }
                 insertMyEnvite(allReceivedEnvites);
@@ -159,7 +157,7 @@ public class EnviteRepository {
 
     // GET MORE OF MY ENVITES/UPDATE ROOM
     public void loadMoreEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-        MyEnvites oldestEnvite = getLastMyEnvites();
+        MyEnvite oldestEnvite = getLastMyEnvites();
         RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
         String fetchMyEnvitesURL = BASE_URL + "/envites/own?startAfter=" + oldestEnvite.getCreatedAt();
 
@@ -168,13 +166,13 @@ public class EnviteRepository {
 
                 String status = response.getString("status");
                 JSONArray data = response.getJSONArray("data");
-                List<MyEnvites> allReceivedEnvites = new ArrayList<>();
+                List<MyEnvite> allReceivedEnvites = new ArrayList<>();
 
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject obj = data.getJSONObject(i);
                     Gson gson = new Gson();
-                    MyEnvites myEnvites = gson.fromJson(String.valueOf(obj), MyEnvites.class);
-                    allReceivedEnvites.add(myEnvites);
+                    MyEnvite myEnvite = gson.fromJson(String.valueOf(obj), MyEnvite.class);
+                    allReceivedEnvites.add(myEnvite);
                 }
                 insertMyEnvite(allReceivedEnvites);
                 callback.onSuccess(status);
@@ -205,7 +203,6 @@ public class EnviteRepository {
         queue.add(fetchMyEnvitesRequest);
 
     }
-
 
     // GET RECEIVED REQUESTS
     public LiveData<List<ReceivedRequest>> getReceivedRequestsFromRoom() {
@@ -370,7 +367,6 @@ public class EnviteRepository {
 
     }
 
-
     // GET SENT REQUESTS
     public LiveData<List<SentRequest>> getSentRequestsFromRoom() {
         return sentRequestDao.fetchAll();
@@ -531,5 +527,101 @@ public class EnviteRepository {
             }
         };
         queue.add(fetchSentEnvitesRequest);
+    }
+
+    // ACCEPT A REQUEST
+    public void acceptRequest(String requestId, VolleyCallbackForAdapters callback) {
+        ReceivedRequest receivedRequest = getReceivedRequestById(requestId);
+        RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
+        String acceptRequestURL = BASE_URL + "/envite/" + requestId + "/accept";
+
+        JsonObjectRequest acceptRequestRequest = new JsonObjectRequest(Request.Method.POST, acceptRequestURL, null, response -> {
+            try {
+
+                String status = response.getString("status");
+                JSONObject data = response.getJSONObject("data");
+                String requestStatus = data.getString("requestStatus");
+                Integer updatedAt = data.getInt("updatedAt");
+
+                receivedRequest.setStatus(requestStatus);
+                receivedRequest.setUpdatedAt(updatedAt);
+                List<ReceivedRequest> allReceivedRequests = new ArrayList<>();
+                allReceivedRequests.add(receivedRequest);
+
+                insertReceivedRequest(allReceivedRequests);
+                callback.onSuccess(status);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            if (error.networkResponse.data != null) {
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    JSONObject data = new JSONObject(responseBody);
+                    callback.onError(data.getString("message"), data.getString("type"), data.getString("status"));
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+        queue.add(acceptRequestRequest);
+    }
+
+    // DECLINE A REQUEST
+    public void declineRequest(String requestId, VolleyCallbackForAdapters callback) {
+        ReceivedRequest receivedRequest = getReceivedRequestById(requestId);
+        RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
+        String declineRequestURL = BASE_URL + "/envite/" + requestId + "/decline";
+
+        JsonObjectRequest declineRequestRequest = new JsonObjectRequest(Request.Method.POST, declineRequestURL, null, response -> {
+            try {
+
+                String status = response.getString("status");
+                JSONObject data = response.getJSONObject("data");
+                String requestStatus = data.getString("requestStatus");
+                Integer updatedAt = data.getInt("updatedAt");
+
+                receivedRequest.setStatus(requestStatus);
+                receivedRequest.setUpdatedAt(updatedAt);
+                List<ReceivedRequest> allReceivedRequests = new ArrayList<>();
+                allReceivedRequests.add(receivedRequest);
+
+                insertReceivedRequest(allReceivedRequests);
+                callback.onSuccess(status);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, error -> {
+            if (error.networkResponse.data != null) {
+                try {
+                    String responseBody = new String(error.networkResponse.data, "utf-8");
+                    JSONObject data = new JSONObject(responseBody);
+                    callback.onError(data.getString("message"), data.getString("type"), data.getString("status"));
+
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer " + token);
+                return params;
+            }
+        };
+        queue.add(declineRequestRequest);
     }
 }
