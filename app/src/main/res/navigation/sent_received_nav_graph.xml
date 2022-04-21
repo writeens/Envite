@@ -33,5 +33,18 @@
         android:id="@+id/singleProfileFragment"
         android:name="fragments.SingleProfileFragment"
         android:label="fragment_single_profile"
-        tools:layout="@layout/fragment_single_profile" />
+        tools:layout="@layout/fragment_single_profile" >
+        <action
+            android:id="@+id/action_singleProfileFragment_to_singleEnviteFragment2"
+            app:destination="@id/singleEnviteFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/singleEnviteFragment2"
+        android:name="fragments.SingleEnviteFragment"
+        android:label="fragment_single_envite"
+        tools:layout="@layout/fragment_single_envite" >
+        <action
+            android:id="@+id/action_singleEnviteFragment2_to_singleProfileFragment"
+            app:destination="@id/singleProfileFragment" />
+    </fragment>
 </navigation>

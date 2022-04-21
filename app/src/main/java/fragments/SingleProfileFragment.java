@@ -31,6 +31,9 @@ import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
 public class SingleProfileFragment extends Fragment {
+
+    private String SINGLE_PROFILE = "single_profile";
+
     private String requestId;
     private String tag;
     private LinearLayout singleProfileActionContainer;
@@ -43,6 +46,8 @@ public class SingleProfileFragment extends Fragment {
     private LinearLayout singleProfileEmailContainer;
     private TextView singleProfileQ1TextView;
     private TextView singleProfileQ2TextView;
+    private LinearLayout singleProfileEnviteContainer;
+    private TextView singleProfileEnviteTextView;
     private MutableLiveData<Boolean> isAcceptingLiveData = new MutableLiveData<Boolean>(false);
     private MutableLiveData<Boolean> isDecliningLiveData = new MutableLiveData<Boolean>(false);
     private EnviteViewModel enviteViewModel;
@@ -87,6 +92,9 @@ public class SingleProfileFragment extends Fragment {
         if(tag == "sent_envites"){
             handleUpdateViewForSentRequests();
         }
+        if(tag == "home_envites"){
+            handleUpdateViewForHomeEnvites();
+        }
     }
 
     private void initializeViews (View view) {
@@ -101,12 +109,8 @@ public class SingleProfileFragment extends Fragment {
         singleProfileQ2TextView = view.findViewById(R.id.singleProfileQ2TextView);
         singleProfileStatusButton = view.findViewById(R.id.singleProfileStatusButton);
         singleProfileEmailContainer = view.findViewById(R.id.singleProfileEmailContainer);
-
-        if(tag == "sent_envites"){
-            singleProfileActionContainer.setVisibility(View.GONE);
-            TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
-            tabLayout.setVisibility(View.GONE);
-        }
+        singleProfileEnviteContainer = view.findViewById(R.id.singleProfileEnviteContainer);
+        singleProfileEnviteTextView = view.findViewById(R.id.singleProfileEnviteTextView);
         // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.GONE);
@@ -150,6 +154,8 @@ public class SingleProfileFragment extends Fragment {
         singleProfileEmailTextView.setText(receivedRequest.getRequestedBy().getEmail());
         singleProfileQ1TextView.setText(receivedRequest.getRequestedBy().getQ1());
         singleProfileQ2TextView.setText(receivedRequest.getRequestedBy().getQ2());
+        singleProfileEnviteTextView.setText(receivedRequest.getEnvite().getTitle());
+        singleProfileEnviteContainer.setVisibility(View.VISIBLE);
         if(receivedRequest.getStatus().equals("PENDING")){
             singleProfileActionContainer.setVisibility(View.VISIBLE);
             singleProfileStatusButton.setVisibility(View.GONE);
@@ -174,6 +180,16 @@ public class SingleProfileFragment extends Fragment {
         }
         handleAcceptButtonClick();
         handleDeclineButtonClick();
+        singleProfileEnviteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("requestId", receivedRequest.getId());
+                bundle.putString("tag", tag);
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleProfileFragment_to_singleEnviteFragment2, bundle);
+            }
+        });
     }
 
     private void handleUpdateViewForSentRequests() {
@@ -187,14 +203,26 @@ public class SingleProfileFragment extends Fragment {
 
         TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
         tabLayout.setVisibility(View.GONE);
+        singleProfileEnviteContainer.setVisibility(View.VISIBLE);
         singleProfileFirstNameTextView.setText(sentRequest.getRequestedTo().getFirstName());
         singleProfileLastNameTextView.setText(sentRequest.getRequestedTo().getLastName());
         singleProfileQ1TextView.setText(sentRequest.getRequestedTo().getQ1());
         singleProfileQ2TextView.setText(sentRequest.getRequestedTo().getQ2());
+        singleProfileEnviteTextView.setText(sentRequest.getEnvite().getTitle());
         singleProfileActionContainer.setVisibility(View.GONE);
         singleProfileStatusButton.setText(sentRequest.getStatus());
         singleProfileStatusButton.setVisibility(View.VISIBLE);
         singleProfileStatusButton.setEnabled(false);
+        singleProfileEnviteTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("requestId", sentRequest.getId());
+                bundle.putString("tag", tag);
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleProfileFragment_to_singleEnviteFragment2, bundle);
+            }
+        });
     }
 
     private void handleAcceptButtonClick () {
@@ -291,5 +319,8 @@ public class SingleProfileFragment extends Fragment {
             singleProfileDeclineButton.setEnabled(true);
         });
 
+    }
+
+    private void handleUpdateViewForHomeEnvites () {
     }
 }
