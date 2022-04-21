@@ -32,8 +32,6 @@ import viewmodels.EnviteViewModel;
 
 public class SingleProfileFragment extends Fragment {
 
-    private String SINGLE_PROFILE = "single_profile";
-
     private String requestId;
     private String tag;
     private LinearLayout singleProfileActionContainer;
