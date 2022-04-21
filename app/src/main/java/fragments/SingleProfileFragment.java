@@ -26,6 +26,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import activities.MainActivity;
 import entities.ReceivedRequest;
+import entities.SentRequest;
 import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
@@ -176,8 +177,8 @@ public class SingleProfileFragment extends Fragment {
     }
 
     private void handleUpdateViewForSentRequests() {
-        ReceivedRequest receivedRequest = enviteViewModel.getReceivedRequestById(requestId);
-        if(receivedRequest == null){
+        SentRequest sentRequest = enviteViewModel.getSentRequestById(requestId);
+        if(sentRequest == null){
             Snackbar.make(this.getActivity().findViewById(android.R.id.content),
                     "Request no longer available", Snackbar.LENGTH_LONG).show();
             getActivity().onBackPressed();
@@ -186,12 +187,12 @@ public class SingleProfileFragment extends Fragment {
 
         TabLayout tabLayout = getActivity().findViewById(R.id.enviteTabLayout);
         tabLayout.setVisibility(View.GONE);
-        singleProfileFirstNameTextView.setText(receivedRequest.getRequestedBy().getFirstName());
-        singleProfileLastNameTextView.setText(receivedRequest.getRequestedBy().getLastName());
-        singleProfileQ1TextView.setText(receivedRequest.getRequestedBy().getQ1());
-        singleProfileQ2TextView.setText(receivedRequest.getRequestedBy().getQ2());
+        singleProfileFirstNameTextView.setText(sentRequest.getRequestedTo().getFirstName());
+        singleProfileLastNameTextView.setText(sentRequest.getRequestedTo().getLastName());
+        singleProfileQ1TextView.setText(sentRequest.getRequestedTo().getQ1());
+        singleProfileQ2TextView.setText(sentRequest.getRequestedTo().getQ2());
         singleProfileActionContainer.setVisibility(View.GONE);
-        singleProfileStatusButton.setText(receivedRequest.getStatus());
+        singleProfileStatusButton.setText(sentRequest.getStatus());
         singleProfileStatusButton.setVisibility(View.VISIBLE);
         singleProfileStatusButton.setEnabled(false);
     }

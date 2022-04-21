@@ -85,6 +85,8 @@ public class SentRequestFragment extends Fragment {
 
         enviteViewModel.getSentRequests().observe(this, requests -> {
             mAdapter.submitList(requests);
+            itemCount = enviteViewModel.getCountSentRequests();
+            isLoadingLiveData.setValue(false);
         });
 
         return rootView;
@@ -93,11 +95,9 @@ public class SentRequestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isLoadingLiveData.setValue(true);
         enviteViewModel.getSentRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountSentRequests();
                 isLoadingLiveData.setValue(false);
             }
 
@@ -134,7 +134,6 @@ public class SentRequestFragment extends Fragment {
         enviteViewModel.loadMoreSentRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountSentRequests();
                 isLoadingLiveData.setValue(false);
             }
 
@@ -152,22 +151,6 @@ public class SentRequestFragment extends Fragment {
                         message, Snackbar.LENGTH_LONG).show();
             }
         });
-    }
-
-    public void setRecyclerViewLayoutManager(SentRequestFragment.LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = SentRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
     private void initializeViews () {
@@ -207,6 +190,22 @@ public class SentRequestFragment extends Fragment {
                 return;
             }
         });
+    }
+
+    public void setRecyclerViewLayoutManager(SentRequestFragment.LayoutManagerType layoutManagerType) {
+        int scrollPosition = 0;
+
+        // If a layout manager has already been set, get current scroll position.
+        if (mRecyclerView.getLayoutManager() != null) {
+            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
+                    .findFirstCompletelyVisibleItemPosition();
+        }
+
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mCurrentLayoutManagerType = SentRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
 

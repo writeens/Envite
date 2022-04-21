@@ -2,8 +2,11 @@ package entities;
 
 import androidx.annotation.NonNull;
 import androidx.room.Embedded;
+import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+@Entity(tableName = "home_envite_table")
 public class HomeEnvite {
     @NonNull
     @PrimaryKey
@@ -27,6 +30,112 @@ public class HomeEnvite {
     @NonNull
     private String createdBy;
     @NonNull
+    private String status;
+    @NonNull
     @Embedded(prefix = "createdByUser")
     private User createdByUser;
+
+    public HomeEnvite(@NonNull String id, @NonNull String title, @NonNull String location,
+                      @NonNull String placeId, @NonNull String price, @NonNull String note,
+                      @NonNull Integer createdAt, @NonNull Integer updatedAt, @NonNull String imageUrl,
+                      @NonNull String createdBy, @NonNull String status, @NonNull User createdByUser) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.placeId = placeId;
+        this.price = price;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.imageUrl = imageUrl;
+        this.createdBy = createdBy;
+        this.status = status;
+        this.createdByUser = createdByUser;
+    }
+
+    @Ignore
+    public HomeEnvite(@NonNull String id, @NonNull String title, @NonNull String location,
+                      @NonNull String placeId, @NonNull String price, @NonNull String note,
+                      @NonNull Integer createdAt, @NonNull Integer updatedAt, @NonNull String imageUrl,
+                      @NonNull String createdBy) {
+        this.id = id;
+        this.title = title;
+        this.location = location;
+        this.placeId = placeId;
+        this.price = price;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.imageUrl = imageUrl;
+        this.createdBy = createdBy;
+    }
+
+    @NonNull
+    public String getId() {
+        return id;
+    }
+
+    @NonNull
+    public String getTitle() {
+        return title;
+    }
+
+    @NonNull
+    public String getLocation() {
+        return location;
+    }
+
+    @NonNull
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    @NonNull
+    public String getPrice() {
+        return price;
+    }
+
+    @NonNull
+    public String getNote() {
+        return note;
+    }
+
+    @NonNull
+    public Integer getCreatedAt() {
+        return createdAt;
+    }
+
+    @NonNull
+    public Integer getUpdatedAt() {
+        return updatedAt;
+    }
+
+    @NonNull
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    @NonNull
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @NonNull
+    public User getCreatedByUser() {
+        return createdByUser;
+    }
+
+    public void setCreatedByUser(User newUser) {
+        this.createdByUser = newUser;
+    }
+
+    @NonNull
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NonNull String status) {
+        this.status = status;
+    }
+    public String getFormattedPrice(){return "£" + this.price + "/month";}
 }
