@@ -1,5 +1,7 @@
 package fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +24,17 @@ import android.widget.TextView;
 
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import org.w3c.dom.Text;
 
+import activities.MainActivity;
+import entities.HomeEnvite;
 import entities.MyEnvite;
 import entities.ReceivedRequest;
 import entities.SentRequest;
+import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
 public class SingleEnviteFragment extends Fragment {
@@ -46,6 +53,8 @@ public class SingleEnviteFragment extends Fragment {
     private TextView singleEnviteLocationTextView;
     private TextView singleEnvitePriceTextView;
     private TextView singleEnviteNoteTextView;
+    private MutableLiveData<Boolean> isRequestingLiveData = new MutableLiveData<Boolean>(false);
+
 
 
     @Override
@@ -106,6 +115,10 @@ public class SingleEnviteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         handleLoadingState();
+
+        // HANDLE REQUESTING ENVITE BUTTON LOADING STATES
+        handleRequestButtonLoadingState();
+
         if(tag == "my_envites"){
             handleMyEnviteView();
         }
@@ -114,6 +127,9 @@ public class SingleEnviteFragment extends Fragment {
         }
         if(tag == "sent_envites"){
             handleSentRequestsView();
+        }
+        if(tag == "home_envites"){
+            handleHomeEnvitesView();
         }
 
     }
@@ -205,6 +221,92 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteNoteTextView.setText(receivedRequest.getEnvite().getNote());
         singleEnviteLocationTextView.setText(receivedRequest.getEnvite().getLocation());
         isLoadingLiveData.setValue(false);
+    }
+
+    private void handleHomeEnvitesView () {
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.enviteUserSharedPreferencesFile),
+                Context.MODE_PRIVATE);
+        String uid = sharedPref.getString(getString(R.string.sharedPrefUid), "");
+        isLoadingLiveData.setValue(true);
+        HomeEnvite homeEnvite = enviteViewModel.getHomeEnviteById(enviteId);
+        if(homeEnvite == null){
+            getActivity().onBackPressed();
+            return;
+        }
+
+        singleEnvitePostedByContainer.setVisibility(View.VISIBLE);
+        singleEnviteButton.setVisibility(View.VISIBLE);
+        singleEnviteButton.setEnabled(false);
+        singleEnviteButton.setText(homeEnvite.getStatus());
+        singleEnviteTitleTextView.setText(homeEnvite.getTitle());
+        singleEnvitePriceTextView.setText(homeEnvite.getFormattedPrice());
+        singleEnviteNoteTextView.setText(homeEnvite.getNote());
+        singleEnviteLocationTextView.setText(homeEnvite.getLocation());
+        singleEnvitePostedByTextView.setText(homeEnvite.getCreatedByUser().getFullName());
+        if(uid.equals(homeEnvite.getCreatedBy())){
+            singleEnviteButton.setVisibility(View.GONE);
+            singleEnviteButton.setEnabled(false);
+        }
+        if(homeEnvite.getStatus().equals("IDLE")){
+            singleEnviteButton.setEnabled(true);
+            singleEnviteButton.setText("Request");
+            singleEnviteButton.setBackgroundColor(getResources().getColor(R.color.quantum_googgreen800));
+            handleRequestEnviteClick();
+        }
+        singleEnvitePostedByTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("enviteId", enviteId);
+                bundle.putString("tag", tag);
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleEnviteFragment_to_singleProfileFragment3, bundle);
+            }
+        });
+        isLoadingLiveData.setValue(false);
+    }
+
+    private void handleRequestEnviteClick () {
+        singleEnviteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isRequestingLiveData.setValue(true);
+                enviteViewModel.requestEnvite(enviteId, new VolleyCallbackForAdapters() {
+                    @Override
+                    public void onSuccess(String status) {
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                "Envite request sent successfully", Snackbar.LENGTH_LONG).show();
+                        singleEnviteButton.setEnabled(false);
+                        singleEnviteButton.setText("Pending");
+                        singleEnviteButton.setBackgroundColor(getResources().getColor(R.color.transparent));
+                        isRequestingLiveData.setValue(false);
+                    }
+
+                    @Override
+                    public void onError(String message, String type, String status) {
+                        if(type.equals("FORBIDDEN")){
+                            ((MainActivity)getActivity()).goToSignIn();
+                            return;
+                        }
+                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                                message, Snackbar.LENGTH_LONG).show();
+                        isRequestingLiveData.setValue(false);
+                    }
+                });
+            }
+        });
+    }
+
+    private void handleRequestButtonLoadingState () {
+        isRequestingLiveData.observe(this, isRequesting -> {
+            if(isRequesting){
+                singleEnviteButton.setText("Please wait...");
+                singleEnviteButton.setEnabled(false);
+                return;
+            }
+
+        });
+
     }
 
 }

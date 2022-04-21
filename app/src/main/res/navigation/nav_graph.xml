@@ -57,6 +57,9 @@
             android:name="enviteId"
             app:argType="string"
             android:defaultValue='""' />
+        <action
+            android:id="@+id/action_singleEnviteFragment_to_singleProfileFragment3"
+            app:destination="@id/singleProfileFragment3" />
     </fragment>
     <activity
         android:id="@+id/splashScreenActivity"
@@ -74,4 +77,13 @@
         tools:layout="@layout/fragment_my_envite" >
     </fragment>
     <include app:graph="@navigation/sent_received_nav_graph" />
+    <fragment
+        android:id="@+id/singleProfileFragment3"
+        android:name="fragments.SingleProfileFragment"
+        android:label="fragment_single_profile"
+        tools:layout="@layout/fragment_single_profile" >
+        <action
+            android:id="@+id/action_singleProfileFragment3_to_singleEnviteFragment"
+            app:destination="@id/singleEnviteFragment" />
+    </fragment>
 </navigation>

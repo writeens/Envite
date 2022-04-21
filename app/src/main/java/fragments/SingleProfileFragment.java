@@ -25,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 import activities.MainActivity;
+import entities.HomeEnvite;
 import entities.ReceivedRequest;
 import entities.SentRequest;
 import interfaces.VolleyCallbackForAdapters;
@@ -33,6 +34,7 @@ import viewmodels.EnviteViewModel;
 public class SingleProfileFragment extends Fragment {
 
     private String requestId;
+    private String enviteId;
     private String tag;
     private LinearLayout singleProfileActionContainer;
     private Button singleProfileStatusButton;
@@ -55,6 +57,7 @@ public class SingleProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         requestId = (String) arguments.get("requestId");
+        enviteId = (String) arguments.get("enviteId");
         tag = (String) arguments.get("tag");
     }
 
@@ -223,6 +226,24 @@ public class SingleProfileFragment extends Fragment {
         });
     }
 
+    private void handleUpdateViewForHomeEnvites () {
+        HomeEnvite homeEnvite = enviteViewModel.getHomeEnviteById(enviteId);
+        if(homeEnvite == null){
+            Snackbar.make(this.getActivity().findViewById(android.R.id.content),
+                    "Envite no longer available", Snackbar.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+            return;
+        }
+        singleProfileEnviteContainer.setVisibility(View.VISIBLE);
+        singleProfileFirstNameTextView.setText(homeEnvite.getCreatedByUser().getFirstName());
+        singleProfileLastNameTextView.setText(homeEnvite.getCreatedByUser().getLastName());
+        singleProfileQ1TextView.setText(homeEnvite.getCreatedByUser().getQ1());
+        singleProfileQ2TextView.setText(homeEnvite.getCreatedByUser().getQ2());
+        singleProfileEnviteContainer.setVisibility(View.GONE);
+        singleProfileActionContainer.setVisibility(View.GONE);
+        singleProfileStatusButton.setVisibility(View.GONE);
+    }
+
     private void handleAcceptButtonClick () {
         singleProfileAcceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,6 +340,5 @@ public class SingleProfileFragment extends Fragment {
 
     }
 
-    private void handleUpdateViewForHomeEnvites () {
-    }
+
 }
