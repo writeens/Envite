@@ -128,7 +128,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -139,6 +139,8 @@ public class EnviteRepository {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
             }
         }) {
             @Override
@@ -177,7 +179,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -189,6 +191,7 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -281,7 +284,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -293,6 +296,7 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -340,7 +344,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -352,6 +356,7 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -444,7 +449,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -456,6 +461,8 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -503,7 +510,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -515,6 +522,8 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -605,7 +614,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -617,6 +626,8 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -662,7 +673,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -674,6 +685,8 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -711,7 +724,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -723,6 +736,7 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -759,7 +773,7 @@ public class EnviteRepository {
                 e.printStackTrace();
             }
         }, error -> {
-            if (error.networkResponse.data != null) {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
                 try {
                     String responseBody = new String(error.networkResponse.data, "utf-8");
                     JSONObject data = new JSONObject(responseBody);
@@ -771,6 +785,8 @@ public class EnviteRepository {
                     e.printStackTrace();
                 }
             }
+            callback.onError("Network Error, Check your connection and try again", "NETWORK_ERROR", "fail");
+
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

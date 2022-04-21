@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
@@ -145,7 +146,8 @@ public class LoginAccountActivity extends AppCompatActivity {
                     }
 
                 }, error -> {
-                    if(error.networkResponse.data != null) {
+                    loginAccountButton.setText("Login");
+                    if(error.networkResponse != null && error.networkResponse.data != null) {
                         try {
                             String responseBody = new String(error.networkResponse.data, "utf-8");
                             JSONObject data = new JSONObject(responseBody);
@@ -155,6 +157,8 @@ public class LoginAccountActivity extends AppCompatActivity {
                         } catch (UnsupportedEncodingException e){
                             e.printStackTrace();
                         }catch (JSONException e) {
+                            e.printStackTrace();
+                        } catch (NullPointerException e) {
                             e.printStackTrace();
                         }
                     }
