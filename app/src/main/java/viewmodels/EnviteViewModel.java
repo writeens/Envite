@@ -7,22 +7,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
-import java.util.Map;
 
-import entities.Envite;
-import entities.EnviteRequest;
-import entities.MyEnvites;
+import entities.MyEnvite;
 import entities.ReceivedRequest;
 import entities.SentRequest;
 import interfaces.VolleyCallbackForAdapters;
-import interfaces.VolleyCallbackForEnviteDetails;
 import repositories.EnviteRepository;
 
 public class EnviteViewModel extends AndroidViewModel {
 
     private EnviteRepository enviteRepository;
 
-    private LiveData<List<MyEnvites>> myEnvites;
+    private LiveData<List<MyEnvite>> myEnvites;
     private LiveData<List<ReceivedRequest>> receivedRequests;
     private LiveData<List<SentRequest>> sentRequests;
 
@@ -33,7 +29,7 @@ public class EnviteViewModel extends AndroidViewModel {
        enviteRepository = new EnviteRepository(application);
     }
 
-    public LiveData<List<MyEnvites>> getMyEnvites() {
+    public LiveData<List<MyEnvite>> getMyEnvites() {
         if(myEnvites == null){
             myEnvites = new MutableLiveData<>();
             myEnvites = enviteRepository.getMyEnvitesFromRoom();
@@ -55,7 +51,7 @@ public class EnviteViewModel extends AndroidViewModel {
     }
 
     // GET MY ENVITE BY ID
-    public MyEnvites getMyEnviteById(String enviteId) {return enviteRepository.getMyEnvitesById(enviteId);}
+    public MyEnvite getMyEnviteById(String enviteId) {return enviteRepository.getMyEnvitesById(enviteId);}
 
 
     public LiveData<List<ReceivedRequest>> getReceivedRequests() {
@@ -107,4 +103,13 @@ public class EnviteViewModel extends AndroidViewModel {
 
     // GET RECEIVED REQUEST BY ID
     public SentRequest getSentRequestById(String id) {return enviteRepository.getSentRequestById(id);}
+
+    // ACCEPT A REQUEST
+    public void acceptRequest (String requestId, VolleyCallbackForAdapters callback){
+        enviteRepository.acceptRequest(requestId, callback);
+    }
+    // DECLINE A REQUEST
+    public void declineRequest (String requestId, VolleyCallbackForAdapters callback){
+        enviteRepository.acceptRequest(requestId, callback);
+    }
 }

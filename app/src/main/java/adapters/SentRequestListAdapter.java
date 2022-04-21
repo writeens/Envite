@@ -1,7 +1,6 @@
 package adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.envite.R;
 
-import entities.Envite;
-import entities.MyEnvites;
 import entities.SentRequest;
 
 public class SentRequestListAdapter extends ListAdapter<SentRequest, SentRequestListAdapter.EnviteViewHolder> {
@@ -70,7 +67,7 @@ public class SentRequestListAdapter extends ListAdapter<SentRequest, SentRequest
 
         @Override
         public boolean areItemsTheSame(@NonNull SentRequest oldItem, @NonNull SentRequest newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getId().equals(newItem.getId());
         }
 
         @Override

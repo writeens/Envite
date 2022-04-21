@@ -82,6 +82,10 @@ public class ReceivedRequest {
         return status;
     }
 
+    public void setStatus(String newStatus) {
+        this.status = newStatus;
+    }
+
     @NonNull
     public String getFrom() {
         return from;
@@ -100,6 +104,10 @@ public class ReceivedRequest {
     @NonNull
     public Integer getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(Integer newUpdatedAt) {
+        this.updatedAt = newUpdatedAt;
     }
 
     @NonNull

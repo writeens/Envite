@@ -93,7 +93,7 @@
                         android:typeface="normal" />
 
                     <TextView
-                        android:id="@+id/singleProfileTitleTextView"
+                        android:id="@+id/singleProfileFirstNameTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/inter"
@@ -230,6 +230,56 @@
                         android:typeface="normal" />
 
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/singleProfileActionContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/singleProfileQ2Container">
+
+                    <Button
+                        android:id="@+id/singleProfileAcceptButton"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/quantum_vanillagreen800"
+                        android:text="Accept"
+                        app:cornerRadius="8dp" />
+
+                    <Button
+                        android:id="@+id/singleProfileDeclineButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/quantum_googred800"
+                        android:text="Decline"
+                        app:cornerRadius="8dp" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/singleProfileStatusButton"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_weight="1"
+                    android:text="Pending"
+                    android:textColor="@color/orange"
+                    app:cornerRadius="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/singleProfileQ2Container"
+                    app:strokeColor="@color/orange"
+                    app:strokeWidth="1dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

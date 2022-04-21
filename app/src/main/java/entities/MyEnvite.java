@@ -5,7 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "my_envites_table")
-public class MyEnvites {
+public class MyEnvite {
     @NonNull
     @PrimaryKey
     private String id;
@@ -31,12 +31,12 @@ public class MyEnvites {
     private String createdByImageUrl;
 
 
-    public MyEnvites(@NonNull String id, @NonNull String title,
-                     @NonNull String location, @NonNull String placeId,
-                     @NonNull String price, @NonNull String note,
-                     @NonNull Integer createdAt, @NonNull Integer updatedAt,
-                     @NonNull String imageUrl, @NonNull String createdBy,
-                     @NonNull String createdByImageUrl) {
+    public MyEnvite(@NonNull String id, @NonNull String title,
+                    @NonNull String location, @NonNull String placeId,
+                    @NonNull String price, @NonNull String note,
+                    @NonNull Integer createdAt, @NonNull Integer updatedAt,
+                    @NonNull String imageUrl, @NonNull String createdBy,
+                    @NonNull String createdByImageUrl) {
         this.id = id;
         this.title = title;
         this.location = location;

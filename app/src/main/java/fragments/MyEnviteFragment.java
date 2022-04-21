@@ -1,7 +1,5 @@
 package fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +19,8 @@ import android.widget.TextView;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
-
 import activities.MainActivity;
-import adapters.EnviteListAdapter;
 import adapters.MyEnvitesListAdapter;
-import entities.Envite;
-import entities.MyEnvites;
-import entities.ReceivedRequest;
 import interfaces.VolleyCallbackForAdapters;
 import viewmodels.EnviteViewModel;
 
