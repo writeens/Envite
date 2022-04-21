@@ -86,7 +86,9 @@ public class ReceivedRequestFragment extends Fragment {
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
         enviteViewModel.getReceivedRequests().observe(this, requests -> {
+            itemCount = enviteViewModel.getCountReceivedRequests();
             mAdapter.submitList(requests);
+            isLoadingLiveData.setValue(false);
         });
 
         return rootView;
@@ -95,11 +97,9 @@ public class ReceivedRequestFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        isLoadingLiveData.setValue(true);
         enviteViewModel.getReceivedRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountReceivedRequests();
                 isLoadingLiveData.setValue(false);
             }
 
@@ -138,7 +138,6 @@ public class ReceivedRequestFragment extends Fragment {
         enviteViewModel.loadMoreReceivedRequestsFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
-                itemCount = enviteViewModel.getCountReceivedRequests();
                 isLoadingLiveData.setValue(false);
             }
             @Override
@@ -177,8 +176,6 @@ public class ReceivedRequestFragment extends Fragment {
     private void handleLoadingState (View rootView) {
         TextView infoTextView = (TextView) rootView.findViewById(R.id.receivedEnvitesInfoTextView);
                 isLoadingLiveData.observe(this, isLoading -> {
-
-
             if(isLoading && itemCount <= 0){
                 mRecyclerView.setVisibility(View.GONE);
                 infoTextView.setVisibility(View.VISIBLE);

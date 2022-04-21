@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "my_envites_table")
+@Entity(tableName = "my_envite_table")
 public class MyEnvite {
     @NonNull
     @PrimaryKey

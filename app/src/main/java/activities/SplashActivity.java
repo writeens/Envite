@@ -9,11 +9,6 @@ import android.os.Bundle;
 
 import com.example.envite.R;
 
-import java.io.File;
-
-import daos.EnviteDao;
-import database.EnviteRoomDatabase;
-
 public class SplashActivity extends AppCompatActivity {
     Intent intent;
 

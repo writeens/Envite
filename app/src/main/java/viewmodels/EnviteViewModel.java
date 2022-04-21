@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import entities.HomeEnvite;
 import entities.MyEnvite;
 import entities.ReceivedRequest;
 import entities.SentRequest;
@@ -21,6 +22,7 @@ public class EnviteViewModel extends AndroidViewModel {
     private LiveData<List<MyEnvite>> myEnvites;
     private LiveData<List<ReceivedRequest>> receivedRequests;
     private LiveData<List<SentRequest>> sentRequests;
+    private LiveData<List<HomeEnvite>> homeEnvites;
 
 
 
@@ -41,8 +43,8 @@ public class EnviteViewModel extends AndroidViewModel {
     public void getMyEnvitesFromAPI(VolleyCallbackForAdapters callback) {
         enviteRepository.getMyEnvitesFromAPI(callback);
     }
-    public void loadMoreEnvitesFromAPI(String tag, VolleyCallbackForAdapters callback) {
-        enviteRepository.loadMoreEnvitesFromAPI(tag, callback);
+    public void loadMoreEnvitesFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.loadMoreEnvitesFromAPI(callback);
     }
 
     // COUNT MY ENVITES
@@ -110,6 +112,31 @@ public class EnviteViewModel extends AndroidViewModel {
     }
     // DECLINE A REQUEST
     public void declineRequest (String requestId, VolleyCallbackForAdapters callback){
-        enviteRepository.acceptRequest(requestId, callback);
+        enviteRepository.declineRequest(requestId, callback);
     }
+
+    public LiveData<List<HomeEnvite>> getHomeEnvites() {
+        if(homeEnvites == null){
+            homeEnvites = new MutableLiveData<>();
+            homeEnvites = enviteRepository.getHomeEnvitesFromRoom();
+        }
+        return homeEnvites;
+    }
+
+    // HANDLE MY ENVITES
+    public void getHomeEnvitesFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.getHomeEnvitesFromAPI(callback);
+    }
+    public void loadMoreHomeEnvitesFromAPI(VolleyCallbackForAdapters callback) {
+        enviteRepository.loadMoreHomeEnvitesFromAPI(callback);
+    }
+
+    // COUNT MY ENVITES
+    public Integer getCountHomeEnvites () {
+        return enviteRepository.getRowCountForHomeEnvites();
+    }
+
+    // GET RECEIVED REQUEST BY ID
+    public HomeEnvite getHomeEnviteById(String id) {return enviteRepository.getHomeEnviteById(id);}
+
 }

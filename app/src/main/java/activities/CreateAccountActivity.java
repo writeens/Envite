@@ -156,7 +156,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     }
 
                 }, error -> {
-                    if(error.networkResponse.data != null) {
+                    createAccountButton.setText("Create Account");
+                    if(error.networkResponse != null && error.networkResponse.data != null) {
                         try {
                             String responseBody = new String(error.networkResponse.data, "utf-8");
                             JSONObject data = new JSONObject(responseBody);
