@@ -2,6 +2,7 @@ package fragments;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -74,7 +75,7 @@ public class SingleProfileFragment extends Fragment {
         initializeViews(rootView);
 
         // HANDLE TOOLBAR
-        handleToolbar(rootView);
+        handleBackButton(rootView);
 
         // HANDLE ACCEPT BUTTON LOADING STATES
         handleAcceptButtonLoadingState();
@@ -122,23 +123,23 @@ public class SingleProfileFragment extends Fragment {
 
     }
 
-    private void handleToolbar (View rootView) {
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.singleProfileToolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+    private void handleBackButton (View rootView) {
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
-            public void onClick(View v) {
+            public void handleOnBackPressed() {
                 if( tag == "received_envites"){
-                    NavController navController = Navigation.findNavController(v);
+                    NavController navController = Navigation.findNavController(rootView);
                     navController.navigate(R.id.receivedEnviteFragment);
                     return;
                 }
                 if(tag == "sent_envites"){
-                    NavController navController = Navigation.findNavController(v);
+                    NavController navController = Navigation.findNavController(rootView);
                     navController.navigate(R.id.sentEnviteFragment);
                     return;
                 }
-                getActivity().onBackPressed();
-
+                this.remove();
+                requireActivity().onBackPressed();
             }
         });
     }
@@ -220,6 +221,18 @@ public class SingleProfileFragment extends Fragment {
         singleProfileStatusButton.setText(sentRequest.getStatus());
         singleProfileStatusButton.setVisibility(View.VISIBLE);
         singleProfileStatusButton.setEnabled(false);
+        if(sentRequest.getStatus().equals("PENDING")){
+            // HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(sentRequest.getStatus().equals("DECLINED")){
+            // HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(sentRequest.getStatus().equals("ACCEPTED")){
+            // SHOW FIELDS
+            singleProfileEmailContainer.setVisibility(View.VISIBLE);
+        }
 
         singleProfileEnviteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,6 +263,22 @@ public class SingleProfileFragment extends Fragment {
         singleProfileEnviteContainer.setVisibility(View.GONE);
         singleProfileActionContainer.setVisibility(View.GONE);
         singleProfileStatusButton.setVisibility(View.GONE);
+        if(homeEnvite.getStatus().equals("IDLE")){
+            // HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(homeEnvite.getStatus().equals("PENDING")){
+            // HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(homeEnvite.getStatus().equals("DECLINED")){
+            // HIDE FIELDS
+            singleProfileEmailContainer.setVisibility(View.GONE);
+        }
+        if(homeEnvite.getStatus().equals("ACCEPTED")){
+            // SHOW FIELDS
+            singleProfileEmailContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private void handleAcceptButtonClick () {
