@@ -74,6 +74,7 @@ dependencies {
 
     // GOOGLE MAPS SDK
     implementation "com.google.android.libraries.places:places:$rootProject.mapsPlacesVersion"
+    implementation "com.google.android.gms:play-services-maps:$rootProject.playServicesVersion"
 
     // VALIDATOR
     implementation "com.basgeekball:awesome-validation:$rootProject.validatorVersion"

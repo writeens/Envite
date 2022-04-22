@@ -64,8 +64,6 @@
     <string name="priceRequired">Please enter a price for the envite</string>
 
 
-
-
     <!--SHARED PREFERENCES-->
     <string name="enviteUserSharedPreferencesFile">enviteUserSharedPreferencesFile</string>
     <string name="sharedPrefUid">uid</string>

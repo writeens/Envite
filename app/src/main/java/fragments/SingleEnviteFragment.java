@@ -57,6 +57,7 @@ public class SingleEnviteFragment extends Fragment {
     private TextView singleEnvitePriceTextView;
     private TextView singleEnviteNoteTextView;
     private ImageView singleEnviteImageView;
+    private ImageView singleEnviteLocation;
     private MutableLiveData<Boolean> isRequestingLiveData = new MutableLiveData<Boolean>(false);
 
 
@@ -65,49 +66,22 @@ public class SingleEnviteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
-        enviteId = (String) arguments.get("enviteId");
-        requestId = (String) arguments.get("requestId");
-        tag = (String) arguments.get("tag");
+        if(arguments != null){
+            enviteId = (String) arguments.get("enviteId");
+            requestId = (String) arguments.get("requestId");
+            tag = (String) arguments.get("tag");
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_single_envite, container, false);
 
         // INITIALIZE VIEWS
         initializeViews(rootView);
-
-        //HANDLE TOOLBAR
-//        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.singleEnviteToolbar);
-//
-//
-//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if( tag == "received_envites"){
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("requestId", requestId);
-//                    bundle.putString("tag", tag);
-//                    NavController navController = Navigation.findNavController(v);
-//                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
-//                    return;
-//                }
-//                if(tag == "sent_envites"){
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("requestId", requestId);
-//                    bundle.putString("tag", tag);
-//                    NavController navController = Navigation.findNavController(v);
-//                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
-//                    return;
-//                }
-//                getActivity().onBackPressed();
-//
-//            }
-//        });
 
         // SETUP VIEW MODEL
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
@@ -174,6 +148,7 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteLocationTextView = view.findViewById(R.id.singleEnviteLocationTextView);
         singleEnviteNoteTextView = view.findViewById(R.id.singleEnviteNoteTextView);
         singleEnviteImageView = view.findViewById(R.id.singleEnviteImageView);
+        singleEnviteLocation = view.findViewById(R.id.singleEnviteLocation);
 
         // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
@@ -214,6 +189,15 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteNoteTextView.setText(myEnvite.getNote());
         singleEnviteLocationTextView.setText(myEnvite.getLocation());
         Glide.with(getContext()).load(myEnvite.getImageUrl()).into(singleEnviteImageView);
+        singleEnviteLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("placeId", myEnvite.getPlaceId());
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleEnviteFragment_to_mapFragment, bundle);
+            }
+        });
         isLoadingLiveData.setValue(false);
     }
 
@@ -233,7 +217,15 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteNoteTextView.setText(sentRequest.getEnvite().getNote());
         singleEnviteLocationTextView.setText(sentRequest.getEnvite().getLocation());
         Glide.with(getContext()).load(sentRequest.getEnvite().getImageUrl()).into(singleEnviteImageView);
-
+        singleEnviteLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("placeId", sentRequest.getEnvite().getPlaceId());
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleEnviteFragment_to_mapFragment, bundle);
+            }
+        });
         isLoadingLiveData.setValue(false);
     }
 
@@ -253,6 +245,15 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteNoteTextView.setText(receivedRequest.getEnvite().getNote());
         singleEnviteLocationTextView.setText(receivedRequest.getEnvite().getLocation());
         Glide.with(getContext()).load(receivedRequest.getEnvite().getImageUrl()).into(singleEnviteImageView);
+        singleEnviteLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("placeId", receivedRequest.getEnvite().getPlaceId());
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleEnviteFragment_to_mapFragment, bundle);
+            }
+        });
         isLoadingLiveData.setValue(false);
     }
 
@@ -276,6 +277,8 @@ public class SingleEnviteFragment extends Fragment {
         singleEnviteNoteTextView.setText(homeEnvite.getNote());
         singleEnviteLocationTextView.setText(homeEnvite.getLocation());
         singleEnvitePostedByTextView.setText(homeEnvite.getCreatedByUser().getFullName());
+        Glide.with(getContext()).load(homeEnvite.getImageUrl()).into(singleEnviteImageView);
+
         if(uid.equals(homeEnvite.getCreatedBy())){
             singleEnviteButton.setVisibility(View.GONE);
             singleEnviteButton.setEnabled(false);
@@ -294,6 +297,15 @@ public class SingleEnviteFragment extends Fragment {
                 bundle.putString("tag", tag);
                 NavController navController = Navigation.findNavController(view);
                 navController.navigate(R.id.action_singleEnviteFragment_to_singleProfileFragment3, bundle);
+            }
+        });
+        singleEnviteLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("placeId", homeEnvite.getPlaceId());
+                NavController navController = Navigation.findNavController(view);
+                navController.navigate(R.id.action_singleEnviteFragment_to_mapFragment, bundle);
             }
         });
         isLoadingLiveData.setValue(false);
