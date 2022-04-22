@@ -247,10 +247,7 @@ public class ProfileFragment extends Fragment {
                                 JsonElement type = result.get("type");
                                 JsonElement message = result.get("message");
                                 if(type != null && type.getAsString().equals("FORBIDDEN")){
-                                    Log.i("JD", "YES");
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                            "Please login again", Snackbar.LENGTH_LONG).show();
-                                    ((MainActivity) getActivity()).goToSignIn();
+                                    ((MainActivity) getActivity()).goToSignIn("Please login to continue");
                                     return;
                                 }
 
@@ -300,9 +297,7 @@ public class ProfileFragment extends Fragment {
                                 JsonElement type = result.get("type");
                                 JsonElement message = result.get("message");
                                 if(type != null && type.getAsString().equals("FORBIDDEN")){
-                                    Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                            "Please login again", Snackbar.LENGTH_LONG).show();
-                                    ((MainActivity) getActivity()).goToSignIn();
+                                    ((MainActivity) getActivity()).goToSignIn("Please login to continue");
                                     return;
                                 }
 

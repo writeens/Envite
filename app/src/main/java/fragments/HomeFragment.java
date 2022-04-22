@@ -44,7 +44,6 @@ public class HomeFragment extends Fragment {
     private EnviteViewModel enviteViewModel;
     private MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<Boolean>(true);
     private Integer itemCount = 0;
-    private Integer scrollPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,7 +113,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
+                    ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                     return;
                 }
                 isLoadingLiveData.setValue(false);
@@ -154,7 +153,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
+                    ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                     return;
                 }
                 isLoadingLiveData.setValue(false);
@@ -192,23 +191,6 @@ public class HomeFragment extends Fragment {
                 return;
             }
         });
-    }
-
-
-    private void setRecyclerViewLayoutManager(LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
 }

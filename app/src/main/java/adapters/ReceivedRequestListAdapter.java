@@ -45,6 +45,7 @@ public class ReceivedRequestListAdapter extends ListAdapter<ReceivedRequest, Rec
 
         holder.getCardTitleTextView().setText(current.getRequestedBy().getFullName());
         holder.getCardSubheadTextView().setText(current.getEnvite().getTitle());
+        holder.getCardTimestampTextView().setText(current.getFormattedCreatedAt());
         Glide.with(context).load(current.getRequestedBy().getProfileUrl()).into(holder.getCardThumbnailImageView());
         holder.getCardButton().setOnClickListener(new View.OnClickListener() {
             @Override

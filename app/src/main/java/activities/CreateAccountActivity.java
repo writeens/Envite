@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,10 +33,13 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import viewmodels.EnviteViewModel;
+
 public class CreateAccountActivity extends AppCompatActivity {
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
 
     String BASE_URL = BuildConfig.API_BASE_URL;
+    EnviteViewModel enviteViewModel;
 
     View buttonView;
 
@@ -50,6 +54,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        //INITIALIZE VIEW MODEL
+        enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
         // INITIALIZE VALIDATION
         String regexPassword = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
@@ -149,6 +155,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         editor.putString(getString(R.string.sharedPrefQ2), data.getString("q2"));
                         editor.apply();
 
+                        enviteViewModel.emptyDatabase();
                         navigateToHome();
 
                     } catch (JSONException e){

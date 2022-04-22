@@ -7,6 +7,9 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 @Entity(tableName = "envite_received_request_table")
 public class ReceivedRequest {
 
@@ -99,6 +102,11 @@ public class ReceivedRequest {
     @NonNull
     public Integer getCreatedAt() {
         return createdAt;
+    }
+
+    public String getFormattedCreatedAt() {
+      Date d =  new Date(Long.parseLong(String.valueOf(this.createdAt * 1000L)));
+      return new SimpleDateFormat("EEE, dd/mm/yyyy hh:mm aa").format(d);
     }
 
     @NonNull

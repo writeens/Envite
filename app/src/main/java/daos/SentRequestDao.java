@@ -14,19 +14,19 @@ import entities.SentRequest;
 
 @Dao
 public interface SentRequestDao {
-    @Query("SELECT * FROM envite_sent_request_table")
+    @Query("SELECT * FROM envite_sent_request_table ORDER BY createdAt desc")
     public LiveData<List<SentRequest>> fetchAll();
 
     @Query("SELECT * FROM envite_sent_request_table WHERE id = :id")
     public ListenableFuture<SentRequest> getById(String id);
 
     @Query("DELETE FROM envite_sent_request_table")
-    public void deleteAll();
+    public ListenableFuture<Integer> deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public ListenableFuture<List<Long>> insert(List<SentRequest> sentRequests);
 
-    @Query("SELECT * FROM envite_sent_request_table ORDER BY createdAt asc LIMIT 1")
+    @Query("SELECT * FROM envite_sent_request_table ORDER BY createdAt desc LIMIT 1")
     public ListenableFuture<SentRequest> getLastItem();
 
     @Query("SELECT COUNT(id) FROM envite_sent_request_table")

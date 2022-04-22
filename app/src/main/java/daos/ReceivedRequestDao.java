@@ -14,19 +14,19 @@ import entities.ReceivedRequest;
 
 @Dao
 public interface ReceivedRequestDao {
-    @Query("SELECT * FROM envite_received_request_table")
+    @Query("SELECT * FROM envite_received_request_table ORDER BY createdAt desc")
     public LiveData<List<ReceivedRequest>> fetchAll();
 
     @Query("SELECT * FROM envite_received_request_table WHERE id = :id")
     public ListenableFuture<ReceivedRequest> getById(String id);
 
     @Query("DELETE FROM envite_received_request_table")
-    public void deleteAll();
+    public ListenableFuture<Integer> deleteAll();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public ListenableFuture<List<Long>> insert(List<ReceivedRequest> receivedRequest);
 
-    @Query("SELECT * FROM envite_received_request_table ORDER BY createdAt asc LIMIT 1")
+    @Query("SELECT * FROM envite_received_request_table ORDER BY createdAt desc LIMIT 1")
     public ListenableFuture<ReceivedRequest> getLastItem();
 
     @Query("SELECT COUNT(id) FROM envite_received_request_table")

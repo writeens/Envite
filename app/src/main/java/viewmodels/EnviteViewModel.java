@@ -148,4 +148,9 @@ public class EnviteViewModel extends AndroidViewModel {
     // GET RECEIVED REQUEST BY ID
     public HomeEnvite getHomeEnviteById(String id) {return enviteRepository.getHomeEnviteById(id);}
 
+    // EMPTY DATABASE
+    public void emptyDatabase() {
+        enviteRepository.resetDatabase();
+    }
+
 }

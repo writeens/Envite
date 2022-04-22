@@ -16,9 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -36,6 +38,7 @@ public class SingleProfileFragment extends Fragment {
     private String requestId;
     private String enviteId;
     private String tag;
+    private ImageView singleProfileImage;
     private LinearLayout singleProfileActionContainer;
     private Button singleProfileStatusButton;
     private Button singleProfileAcceptButton;
@@ -112,6 +115,7 @@ public class SingleProfileFragment extends Fragment {
         singleProfileEmailContainer = view.findViewById(R.id.singleProfileEmailContainer);
         singleProfileEnviteContainer = view.findViewById(R.id.singleProfileEnviteContainer);
         singleProfileEnviteTextView = view.findViewById(R.id.singleProfileEnviteTextView);
+        singleProfileImage = view.findViewById(R.id.singleProfileImage);
         // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.GONE);
@@ -157,6 +161,7 @@ public class SingleProfileFragment extends Fragment {
         singleProfileQ2TextView.setText(receivedRequest.getRequestedBy().getQ2());
         singleProfileEnviteTextView.setText(receivedRequest.getEnvite().getTitle());
         singleProfileEnviteContainer.setVisibility(View.VISIBLE);
+        Glide.with(getContext()).load(receivedRequest.getRequestedBy().getProfileUrl()).into(singleProfileImage);
         if(receivedRequest.getStatus().equals("PENDING")){
             singleProfileActionContainer.setVisibility(View.VISIBLE);
             singleProfileStatusButton.setVisibility(View.GONE);
@@ -210,10 +215,12 @@ public class SingleProfileFragment extends Fragment {
         singleProfileQ1TextView.setText(sentRequest.getRequestedTo().getQ1());
         singleProfileQ2TextView.setText(sentRequest.getRequestedTo().getQ2());
         singleProfileEnviteTextView.setText(sentRequest.getEnvite().getTitle());
+        Glide.with(getContext()).load(sentRequest.getRequestedTo().getProfileUrl()).into(singleProfileImage);
         singleProfileActionContainer.setVisibility(View.GONE);
         singleProfileStatusButton.setText(sentRequest.getStatus());
         singleProfileStatusButton.setVisibility(View.VISIBLE);
         singleProfileStatusButton.setEnabled(false);
+
         singleProfileEnviteTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -239,6 +246,7 @@ public class SingleProfileFragment extends Fragment {
         singleProfileLastNameTextView.setText(homeEnvite.getCreatedByUser().getLastName());
         singleProfileQ1TextView.setText(homeEnvite.getCreatedByUser().getQ1());
         singleProfileQ2TextView.setText(homeEnvite.getCreatedByUser().getQ2());
+        Glide.with(getContext()).load(homeEnvite.getCreatedByUser().getProfileUrl()).into(singleProfileImage);
         singleProfileEnviteContainer.setVisibility(View.GONE);
         singleProfileActionContainer.setVisibility(View.GONE);
         singleProfileStatusButton.setVisibility(View.GONE);
@@ -266,7 +274,7 @@ public class SingleProfileFragment extends Fragment {
                     @Override
                     public void onError(String message, String type, String status) {
                         if(type.equals("FORBIDDEN")){
-                            ((MainActivity)getActivity()).goToSignIn();
+                            ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                             return;
                         }
                         Snackbar.make(getActivity().findViewById(android.R.id.content),
@@ -298,7 +306,7 @@ public class SingleProfileFragment extends Fragment {
                     @Override
                     public void onError(String message, String type, String status) {
                         if(type.equals("FORBIDDEN")){
-                            ((MainActivity)getActivity()).goToSignIn();
+                            ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                             return;
                         }
                         Snackbar.make(getActivity().findViewById(android.R.id.content),
