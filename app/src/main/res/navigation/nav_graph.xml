@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_singleEnviteFragment_to_singleProfileFragment3"
             app:destination="@id/singleProfileFragment3" />
+        <action
+            android:id="@+id/action_singleEnviteFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <activity
         android:id="@+id/splashScreenActivity"
@@ -86,4 +89,9 @@
             android:id="@+id/action_singleProfileFragment3_to_singleEnviteFragment"
             app:destination="@id/singleEnviteFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="fragments.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>

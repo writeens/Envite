@@ -27,6 +27,7 @@ ext {
     fragmentVersion = "1.4.1"
     glideVersion = "4.13.0"
     mapsPlacesVersion = "2.5.0"
+    playServicesVersion = "18.0.2"
     validatorVersion = "4.3"
     volleyVersion = "1.2.1"
     ionVersion = "3.1.0"
