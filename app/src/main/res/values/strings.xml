@@ -58,6 +58,12 @@
     <string name="emailInvalid">Please enter a valid email</string>
     <string name="passwordRequired">Your password should contain at least one uppercase letter, one symbol and one number</string>
     <string name="questionRequired">Please enter an answer to the question</string>
+    <string name="titleRequired">Please enter a title for the envite</string>
+    <string name="locationRequired">Please enter a location for the envite</string>
+    <string name="noteRequired">Please enter a note for the envite</string>
+    <string name="priceRequired">Please enter a price for the envite</string>
+
+
 
 
     <!--SHARED PREFERENCES-->

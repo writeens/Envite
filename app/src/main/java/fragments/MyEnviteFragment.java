@@ -60,15 +60,6 @@ public class MyEnviteFragment extends Fragment {
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.GONE);
 
-        // INITIALIZE TOOLBAR
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.myEnvitesToolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myEnviteRecyclerView);
 

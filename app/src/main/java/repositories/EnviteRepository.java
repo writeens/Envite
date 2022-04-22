@@ -3,6 +3,8 @@ package repositories;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -551,6 +553,17 @@ public class EnviteRepository {
         return id;
     }
 
+    // INSERT ONE HOME ENVITES
+    public Long insertOneHomeEnvite(HomeEnvite homeEnvite) {
+        Long id = null;
+        try {
+            id = homeEnviteDao.insertOne(homeEnvite).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
     private HomeEnvite getLastHomeEnvite() {
         HomeEnvite last = null;
         try {
@@ -582,6 +595,16 @@ public class EnviteRepository {
         return homeEnvite;
     }
 
+    private Integer deleteAllHomeEnvites() {
+        Integer ids = null;
+        try {
+            ids = homeEnviteDao.deleteAll().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
     // GET HOME ENVITE FROM API/UPDATE ROOM
     public void getHomeEnvitesFromAPI(VolleyCallbackForAdapters callback) {
         RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
@@ -605,6 +628,7 @@ public class EnviteRepository {
                     homeEnvite.setStatus(statusData);
                     allHomeEnvites.add(homeEnvite);
                 }
+                deleteAllHomeEnvites();
                 if(!allHomeEnvites.isEmpty()){
                     insertHomeEnvites(allHomeEnvites);
                 }
@@ -643,6 +667,7 @@ public class EnviteRepository {
     // GET HOME ENVITES / UPDATE ROOM
     public void loadMoreHomeEnvitesFromAPI(VolleyCallbackForAdapters callback) {
         HomeEnvite last = getLastHomeEnvite();
+        Log.i("TEST", last.getTitle());
         RequestQueue queue = Volley.newRequestQueue(application.getApplicationContext());
         String fetchHomeEnvitesURL = BASE_URL + "/envites?startAfter=" + last.getCreatedAt();
 

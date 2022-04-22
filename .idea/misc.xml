@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/drawable/bg_gradient.xml" value="0.17916666666666667" />
         <entry key="app/src/main/res/drawable/envites.xml" value="0.24814814814814815" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.24814814814814815" />
+        <entry key="app/src/main/res/drawable/image_placeholder.xml" value="0.2898148148148148" />
         <entry key="app/src/main/res/drawable/round_button.xml" value="0.2537037037037037" />
         <entry key="app/src/main/res/drawable/round_style.xml" value="0.16197916666666667" />
         <entry key="app/src/main/res/drawable/round_style_input.xml" value="0.11" />
@@ -30,12 +31,12 @@
         <entry key="app/src/main/res/layout/envite_card_item.xml" value="0.375" />
         <entry key="app/src/main/res/layout/envite_card_item_v1.xml" value="0.335" />
         <entry key="app/src/main/res/layout/envite_card_item_v2.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_create_envite.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_create_envite.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_envite.xml" value="0.30051357300073367" />
         <entry key="app/src/main/res/layout/fragment_envite_mini_list.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2983606557377049" />
         <entry key="app/src/main/res/layout/fragment_my_envite.xml" value="0.375" />
-        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.17261904761904762" />
         <entry key="app/src/main/res/layout/fragment_received_envite.xml" value="0.14583333333333334" />
         <entry key="app/src/main/res/layout/fragment_sent_envite.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3271604938271605" />

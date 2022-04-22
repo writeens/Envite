@@ -31,7 +31,7 @@
                 android:gravity="center|start"
                 android:text="@string/homeBoldText"
                 android:textColor="@color/white"
-                android:textSize="40sp"
+                android:textSize="30sp"
                 android:textStyle="bold"
                 android:typeface="normal" />
 

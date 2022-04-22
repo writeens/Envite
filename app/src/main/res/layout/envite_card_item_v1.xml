@@ -17,8 +17,8 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/round_style_input"
         android:scaleType="centerCrop"
-        android:src="@drawable/invite_image"
-        app:srcCompat="@drawable/envite_image" />
+        android:src="@drawable/image_placeholder"
+        app:srcCompat="@drawable/image_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
