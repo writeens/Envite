@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -31,11 +32,15 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
+import viewmodels.EnviteViewModel;
+
 public class LoginAccountActivity extends AppCompatActivity {
 
     AwesomeValidation mAwesomeValidation = new AwesomeValidation(ValidationStyle.TEXT_INPUT_LAYOUT);
 
     String BASE_URL = BuildConfig.API_BASE_URL;
+    EnviteViewModel enviteViewModel;
+
 
     View buttonView;
 
@@ -49,6 +54,12 @@ public class LoginAccountActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //INITIALIZE VIEW MODEL
+        enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
+
+        // HANDLE SNACKBAR
+        handleSnackBar();
 
         // INITIALIZE VALIDATION
         mAwesomeValidation.addValidation(this, R.id.loginAccountEmail, Patterns.EMAIL_ADDRESS, R.string.emailInvalid);
@@ -69,12 +80,12 @@ public class LoginAccountActivity extends AppCompatActivity {
         }
     }
 
-    public void onClickCreateOne (View view) {
+    private void onClickCreateOne (View view) {
         Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
     }
 
-    public void navigateToHome () {
+    private void navigateToHome () {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -107,7 +118,7 @@ public class LoginAccountActivity extends AppCompatActivity {
        loginUser(data);
     }
 
-    public void loginUser (JSONObject postData) {
+    private void loginUser (JSONObject postData) {
         RequestQueue queue = Volley.newRequestQueue(this);
         Button loginAccountButton = (Button) findViewById(R.id.loginAccountButton);
         String loginURL = BASE_URL + "/login";
@@ -139,6 +150,8 @@ public class LoginAccountActivity extends AppCompatActivity {
                         editor.putString(getString(R.string.sharedPrefQ2), data.getString("q2"));
                         editor.apply();
 
+                        enviteViewModel.emptyDatabase();
+
                         navigateToHome();
 
                     } catch (JSONException e){
@@ -165,5 +178,18 @@ public class LoginAccountActivity extends AppCompatActivity {
                 });
 
         queue.add(loginUserRequest);
+    }
+
+    private void handleSnackBar () {
+        Bundle extras = getIntent().getExtras();
+        if(extras == null){
+            return;
+        }
+        String snackMessage = extras.getString("snackMessage");
+        if(snackMessage == null){
+            return;
+        }
+        Snackbar.make(this.findViewById(android.R.id.content),
+                snackMessage, Snackbar.LENGTH_LONG).show();
     }
 }

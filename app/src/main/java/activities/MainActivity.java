@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
@@ -23,13 +24,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.snackbar.Snackbar;
 
+import viewmodels.EnviteViewModel;
+
 public class MainActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
     }
 
     @Override
@@ -68,18 +72,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void logOut () {
-
         Intent intent = new Intent(getApplicationContext(), OnboardingActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         emptySharedPref();
         startActivity(intent);
     }
 
-    public void goToSignIn () {
-        Snackbar.make(this.findViewById(android.R.id.content),
-                "Please login again", Snackbar.LENGTH_LONG).show();
+    public void goToSignIn (String message) {
         Intent intent = new Intent(getApplicationContext(), LoginAccountActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("snackMessage", message);
         emptySharedPref();
         startActivity(intent);
     }
@@ -88,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.enviteUserSharedPreferencesFile),
                 Context.MODE_PRIVATE );
-
         // UPDATE SHARED PREFERENCES WITH USER DATA
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.remove(getString(R.string.sharedPrefUid));
@@ -100,7 +101,6 @@ public class MainActivity extends AppCompatActivity {
         editor.remove(getString(R.string.sharedPrefToken));
         editor.remove(getString(R.string.sharedPrefQ1));
         editor.remove(getString(R.string.sharedPrefQ2));
-
         editor.apply();
     }
 }

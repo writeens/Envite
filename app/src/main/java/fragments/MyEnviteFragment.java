@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,7 +64,7 @@ public class MyEnviteFragment extends Fragment {
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.myEnviteRecyclerView);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         mCurrentLayoutManagerType = MyEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
@@ -73,18 +74,17 @@ public class MyEnviteFragment extends Fragment {
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
 
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
         mAdapter = new MyEnvitesListAdapter(new MyEnvitesListAdapter.EnviteDiff(), getContext(), MY_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
-        enviteViewModel.getMyEnvites().observe(this, envites -> {
+        enviteViewModel.getMyEnvites().observe(this, myEnvites -> {
+            mAdapter.submitList(myEnvites);
             itemCount = enviteViewModel.getCountEnvites();
-            mAdapter.submitList(envites);
             isLoadingLiveData.setValue(false);
         });
 
@@ -94,7 +94,6 @@ public class MyEnviteFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         enviteViewModel.getMyEnvitesFromAPI(new VolleyCallbackForAdapters() {
             @Override
             public void onSuccess(String status) {
@@ -104,7 +103,7 @@ public class MyEnviteFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                   ((MainActivity)getActivity()).goToSignIn();
+                   ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                    return;
                 }
                 isLoadingLiveData.setValue(false);
@@ -125,9 +124,6 @@ public class MyEnviteFragment extends Fragment {
                             handleLoadMoreEnvites();
                         }
                     }
-
-
-
                 }
             }
         });
@@ -144,7 +140,7 @@ public class MyEnviteFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
+                    ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                     return;
                 }
                 isLoadingLiveData.setValue(false);
@@ -182,22 +178,6 @@ public class MyEnviteFragment extends Fragment {
                 return;
             }
         });
-    }
-
-    private void setRecyclerViewLayoutManager(MyEnviteFragment.LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-
-        // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = MyEnviteFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
 }

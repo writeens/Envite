@@ -292,9 +292,7 @@ public class CreateEnviteFragment extends Fragment {
                             String status = result.get("status").getAsString();
 
                             if(status.equals("fail") && result.get("type").getAsString().equals("FORBIDDEN")){
-                                Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                        "Please login again", Snackbar.LENGTH_LONG).show();
-                                ((MainActivity) getActivity()).goToSignIn();
+                                ((MainActivity) getActivity()).goToSignIn("Please login to continue");
                                 return;
                             }
 

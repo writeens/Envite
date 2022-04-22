@@ -84,6 +84,16 @@ public class EnviteRepository {
         return lastMyEnvite;
     }
 
+    private Integer deleteAllMyEnvites() {
+        Integer ids = null;
+        try {
+            ids = myEnviteDao.deleteAll().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
     // COUNT THE NUMBER OF ENVITES
     public Integer getRowCountForMyEnvites() {
         int count = 0;
@@ -115,16 +125,19 @@ public class EnviteRepository {
 
                 String status = response.getString("status");
                 JSONArray data = response.getJSONArray("data");
-                List<MyEnvite> allReceivedRequests = new ArrayList<>();
+                List<MyEnvite> allMyEnvites = new ArrayList<>();
 
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject obj = data.getJSONObject(i);
                     Gson gson = new Gson();
                     MyEnvite myEnvite = gson.fromJson(String.valueOf(obj), MyEnvite.class);
-                    allReceivedRequests.add(myEnvite);
+                    allMyEnvites.add(myEnvite);
 
                 }
-                insertMyEnvite(allReceivedRequests);
+                deleteAllMyEnvites();
+                if(!allMyEnvites.isEmpty()){
+                    insertMyEnvite(allMyEnvites);
+                }
                 callback.onSuccess(status);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -167,15 +180,17 @@ public class EnviteRepository {
 
                 String status = response.getString("status");
                 JSONArray data = response.getJSONArray("data");
-                List<MyEnvite> allReceivedRequests = new ArrayList<>();
+                List<MyEnvite> allMyEnvites = new ArrayList<>();
 
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject obj = data.getJSONObject(i);
                     Gson gson = new Gson();
                     MyEnvite myEnvite = gson.fromJson(String.valueOf(obj), MyEnvite.class);
-                    allReceivedRequests.add(myEnvite);
+                    allMyEnvites.add(myEnvite);
                 }
-                insertMyEnvite(allReceivedRequests);
+                if(!allMyEnvites.isEmpty()){
+                    insertMyEnvite(allMyEnvites);
+                }
                 callback.onSuccess(status);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -232,6 +247,16 @@ public class EnviteRepository {
         return last;
     }
 
+    private Integer deleteAllReceivedRequests() {
+        Integer ids = null;
+        try {
+            ids = receivedRequestDao.deleteAll().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
     // COUNT THE NUMBER OF ENVITES
     public Integer getRowCountForReceivedRequests() {
         int count = 0;
@@ -277,6 +302,7 @@ public class EnviteRepository {
                     receivedRequest.setRequestedBy(requestedBy);
                     allReceivedRequests.add(receivedRequest);
                 }
+                deleteAllReceivedRequests();
                 if(!allReceivedRequests.isEmpty()){
                     insertReceivedRequest(allReceivedRequests);
                 }
@@ -408,6 +434,16 @@ public class EnviteRepository {
         return count;
     }
 
+    private Integer deleteAllSentRequests() {
+        Integer ids = null;
+        try {
+            ids = sentRequestDao.deleteAll().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ids;
+    }
+
     public SentRequest getSentRequestById(String id) {
         SentRequest sentRequest = null;
         try {
@@ -442,6 +478,7 @@ public class EnviteRepository {
                     sentRequest.setRequestedTo(requestedTo);
                     allSentRequests.add(sentRequest);
                 }
+                deleteAllSentRequests();
                 if(!allSentRequests.isEmpty()){
                     insertSentRequest(allSentRequests);
                 }
@@ -869,5 +906,12 @@ public class EnviteRepository {
             }
         };
         queue.add(requestEnviteRequest);
+    }
+
+    public void resetDatabase () {
+        deleteAllHomeEnvites();
+        deleteAllSentRequests();
+        deleteAllReceivedRequests();
+        deleteAllMyEnvites();
     }
 }

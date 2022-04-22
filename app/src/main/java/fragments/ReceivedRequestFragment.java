@@ -66,7 +66,7 @@ public class ReceivedRequestFragment extends Fragment {
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.receivedEnviteRecyclerView);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, false);
 
         mCurrentLayoutManagerType = ReceivedRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
@@ -76,12 +76,11 @@ public class ReceivedRequestFragment extends Fragment {
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
 
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
         mAdapter = new ReceivedRequestListAdapter(new ReceivedRequestListAdapter.EnviteDiff(), getContext(), RECEIVED_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
@@ -106,7 +105,7 @@ public class ReceivedRequestFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
+                    ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                     return;
                 }
                 isLoadingLiveData.setValue(false);
@@ -143,27 +142,12 @@ public class ReceivedRequestFragment extends Fragment {
             @Override
             public void onError(String message, String type, String status) {
                 if(type.equals("FORBIDDEN")){
-                    ((MainActivity)getActivity()).goToSignIn();
+                    ((MainActivity)getActivity()).goToSignIn("Please login to continue");
                     return;
                 }
                 isLoadingLiveData.setValue(false);
             }
         });
-    }
-
-    public void setRecyclerViewLayoutManager(ReceivedRequestFragment.LayoutManagerType layoutManagerType) {
-        int scrollPosition = 0;
-        // If a layout manager has already been set, get current scroll position.
-        if (mRecyclerView.getLayoutManager() != null) {
-            scrollPosition = ((LinearLayoutManager) mRecyclerView.getLayoutManager())
-                    .findFirstCompletelyVisibleItemPosition();
-        }
-
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mCurrentLayoutManagerType = ReceivedRequestFragment.LayoutManagerType.LINEAR_LAYOUT_MANAGER;
-
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.scrollToPosition(scrollPosition);
     }
 
     private void initializeViews () {
