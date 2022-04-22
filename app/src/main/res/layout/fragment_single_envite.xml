@@ -11,31 +11,20 @@
         android:layout_height="match_parent"
         android:background="@color/black">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/singleEnviteToolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/black"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        <TextView
+            android:id="@+id/singleEnviteTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_semibold"
+            android:text="Envite"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/back_arrow"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextColor="@color/white">
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:fontFamily="@font/inter_semibold"
-                android:text="Envite"
-                android:textColor="@color/white"
-                tools:layout_editor_absoluteX="166dp"
-                tools:layout_editor_absoluteY="18dp" />
-        </androidx.appcompat.widget.Toolbar>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/singleEnviteInfoTextView"
@@ -50,7 +39,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleEnviteToolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/singleEnviteTitle" />
 
         <ScrollView
             android:id="@+id/singleEnviteScrollView"
@@ -63,21 +52,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/singleEnviteToolbar">
+            app:layout_constraintTop_toBottomOf="@+id/singleEnviteTitle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="0dp"
-                    android:layout_height="200dp"
+                    android:id="@+id/singleEnviteImageView"
+                    android:layout_width="240dp"
+                    android:layout_height="240dp"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/invite_image" />
+                    app:srcCompat="@drawable/image_placeholder" />
 
                 <View
                     android:id="@+id/divider2"
@@ -87,7 +76,7 @@
                     android:background="@color/light_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+                    app:layout_constraintTop_toBottomOf="@+id/singleEnviteImageView" />
 
                 <LinearLayout
                     android:id="@+id/titleContainer"

@@ -89,16 +89,6 @@ public class ProfileFragment extends Fragment {
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
         navBar.setVisibility(View.GONE);
 
-        // INITIALIZE TOOLBAR
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.profileToolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
-
         // ON CLICK UPDATE BUTTON
         Button update = (Button) rootView.findViewById(R.id.profileUpdateButton);
 
@@ -181,7 +171,7 @@ public class ProfileFragment extends Fragment {
                         // SET IMAGE VIEW
                         Glide.with(getContext()).load(uri).into(profileImage);
 
-                        // STORE IMAGE PATH IN VARAIBLE
+                        // STORE IMAGE PATH IN VARIABLE
                         imageFile = file;
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();

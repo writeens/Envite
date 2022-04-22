@@ -73,7 +73,7 @@
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/invite_image" />
+                app:srcCompat="@drawable/image_placeholder" />
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -18,10 +19,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.envite.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -53,6 +56,7 @@ public class SingleEnviteFragment extends Fragment {
     private TextView singleEnviteLocationTextView;
     private TextView singleEnvitePriceTextView;
     private TextView singleEnviteNoteTextView;
+    private ImageView singleEnviteImageView;
     private MutableLiveData<Boolean> isRequestingLiveData = new MutableLiveData<Boolean>(false);
 
 
@@ -78,32 +82,32 @@ public class SingleEnviteFragment extends Fragment {
         initializeViews(rootView);
 
         //HANDLE TOOLBAR
-        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.singleEnviteToolbar);
-
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if( tag == "received_envites"){
-                    Bundle bundle = new Bundle();
-                    bundle.putString("requestId", requestId);
-                    bundle.putString("tag", tag);
-                    NavController navController = Navigation.findNavController(v);
-                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
-                    return;
-                }
-                if(tag == "sent_envites"){
-                    Bundle bundle = new Bundle();
-                    bundle.putString("requestId", requestId);
-                    bundle.putString("tag", tag);
-                    NavController navController = Navigation.findNavController(v);
-                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
-                    return;
-                }
-                getActivity().onBackPressed();
-
-            }
-        });
+//        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.singleEnviteToolbar);
+//
+//
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if( tag == "received_envites"){
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("requestId", requestId);
+//                    bundle.putString("tag", tag);
+//                    NavController navController = Navigation.findNavController(v);
+//                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
+//                    return;
+//                }
+//                if(tag == "sent_envites"){
+//                    Bundle bundle = new Bundle();
+//                    bundle.putString("requestId", requestId);
+//                    bundle.putString("tag", tag);
+//                    NavController navController = Navigation.findNavController(v);
+//                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
+//                    return;
+//                }
+//                getActivity().onBackPressed();
+//
+//            }
+//        });
 
         // SETUP VIEW MODEL
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
@@ -132,6 +136,30 @@ public class SingleEnviteFragment extends Fragment {
             handleHomeEnvitesView();
         }
 
+        requireActivity().getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if( tag == "received_envites"){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("requestId", requestId);
+                    bundle.putString("tag", tag);
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
+                    return;
+                }
+                if(tag == "sent_envites"){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("requestId", requestId);
+                    bundle.putString("tag", tag);
+                    NavController navController = Navigation.findNavController(view);
+                    navController.navigate(R.id.action_singleEnviteFragment2_to_singleProfileFragment, bundle);
+                    return;
+                }
+                this.remove();
+                requireActivity().onBackPressed();
+            }
+        });
+
     }
 
     private void initializeViews (View view) {
@@ -145,6 +173,7 @@ public class SingleEnviteFragment extends Fragment {
         singleEnvitePriceTextView = view.findViewById(R.id.singleEnvitePriceTextView);
         singleEnviteLocationTextView = view.findViewById(R.id.singleEnviteLocationTextView);
         singleEnviteNoteTextView = view.findViewById(R.id.singleEnviteNoteTextView);
+        singleEnviteImageView = view.findViewById(R.id.singleEnviteImageView);
 
         // HANDLE HIDE NAVBAR
         BottomNavigationView navBar = getActivity().findViewById(R.id.bottom_navigation_view);
@@ -184,6 +213,7 @@ public class SingleEnviteFragment extends Fragment {
         singleEnvitePriceTextView.setText(myEnvite.getFormattedPrice());
         singleEnviteNoteTextView.setText(myEnvite.getNote());
         singleEnviteLocationTextView.setText(myEnvite.getLocation());
+        Glide.with(getContext()).load(myEnvite.getImageUrl()).into(singleEnviteImageView);
         isLoadingLiveData.setValue(false);
     }
 
@@ -202,6 +232,8 @@ public class SingleEnviteFragment extends Fragment {
         singleEnvitePriceTextView.setText(sentRequest.getEnvite().getFormattedPrice());
         singleEnviteNoteTextView.setText(sentRequest.getEnvite().getNote());
         singleEnviteLocationTextView.setText(sentRequest.getEnvite().getLocation());
+        Glide.with(getContext()).load(sentRequest.getEnvite().getImageUrl()).into(singleEnviteImageView);
+
         isLoadingLiveData.setValue(false);
     }
 
@@ -220,6 +252,7 @@ public class SingleEnviteFragment extends Fragment {
         singleEnvitePriceTextView.setText(receivedRequest.getEnvite().getFormattedPrice());
         singleEnviteNoteTextView.setText(receivedRequest.getEnvite().getNote());
         singleEnviteLocationTextView.setText(receivedRequest.getEnvite().getLocation());
+        Glide.with(getContext()).load(receivedRequest.getEnvite().getImageUrl()).into(singleEnviteImageView);
         isLoadingLiveData.setValue(false);
     }
 
@@ -308,5 +341,7 @@ public class SingleEnviteFragment extends Fragment {
         });
 
     }
+
+
 
 }

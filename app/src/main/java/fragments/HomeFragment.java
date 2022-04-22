@@ -44,6 +44,7 @@ public class HomeFragment extends Fragment {
     private EnviteViewModel enviteViewModel;
     private MutableLiveData<Boolean> isLoadingLiveData = new MutableLiveData<Boolean>(true);
     private Integer itemCount = 0;
+    private Integer scrollPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class HomeFragment extends Fragment {
         // BEGIN_INCLUDE(initializeRecyclerView)
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.closeToYouRecyclerView);
 
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, true);
 
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
 
@@ -77,12 +78,11 @@ public class HomeFragment extends Fragment {
                     .getSerializable(KEY_LAYOUT_MANAGER);
         }
 
-        setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
-
         mAdapter = new HomeEnviteListAdapter(new HomeEnviteListAdapter.EnviteDiff(), getContext(), HOME_ENVITES);
 
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(null);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
@@ -126,7 +126,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0) { //check for scroll down
+                if (dy < 0) { //check for scroll down
                     LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                     if(!isLoadingLiveData.getValue()){

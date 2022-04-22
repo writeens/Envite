@@ -136,6 +136,10 @@ public class EnviteViewModel extends AndroidViewModel {
         enviteRepository.loadMoreHomeEnvitesFromAPI(callback);
     }
 
+    public void insertOneHomeEnvite(HomeEnvite homeEnvite){
+        enviteRepository.insertOneHomeEnvite(homeEnvite);
+    }
+
     // COUNT MY ENVITES
     public Integer getCountHomeEnvites () {
         return enviteRepository.getRowCountForHomeEnvites();
