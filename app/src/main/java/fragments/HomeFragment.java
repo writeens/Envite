@@ -1,5 +1,7 @@
 package fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -95,6 +97,13 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+
+        //
+        TextView homeGreetingTextView = (TextView) view.findViewById(R.id.homeGreetingTextView);
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(getActivity().getString(R.string.enviteUserSharedPreferencesFile), Context.MODE_PRIVATE);
+        String firstName = sharedPref.getString(getActivity().getString(R.string.sharedPrefFirstName), "");
+        homeGreetingTextView.setText("Hello " + firstName);
+
         //HANDLE FAB CLICKS
         FloatingActionButton fab = getView().findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {

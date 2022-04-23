@@ -49,12 +49,6 @@ public class LoginAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_account);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.loginAccountToolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         //INITIALIZE VIEW MODEL
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
@@ -80,7 +74,7 @@ public class LoginAccountActivity extends AppCompatActivity {
         }
     }
 
-    private void onClickCreateOne (View view) {
+    public void onClickCreateOne (View view) {
         Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
         startActivity(intent);
     }

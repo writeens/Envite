@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/homeGreetingTextView"
                 android:layout_width="327dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -31,7 +31,7 @@
                 android:gravity="center|start"
                 android:text="@string/homeBoldText"
                 android:textColor="@color/white"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 android:textStyle="bold"
                 android:typeface="normal" />
 

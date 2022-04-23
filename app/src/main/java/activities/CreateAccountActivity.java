@@ -48,12 +48,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.createAccountToolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         //INITIALIZE VIEW MODEL
         enviteViewModel = new ViewModelProvider(this).get(EnviteViewModel.class);
 
